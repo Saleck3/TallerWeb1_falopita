@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<!--Se indica cual es la fuente de datos de la aplicacion, es decir donde esta y que usuario y password -->
+	<!--se va a conectar a la base de datos, es necesario modificarlo si se cambia de nmotor de base de datos-->
+	<bean id="dataSource"
+		  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:db_" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+	<!--Configuracion de la factory encargada de generar las sesiones con la base de datos, la misma -->
+	<!--usa el data source configurado antes-->
+	<bean id="sessionFactory"
+		  class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- Properties -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.validator.apply_to_ddl">false</prop>
+				<prop key="hibernate.validator.autoregister_listeners">false</prop>
+				<!--Dialecto especifico del motor de base de datos utilizado-->
+				<!--Hay que cambiarlo si se cambia de motor de base de datos-->
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+				<!--Cambiar a true si se quiere ver por consola el codigo sql generado por hibernate-->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<!--Para indicar si hibernate genera el modelo de datos al startup-->
+				<!--create: lo crea siempre-->
+				<!--update: aplica cambios realizados-->
+				<!--none: no modifica nunca el esquema de datos-->
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+		</property>
+		<!--Se configura que paquetes debe escanear hibernate en busca de clases persistible, es decir-->
+		<!--clases anotadas como @Entity, es necesario hacer esto y no unicamente anotar como @Entity las-->
+		<!--clases persistibles-->
+		<property name="packagesToScan">
+			<list>
+				<value>ar.edu.unlam.tallerweb1.domain</value>
+			</list>
+		</property>
+	</bean>
+
+	<!--Se declara el transaction manager de la aplicacion asociado con la db configurada antes-->
+	<bean id="transactionManager"
+		  class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+</beans>

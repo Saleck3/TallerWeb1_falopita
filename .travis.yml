@@ -1,0 +1,9 @@
+language: java
+script: mvn clean test
+jdk:
+  - oraclejdk11
+notifications:
+  email:
+    recipients:
+      -sebastianismael@gmail.com
+      -damianspizzirri@gmail.com

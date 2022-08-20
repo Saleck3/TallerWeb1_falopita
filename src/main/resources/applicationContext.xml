@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.2.xsd
+						http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+						http://www.springframework.org/schema/tx	
+						http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<import resource="classpath:hibernateContext.xml" />
+
+	<!--Se indica que la configuracion del MVC se hara utilizanbdo anotaciones-->
+	<mvc:annotation-driven />
+
+	<!--Se indica que el transaction manager a utilizar en la capa de servicios es el bean declarado en hibernateContext.xml-->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!--Se indican que paquetes debe escanear Spring al levantar el contexto para encontrar componentes, -->
+	<!--esto es clases anotadas como @Controller, @Service o @Repository-->
+	<context:component-scan base-package="ar.edu.unlam.tallerweb1.delivery" />
+	<context:component-scan base-package="ar.edu.unlam.tallerweb1.infrastructure" />
+	<context:component-scan base-package="ar.edu.unlam.tallerweb1.domain" />
+	
+
+</beans>
+

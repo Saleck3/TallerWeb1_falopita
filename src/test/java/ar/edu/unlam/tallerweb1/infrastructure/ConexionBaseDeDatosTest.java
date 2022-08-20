@@ -45,4 +45,9 @@ public class ConexionBaseDeDatosTest extends SpringTest {
         usuario.desactivar();
         assertFalse(usuario.activo());
     }
+
+    @Test
+    public void SiTenesUnErrorDeSintaxisNoCompila{
+
+    }
 }

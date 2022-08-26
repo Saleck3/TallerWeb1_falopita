@@ -37,6 +37,8 @@ public class ConexionBaseDeDatosTest extends SpringTest {
     @Transactional
     @Rollback
     public void queSePuedaCambiarElEstadoActivo(){
+
+
         Usuario usuario = new Usuario();
         session().save(usuario);
         assertThat(usuario.getId()).isNotNull();

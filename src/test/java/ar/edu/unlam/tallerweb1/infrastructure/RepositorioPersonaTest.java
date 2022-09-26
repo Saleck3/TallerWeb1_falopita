@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
+import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Persona;
 import ar.edu.unlam.tallerweb1.domain.usuarios.RepositorioPersona;
 import org.junit.Test;
@@ -33,4 +34,21 @@ public class RepositorioPersonaTest extends SpringTest {
         assertThat(personaObtenida.getSexo()).isEqualTo("M");
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void corroborarQueSeCalculenLasHorasDeSuenioCorrectamentePorEdad(){
+        //Preparacion
+        Persona personaPrueba = new Persona(1L, "Nahuel Rolon", 25, 70.0, "M");
+        session().save(personaPrueba);
+        Suenio tiempoSuenio = new Suenio();
+
+
+        //Ejecucion
+        Persona personaTraida = repositorioPersona.obtener(1L);
+        Integer horaCalculada = tiempoSuenio.obtenerCantidadHorasSuenio(personaTraida.getEdad());
+
+        //Verificacion
+        assertThat(personaTraida.calcularHoraSuenio(personaTraida.getEdad())).isEqualTo(horaCalculada);
+    }
 }

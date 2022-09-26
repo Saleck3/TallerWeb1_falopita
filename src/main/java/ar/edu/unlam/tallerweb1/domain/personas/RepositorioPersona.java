@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.personas;
 
 public interface RepositorioPersona {
 

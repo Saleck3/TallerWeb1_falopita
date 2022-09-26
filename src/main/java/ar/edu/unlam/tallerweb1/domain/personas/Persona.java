@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.personas;
 
 import javax.persistence.*;
 
@@ -18,7 +18,7 @@ public class Persona {
 
     @Column(nullable = false)
     private Double peso;
-
+    //TODO: mirar la posibilidad de reemplazar con un ENUM
     @Column(nullable = false, length = 1)
     private String sexo;
 

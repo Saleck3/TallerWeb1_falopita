@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.suenio;
 
 import ar.edu.unlam.tallerweb1.domain.ValorRecomendado;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 public class Suenio {
 
@@ -31,5 +32,9 @@ public class Suenio {
         }
 
         return recomendacion;
+    }
+
+    public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception {
+        return obtenerCantidadHorasSuenio(persona.getEdad());
     }
 }

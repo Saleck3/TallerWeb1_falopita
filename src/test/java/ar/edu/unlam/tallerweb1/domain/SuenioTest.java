@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.domain;
 
 
 import ar.edu.unlam.tallerweb1.SpringTest;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
 import org.junit.Test;
 
@@ -27,4 +28,17 @@ public class SuenioTest extends SpringTest {
         suenio.obtenerCantidadHorasSuenio(-1);
     }
 
+    @Test
+    public void queDevuelvaUnTiempoCorrectoSegunPersona() {
+
+        Persona persona = new Persona("tuvieja", 5, 25d, "m");
+        Suenio suenio = new Suenio();
+
+        try {
+            assertThat(suenio.obtenerCantidadHorasSuenio(persona).getMinimo()).isEqualTo(10d);
+            assertThat(suenio.obtenerCantidadHorasSuenio(persona).getMaximo()).isEqualTo(13d);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

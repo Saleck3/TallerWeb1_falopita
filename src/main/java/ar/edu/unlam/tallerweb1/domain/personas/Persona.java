@@ -22,10 +22,20 @@ public class Persona {
     @Column(nullable = false, length = 1)
     private String sexo;
 
+    //constructor requerido por Hibernate
     public Persona(){};
 
+    //constructor requerido con todos sus atributos
     public Persona(Long id, String nombre, Integer edad, Double peso, String sexo){
         this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.peso = peso;
+        this.sexo = sexo;
+    };
+
+    //constructor requerido con id opcional
+    public Persona(String nombre, Integer edad, Double peso, String sexo){
         this.nombre = nombre;
         this.edad = edad;
         this.peso = peso;

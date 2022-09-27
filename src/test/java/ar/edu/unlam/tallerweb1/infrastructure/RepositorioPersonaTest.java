@@ -33,6 +33,39 @@ public class RepositorioPersonaTest extends SpringTest {
         assertThat(personaObtenida.getPeso()).isEqualTo(60.4);
         assertThat(personaObtenida.getSexo()).isEqualTo("M");
     }
+    @Test
+    @Transactional
+    @Rollback
+    public void dadaLaCreacionDeDosPersonasEstasSeCreanConIdIncremental(){
+        Persona personaCreada1 = new Persona(1L, "Nombre 1", 23, 60.4, "M");
+        Persona personaCreada2 = new Persona(56L,"Nombre 2", 23, 60.4, "M");
+
+        session().save(personaCreada1);
+        session().save(personaCreada2);
+
+        Persona personaObtenida1 = repositorioPersona.obtener(1L);
+        Persona personaObtenida2 = repositorioPersona.obtener(2L);
+
+        assertThat(personaObtenida1).isNotNull();
+        assertThat(personaObtenida1.getId()).isEqualTo(1L);
+        assertThat(personaObtenida2).isNotNull();
+        assertThat(personaObtenida2.getId()).isEqualTo(2L);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void dadaLaCreacionDePersonaConIdNoIncrementalEstaSeCreaConIdIncrementalIgualmente(){
+        Persona personaCreada = new Persona(10L, "Nombre 1", 23, 60.4, "M");
+
+        session().save(personaCreada);
+
+        Persona personaObtenida = repositorioPersona.obtener(10L);
+
+        assertThat(personaObtenida).isNotNull();
+        assertThat(personaObtenida.getId()).isEqualTo(10L);
+    }
+
 
     @Test
     @Transactional

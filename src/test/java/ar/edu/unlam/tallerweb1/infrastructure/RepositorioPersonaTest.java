@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.RepositorioPersona;
 import org.junit.Test;
@@ -11,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RepositorioPersonaTest extends SpringTest {
 
@@ -20,7 +20,7 @@ public class RepositorioPersonaTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void dadoUnConjuntoDeDatosDebeCrearUnaPersonaEnLaBaseDeDatosYLosDatosDebenSerLosIndicados(){
+    public void dadoUnConjuntoDeDatosDebeCrearUnaPersonaEnLaBaseDeDatosYLosDatosDebenSerLosIndicados() {
 
         Persona personaCreada = new Persona(1L, "Lucas Cardozo", 23, 60.4, "M");
         session().save(personaCreada);
@@ -38,9 +38,9 @@ public class RepositorioPersonaTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void dadaLaCreacionDeDosPersonasEstasSeCreanConIdIncremental(){
+    public void dadaLaCreacionDeDosPersonasEstasSeCreanConIdIncremental() {
         Persona personaCreada1 = new Persona(1L, "Nombre 1", 23, 60.4, "M");
-        Persona personaCreada2 = new Persona(56L,"Nombre 2", 23, 60.4, "M");
+        Persona personaCreada2 = new Persona(56L, "Nombre 2", 23, 60.4, "M");
 
         session().save(personaCreada1);
         session().save(personaCreada2);
@@ -57,7 +57,7 @@ public class RepositorioPersonaTest extends SpringTest {
     @Test
     @Transactional
     @Rollback
-    public void dadaLaCreacionDePersonaConIdNoIncrementalEstaSeCreaConIdIncrementalIgualmente(){
+    public void dadaLaCreacionDePersonaConIdNoIncrementalEstaSeCreaConIdIncrementalIgualmente() {
         Persona personaCreada = new Persona(10L, "Nombre 1", 23, 60.4, "M");
 
         session().save(personaCreada);
@@ -67,21 +67,4 @@ public class RepositorioPersonaTest extends SpringTest {
         assertThat(personaObtenida).isNull();
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    public void corroborarQueSeCalculenLasHorasDeSuenioCorrectamentePorEdad(){
-        //Preparacion
-        Persona personaPrueba = new Persona(1L, "Nahuel Rolon", 25, 70.0, "M");
-        session().save(personaPrueba);
-        Suenio tiempoSuenio = new Suenio();
-
-
-        //Ejecucion
-        Persona personaTraida = repositorioPersona.obtener(1L);
-        Integer horaCalculada = tiempoSuenio.obtenerCantidadHorasSuenio(personaTraida.getEdad());
-
-        //Verificacion
-        assertThat(personaTraida.calcularHoraSuenio(personaTraida.getEdad())).isEqualTo(horaCalculada);
-    }
 }

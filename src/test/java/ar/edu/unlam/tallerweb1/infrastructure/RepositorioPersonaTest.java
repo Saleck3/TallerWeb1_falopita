@@ -22,7 +22,7 @@ public class RepositorioPersonaTest extends SpringTest {
     @Rollback
     public void dadoUnConjuntoDeDatosDebeCrearUnaPersonaEnLaBaseDeDatosYLosDatosDebenSerLosIndicados() {
 
-        Persona personaCreada = new Persona(1L, "Lucas Cardozo", 23, 60.4, "M");
+        Persona personaCreada = new Persona("Lucas Cardozo", 23, 60.4, 180.0, "M");
         session().save(personaCreada);
 
         Persona personaObtenida = repositorioPersona.obtener(1L);
@@ -39,8 +39,8 @@ public class RepositorioPersonaTest extends SpringTest {
     @Transactional
     @Rollback
     public void dadaLaCreacionDeDosPersonasEstasSeCreanConIdIncremental() {
-        Persona personaCreada1 = new Persona(1L, "Nombre 1", 23, 60.4, "M");
-        Persona personaCreada2 = new Persona(56L, "Nombre 2", 23, 60.4, "M");
+        Persona personaCreada1 = new Persona("Nombre 1", 23, 60.4, 150.15, "M");
+        Persona personaCreada2 = new Persona("Nombre 2", 23, 60.4, 202.50, "M");
 
         session().save(personaCreada1);
         session().save(personaCreada2);
@@ -58,7 +58,7 @@ public class RepositorioPersonaTest extends SpringTest {
     @Transactional
     @Rollback
     public void dadaLaCreacionDePersonaConIdNoIncrementalEstaSeCreaConIdIncrementalIgualmente() {
-        Persona personaCreada = new Persona(10L, "Nombre 1", 23, 60.4, "M");
+        Persona personaCreada = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
 
         session().save(personaCreada);
 

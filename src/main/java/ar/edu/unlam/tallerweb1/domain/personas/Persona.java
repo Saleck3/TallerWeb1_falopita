@@ -18,6 +18,9 @@ public class Persona {
 
     @Column(nullable = false)
     private Double peso;
+
+    @Column(nullable = true)
+    private Double altura;
     //TODO: mirar la posibilidad de reemplazar con un ENUM
     @Column(nullable = false, length = 1)
     private String sexo;
@@ -25,20 +28,12 @@ public class Persona {
     //constructor requerido por Hibernate
     public Persona(){};
 
-    //constructor requerido con todos sus atributos
-    public Persona(Long id, String nombre, Integer edad, Double peso, String sexo){
-        this.id = id;
-        this.nombre = nombre;
-        this.edad = edad;
-        this.peso = peso;
-        this.sexo = sexo;
-    };
-
     //constructor requerido con id opcional
-    public Persona(String nombre, Integer edad, Double peso, String sexo){
+    public Persona(String nombre, Integer edad, Double peso, Double altura, String sexo){
         this.nombre = nombre;
         this.edad = edad;
         this.peso = peso;
+        this.altura = altura;
         this.sexo = sexo;
     };
 
@@ -63,6 +58,13 @@ public class Persona {
     }
 
     public void setPeso(Double peso) { this.peso = peso; }
+
+    public Double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(Double altura) { this.peso = altura; }
+
 
     public String getSexo() { return sexo; }
 

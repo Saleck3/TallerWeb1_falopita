@@ -6,11 +6,12 @@ import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.RepositorioPersona;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RepositorioPersonaTest extends SpringTest {
 
     @Autowired
@@ -33,6 +34,7 @@ public class RepositorioPersonaTest extends SpringTest {
         assertThat(personaObtenida.getPeso()).isEqualTo(60.4);
         assertThat(personaObtenida.getSexo()).isEqualTo("M");
     }
+
     @Test
     @Transactional
     @Rollback
@@ -62,10 +64,8 @@ public class RepositorioPersonaTest extends SpringTest {
 
         Persona personaObtenida = repositorioPersona.obtener(10L);
 
-        assertThat(personaObtenida).isNotNull();
-        assertThat(personaObtenida.getId()).isEqualTo(10L);
+        assertThat(personaObtenida).isNull();
     }
-
 
     @Test
     @Transactional

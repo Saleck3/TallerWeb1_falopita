@@ -20,11 +20,19 @@ public class RepositorioSuenioImpl implements RepositorioSuenio{
         this.sessionFactory=sessionFactory;
     }
     @Override
+    public List<Suenio> TraerPorEdadDeterminada(int edad) {
+
+        final Session session= sessionFactory.getCurrentSession();
+        return (List<Suenio>) session.createCriteria(Suenio.class)
+                .add(Restrictions.eq("edad", edad))
+                .list();
+    }
+
+    @Override
     public List<Suenio> listar() {
 
         final Session session= sessionFactory.getCurrentSession();
         return (List<Suenio>) session.createCriteria(Suenio.class)
-                .add(Restrictions.eq("edad", 25))
                 .list();
     }
 }

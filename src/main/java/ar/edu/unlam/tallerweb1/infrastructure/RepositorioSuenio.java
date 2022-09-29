@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface RepositorioSuenio {
 
+   public List<Suenio> TraerPorEdadDeterminada(int edad);
    public List<Suenio> listar();
 }

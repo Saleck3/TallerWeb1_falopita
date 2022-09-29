@@ -1,4 +1,6 @@
-package ar.edu.unlam.tallerweb1.domain.personas;
+package ar.edu.unlam.tallerweb1.infrastructure;
+
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 public interface RepositorioPersona {
 

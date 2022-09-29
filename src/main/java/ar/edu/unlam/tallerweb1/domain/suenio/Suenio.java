@@ -1,40 +1,42 @@
 package ar.edu.unlam.tallerweb1.domain.suenio;
 
-import ar.edu.unlam.tallerweb1.domain.ValorRecomendado;
-import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Suenio {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private int edad;
+    private int horasQueNecesitaDormir;
+
+    public Suenio(int edad, int horasQueNecesitaDormir){
+        this.edad= edad;
+        this.horasQueNecesitaDormir=horasQueNecesitaDormir;
+    }
+
     public Suenio() {
+
     }
 
-    public ValorRecomendado obtenerCantidadHorasSuenio(Integer edad) throws Exception {
-
-        ValorRecomendado recomendacion = new ValorRecomendado();
-
-        if (edad < 0) {
-            throw new Exception("Una persona no puede tener edad negativa");
-        }
-
-        if (edad == 0) {
-            recomendacion.setMinMax(12d, 16d);
-        } else if (edad <= 2) {
-            recomendacion.setMinMax(11d, 14d);
-        } else if (edad <= 5) {
-            recomendacion.setMinMax(10d, 13d);
-        } else if (edad <= 12) {
-            recomendacion.setMinMax(9d, 12d);
-        } else if (edad <= 18) {
-            recomendacion.setMinMax(8d, 10d);
-        } else {
-            //Adulto
-            recomendacion.setMinMax(7d, 7d);
-        }
-
-        return recomendacion;
+    public int getHorasQueNecesitaDormir() {
+        return horasQueNecesitaDormir;
     }
 
-    public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception {
-        return obtenerCantidadHorasSuenio(persona.getEdad());
+    public void setHorasQueNecesitaDormir(int horasQueNecesitaDormir) {
+        this.horasQueNecesitaDormir = horasQueNecesitaDormir;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
 }

@@ -15,8 +15,7 @@ import java.io.Serializable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//no es necesario al final
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 //estas anotaciones aplican para todos los tests
 @Transactional
 @Rollback
@@ -69,6 +68,8 @@ public class RepositorioPersonaTest extends SpringTest {
     @Rollback
     @Test
     public void dadoIdDevuelveObjetoPersonaYSusDatos(){
+        dadoQueTengoPersonasEnLaBaseDeDatos();
+
         Long idDada = 1L;
         String nombreEsperado = "Nombre 1";
         Integer edadEsperada = 23;

@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Persona {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,14 +20,13 @@ public class Persona {
 
     @Column(nullable = true)
     private Double altura;
-    //TODO: mirar la posibilidad de reemplazar con un ENUM
+
     @Column(nullable = false, length = 1)
     private String sexo;
 
     //constructor requerido por Hibernate
     public Persona(){};
 
-    //constructor requerido con id opcional
     public Persona(String nombre, Integer edad, Double peso, Double altura, String sexo){
         this.nombre = nombre;
         this.edad = edad;

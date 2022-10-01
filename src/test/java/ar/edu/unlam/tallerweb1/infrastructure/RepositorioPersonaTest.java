@@ -2,16 +2,12 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-import org.hibernate.PropertyValueException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,10 +23,10 @@ public class RepositorioPersonaTest extends SpringTest {
     //  intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
     @Before
     public void init(){
-        Persona persona1 = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
-        Persona persona2 = new Persona("Nombre 2", 23, 60.4, 170.70, "M");
-        Persona persona3 = new Persona("Nombre 3", 23, 60.4, 170.70, "M");
-        Persona persona4 = new Persona("Nombre 4", 23, 60.4, 170.70, "M");
+        Persona persona1 = new Persona("persona1@example.com","12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        Persona persona2 = new Persona("persona2@example.com","12345678","Nombre 2", 23, 60.4, 170.70, 'M');
+        Persona persona3 = new Persona("persona3@example.com","12345678","Nombre 3", 23, 60.4, 170.70, 'M');
+        Persona persona4 = new Persona("persona4@example.com","12345678","Nombre 4", 23, 60.4, 170.70, 'M');
 
         repositorioPersona.guardar(persona1);
         repositorioPersona.guardar(persona2);
@@ -48,14 +44,12 @@ public class RepositorioPersonaTest extends SpringTest {
 
     @Test
     public void dadoIdDevuelveObjetoPersonaYSusDatos(){
-        dadoQueTengoPersonasEnLaBaseDeDatos();
-
         Long idDada = 1L;
         String nombreEsperado = "Nombre 1";
         Integer edadEsperada = 23;
         Double pesoEsperado = 60.4;
         Double alturaEsperada = 170.7;
-        String sexoEsperado = "M";
+        Character sexoEsperado = 'M';
 
         Persona personaObtenida = repositorioPersona.obtener(idDada);
 
@@ -72,33 +66,10 @@ public class RepositorioPersonaTest extends SpringTest {
         Long primerIdEsperado = 1L;
         Long segundoIdEsperado = 2L;
 
-        dadoQueTengoPersonasEnLaBaseDeDatos();
-
         Persona personaObtenida1 = repositorioPersona.obtener(primerIdEsperado);
         Persona personaObtenida2 = repositorioPersona.obtener(segundoIdEsperado);
 
         assertThat(personaObtenida1.getNombre()).isEqualTo("Nombre 1");
         assertThat(personaObtenida2.getNombre()).isEqualTo("Nombre 2");
-    }
-
-    /*
-      no considero que esto esté correcto, pues si la idea es probar de forma unitaria
-      cada metodo, aca se esta haciendo uso de un metodo que no necesariamente tiene
-      que "funcionar", entonces se están probando varias cosas cada vez que se llama
-      a este mismo
-      esto se puede evitar teniendo una base de datos local y no en memoria
-      puesto que la mencionada tendria datos precargados para hacer los tests
-    */
-
-    private void dadoQueTengoPersonasEnLaBaseDeDatos(){
-        Persona persona1 = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
-        Persona persona2 = new Persona("Nombre 2", 23, 60.4, 170.70, "M");
-        Persona persona3 = new Persona("Nombre 3", 23, 60.4, 170.70, "M");
-        Persona persona4 = new Persona("Nombre 4", 23, 60.4, 170.70, "M");
-
-        repositorioPersona.guardar(persona1);
-        repositorioPersona.guardar(persona2);
-        repositorioPersona.guardar(persona3);
-        repositorioPersona.guardar(persona4);
     }
 }

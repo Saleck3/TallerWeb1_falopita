@@ -46,8 +46,9 @@ public class ControladorLogin {
 
 		// invoca el metodo consultarUsuario del servicio y hace un redirect a la URL /home, esto es, en lugar de enviar a una vista
 		// hace una llamada a otro action a traves de la URL correspondiente a esta
-		Persona personaBuscada = servicioPersona.obtenerPersona(datosLogin.getEmail(), datosLogin.getPassword());
-		if (personaBuscada != null) {
+		Persona personaObtenida = servicioPersona.obtenerPersona(datosLogin.getEmail(), datosLogin.getPassword());
+		if (personaObtenida != null) {
+			request.getSession().setAttribute("ID", personaObtenida.getId());
 			return new ModelAndView("redirect:/home");
 		} else {
 			// si el usuario no existe agrega un mensaje de error en el modelo.

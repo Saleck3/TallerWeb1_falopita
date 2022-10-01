@@ -9,7 +9,7 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -27,18 +27,20 @@ public class Persona {
     @Column(nullable = true)
     private Double altura;
 
-    @Column(nullable = false, length = 1)
-    private String sexo;
+    @Column(nullable = false)
+    private Character sexo;
 
     //constructor requerido por Hibernate
     public Persona(){};
 
-    public Persona(String nombre, Integer edad, Double peso, Double altura, String sexo){
+    public Persona(String email, String password, String nombre, Integer edad, Double peso, Double altura, Character sexo){
         this.nombre = nombre;
         this.edad = edad;
         this.peso = peso;
         this.altura = altura;
         this.sexo = sexo;
+        this.email = email;
+        this.password = password;
     };
 
     public String getNombre() {
@@ -69,9 +71,9 @@ public class Persona {
 
     public void setAltura(Double altura) { this.peso = altura; }
 
-    public String getSexo() { return sexo; }
+    public Character getSexo() { return sexo; }
 
-    public void setSexo(String sexo) { this.sexo = sexo; }
+    public void setSexo(Character sexo) { this.sexo = sexo; }
 
     public Long getId() { return id; }
 

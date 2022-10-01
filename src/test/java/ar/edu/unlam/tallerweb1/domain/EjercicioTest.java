@@ -11,7 +11,7 @@ public class EjercicioTest extends SpringTest{
     @Test
     public  void queDevuelvaUnaDistanciaCorrectaSegunPersona(){
 
-        Persona persona = new Persona ("Alejandro", 25, 90d, 170.0, "m");
+        Persona persona = new Persona ("tuvieja@example.com","poyas123","Alejandro", 25, 90d, 170.0, 'm');
         Ejercicio ejercicio = new Ejercicio();
 
         try {
@@ -24,7 +24,7 @@ public class EjercicioTest extends SpringTest{
 
     @Test(expected = Exception.class)
     public void siTengoPesoNegativoTiroExcepcion() throws Exception{
-        Persona persona = new Persona ("Alejandro", 25, -90d, 170.0, "m");
+        Persona persona = new Persona ("tuvieja@example.com","poyas123","Alejandro", 25, -90d, 170.0, 'm');
         Ejercicio ejercicio = new Ejercicio();
 
         ejercicio.obtenerKilometrosSegunPeso(persona);
@@ -32,11 +32,10 @@ public class EjercicioTest extends SpringTest{
 
     @Test(expected = Exception.class)
     public void siTengoAlturaNegativaTiroExcepcion() throws Exception{
-        Persona persona = new Persona ("Alejandro", 25, 90d, -170.0, "m");
+        Persona persona = new Persona ("tuvieja@example.com","poyas123","Alejandro", 25, 90d, -170.0, 'm');
         Ejercicio ejercicio = new Ejercicio();
 
         ejercicio.obtenerKilometrosSegunPeso(persona);
     }
-
 
 }

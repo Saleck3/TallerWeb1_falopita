@@ -31,7 +31,7 @@ public class SuenioTest extends SpringTest {
     @Test
     public void queDevuelvaUnTiempoCorrectoSegunPersona() {
 
-        Persona persona = new Persona("tuvieja", 5, 25d, 170.0,"m");
+        Persona persona = new Persona("tuvieja@example.com","poyas123","tuvieja", 5, 25d, 170.0,'m');
         ServicioSuenioImpl suenio = new ServicioSuenioImpl();
 
         try {

@@ -24,9 +24,9 @@ public class RepositorioPersonaTest extends SpringTest {
     @Autowired
     private RepositorioPersona repositorioPersona;
 
-    /* -- intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
-    @BeforeClass
-    public static void init(){
+    //  intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
+    @Before
+    public void init(){
         Persona persona1 = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
         Persona persona2 = new Persona("Nombre 2", 23, 60.4, 170.70, "M");
         Persona persona3 = new Persona("Nombre 3", 23, 60.4, 170.70, "M");
@@ -37,7 +37,7 @@ public class RepositorioPersonaTest extends SpringTest {
         repositorioPersona.guardar(persona3);
         repositorioPersona.guardar(persona4);
     }
-    */
+
 
     @Test(expected = Exception.class)
     public void dadoPersonaConAtributosNulosArrojaExcepcionCuandoSePersiste(){
@@ -46,26 +46,6 @@ public class RepositorioPersonaTest extends SpringTest {
         repositorioPersona.guardar(personaCreada);
     }
 
-    @Test
-    public void dadoDatosSePersistePersonaYDevuelveIdCreado() {
-        Long idEsperado = 5L;
-        String nombre = "Lucas Cardozo";
-        Integer edad = 23;
-        Double peso = 60.4;
-        Double altura = 180.0;
-        String sexo = "M";
-
-        dadoQueTengoPersonasEnLaBaseDeDatos();
-
-        Persona personaCreada = new Persona(nombre, edad, peso, altura, sexo);
-
-        Long idAsignada = (Long) repositorioPersona.guardar(personaCreada);
-
-        assertThat(idAsignada).isNotNull();
-        assertThat(idAsignada).isEqualTo(idEsperado);
-    }
-    @Transactional
-    @Rollback
     @Test
     public void dadoIdDevuelveObjetoPersonaYSusDatos(){
         dadoQueTengoPersonasEnLaBaseDeDatos();

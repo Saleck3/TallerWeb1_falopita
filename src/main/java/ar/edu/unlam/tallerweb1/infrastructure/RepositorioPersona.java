@@ -2,6 +2,8 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
+import java.util.List;
+
 public interface RepositorioPersona {
 
     Persona obtener(Long id);
@@ -11,4 +13,6 @@ public interface RepositorioPersona {
     void modificar(Persona persona);
 
     void eliminar(Persona persona);
+
+    List<Persona> listar();
 }

@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("repositorioPersona")
 public class RepositorioPersonaImpl implements RepositorioPersona {
 
@@ -35,5 +37,12 @@ public class RepositorioPersonaImpl implements RepositorioPersona {
     public void eliminar(Persona persona) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(persona);
+    }
+
+    @Override
+    public List<Persona> listar() {
+        Session session = sessionFactory.getCurrentSession();
+        return (List<Persona>)session.createCriteria(Persona.class)
+                .list();
     }
 }

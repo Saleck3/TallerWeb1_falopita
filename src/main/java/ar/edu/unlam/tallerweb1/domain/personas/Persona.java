@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Persona {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,7 +33,6 @@ public class Persona {
     //constructor requerido por Hibernate
     public Persona(){};
 
-    //constructor requerido con id opcional
     public Persona(String nombre, Integer edad, Double peso, Double altura, String sexo){
         this.nombre = nombre;
         this.edad = edad;

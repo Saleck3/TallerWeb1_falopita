@@ -6,15 +6,7 @@ public interface RepositorioPersona {
 
     Persona obtener(Long id);
 
-    Persona obtener(String nombre);
-
-    Persona obtener(Double peso);
-
-    Persona obtener(Integer edad);
-
-    Persona obtener(Character sexo);
-
-    void guardar(Persona persona);
+    Long guardar(Persona persona);
 
     void modificar(Persona persona);
 

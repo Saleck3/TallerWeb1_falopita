@@ -2,68 +2,103 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import org.hibernate.PropertyValueException;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//estas anotaciones aplican para todos los tests
+@Transactional
+@Rollback
 public class RepositorioPersonaTest extends SpringTest {
 
     @Autowired
     private RepositorioPersona repositorioPersona;
 
-    @Test
-    @Transactional
-    @Rollback
-    public void dadoUnConjuntoDeDatosDebeCrearUnaPersonaEnLaBaseDeDatosYLosDatosDebenSerLosIndicados() {
+    //  intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
+    @Before
+    public void init(){
+        Persona persona1 = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
+        Persona persona2 = new Persona("Nombre 2", 23, 60.4, 170.70, "M");
+        Persona persona3 = new Persona("Nombre 3", 23, 60.4, 170.70, "M");
+        Persona persona4 = new Persona("Nombre 4", 23, 60.4, 170.70, "M");
 
-        Persona personaCreada = new Persona("Lucas Cardozo", 23, 60.4, 180.0, "M");
-        session().save(personaCreada);
+        repositorioPersona.guardar(persona1);
+        repositorioPersona.guardar(persona2);
+        repositorioPersona.guardar(persona3);
+        repositorioPersona.guardar(persona4);
+    }
 
-        Persona personaObtenida = repositorioPersona.obtener(1L);
 
-        assertThat(personaObtenida).isNotNull();
-        assertThat(personaObtenida.getId()).isEqualTo(1L);
-        assertThat(personaObtenida.getNombre()).isEqualTo("Lucas Cardozo");
-        assertThat(personaObtenida.getEdad()).isEqualTo(23);
-        assertThat(personaObtenida.getPeso()).isEqualTo(60.4);
-        assertThat(personaObtenida.getSexo()).isEqualTo("M");
+    @Test(expected = Exception.class)
+    public void dadoPersonaConAtributosNulosArrojaExcepcionCuandoSePersiste(){
+        Persona personaCreada = new Persona();
+
+        repositorioPersona.guardar(personaCreada);
     }
 
     @Test
-    @Transactional
-    @Rollback
-    public void dadaLaCreacionDeDosPersonasEstasSeCreanConIdIncremental() {
-        Persona personaCreada1 = new Persona("Nombre 1", 23, 60.4, 150.15, "M");
-        Persona personaCreada2 = new Persona("Nombre 2", 23, 60.4, 202.50, "M");
+    public void dadoIdDevuelveObjetoPersonaYSusDatos(){
+        dadoQueTengoPersonasEnLaBaseDeDatos();
 
-        session().save(personaCreada1);
-        session().save(personaCreada2);
+        Long idDada = 1L;
+        String nombreEsperado = "Nombre 1";
+        Integer edadEsperada = 23;
+        Double pesoEsperado = 60.4;
+        Double alturaEsperada = 170.7;
+        String sexoEsperado = "M";
 
-        Persona personaObtenida1 = repositorioPersona.obtener(1L);
-        Persona personaObtenida2 = repositorioPersona.obtener(2L);
+        Persona personaObtenida = repositorioPersona.obtener(idDada);
 
-        assertThat(personaObtenida1).isNotNull();
-        assertThat(personaObtenida1.getId()).isEqualTo(1L);
-        assertThat(personaObtenida2).isNotNull();
-        assertThat(personaObtenida2.getId()).isEqualTo(2L);
+        assertThat(personaObtenida.getNombre()).isEqualTo(nombreEsperado);
+        assertThat(personaObtenida.getEdad()).isEqualTo(edadEsperada);
+        assertThat(personaObtenida.getPeso()).isEqualTo(pesoEsperado);
+        assertThat(personaObtenida.getAltura()).isEqualTo(alturaEsperada);
+        assertThat(personaObtenida.getSexo()).isEqualTo(sexoEsperado);
     }
+
 
     @Test
-    @Transactional
-    @Rollback
-    public void dadaLaCreacionDePersonaConIdNoIncrementalEstaSeCreaConIdIncrementalIgualmente() {
-        Persona personaCreada = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
+    public void dadaCreacionDeDosPersonasSePersistenConIdIncremental() {
+        Long primerIdEsperado = 1L;
+        Long segundoIdEsperado = 2L;
 
-        session().save(personaCreada);
+        dadoQueTengoPersonasEnLaBaseDeDatos();
 
-        Persona personaObtenida = repositorioPersona.obtener(10L);
+        Persona personaObtenida1 = repositorioPersona.obtener(primerIdEsperado);
+        Persona personaObtenida2 = repositorioPersona.obtener(segundoIdEsperado);
 
-        assertThat(personaObtenida).isNull();
+        assertThat(personaObtenida1.getNombre()).isEqualTo("Nombre 1");
+        assertThat(personaObtenida2.getNombre()).isEqualTo("Nombre 2");
     }
 
+    /*
+      no considero que esto esté correcto, pues si la idea es probar de forma unitaria
+      cada metodo, aca se esta haciendo uso de un metodo que no necesariamente tiene
+      que "funcionar", entonces se están probando varias cosas cada vez que se llama
+      a este mismo
+      esto se puede evitar teniendo una base de datos local y no en memoria
+      puesto que la mencionada tendria datos precargados para hacer los tests
+    */
+
+    private void dadoQueTengoPersonasEnLaBaseDeDatos(){
+        Persona persona1 = new Persona("Nombre 1", 23, 60.4, 170.70, "M");
+        Persona persona2 = new Persona("Nombre 2", 23, 60.4, 170.70, "M");
+        Persona persona3 = new Persona("Nombre 3", 23, 60.4, 170.70, "M");
+        Persona persona4 = new Persona("Nombre 4", 23, 60.4, 170.70, "M");
+
+        repositorioPersona.guardar(persona1);
+        repositorioPersona.guardar(persona2);
+        repositorioPersona.guardar(persona3);
+        repositorioPersona.guardar(persona4);
+    }
 }

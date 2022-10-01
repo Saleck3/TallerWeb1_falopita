@@ -18,12 +18,12 @@ public class RepositorioSuenioTest extends SpringTest {
 
     @Autowired
     private RepositorioSuenio repositorioSuenio;
-    private int edad= 25;
+    private static final int EDAD = 25;
 
     @Test
     public void segunMiEdadDarMisHorasDeSuenioRecomendadas(){
         dadoQueExistenHorasDeSuenio();
-        List<Suenio> listaDeHorasXEdad = listoLasHoraQueNecesitoDormirSegunEdad(edad);
+        List<Suenio> listaDeHorasXEdad = listoLasHoraQueNecesitoDormirSegunEdad(EDAD);
         entoncesObtengoLasHorasQueEsperoDormir(listaDeHorasXEdad);
 
     }
@@ -35,7 +35,7 @@ public class RepositorioSuenioTest extends SpringTest {
     private void entoncesObtengoLasHorasQueEsperoDormir(List<Suenio> listaDeHorasXEdad) {
         //TODO: A REVISAR PORQUE SE PUEDE MEJORAR
         Suenio suenio= listaDeHorasXEdad.stream().filter(S->S.getEdad()==25).findFirst().get();//esto es un for manga de energumenos
-     assertEquals(6,suenio.getHorasQueNecesitaDormir());
+        assertEquals(6,suenio.getHorasQueNecesitaDormir());
     }
 
     private void dadoQueExistenHorasDeSuenio() {

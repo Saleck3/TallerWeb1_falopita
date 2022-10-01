@@ -19,29 +19,10 @@ public class RepositorioPersonaImpl implements RepositorioPersona {
     }
 
     @Override
-    public Persona obtener(String nombre) {
-        return null;
-    }
-
-    @Override
-    public Persona obtener(Double peso) {
-        return null;
-    }
-
-    @Override
-    public Persona obtener(Integer edad) {
-        return null;
-    }
-
-    @Override
-    public Persona obtener(Character sexo) {
-        return null;
-    }
-
-    @Override
-    public void guardar(Persona persona) {
+    public Long guardar(Persona persona) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(persona);
+
+        return (Long) session.save(persona);
     }
 
     @Override

@@ -21,5 +21,9 @@ public class ServicioPersonaImpl implements ServicioPersona{
     public Persona obtenerPersona(Long id) {
         return null;
     }
+    @Override
+    public Persona obtenerPersona(String email, String password) {
+        return null;
+    }
 
 }

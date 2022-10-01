@@ -10,6 +10,12 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false, length = 50)
     private String nombre;
 
@@ -21,7 +27,7 @@ public class Persona {
 
     @Column(nullable = true)
     private Double altura;
-    //TODO: mirar la posibilidad de reemplazar con un ENUM
+
     @Column(nullable = false, length = 1)
     private String sexo;
 
@@ -65,7 +71,6 @@ public class Persona {
 
     public void setAltura(Double altura) { this.peso = altura; }
 
-
     public String getSexo() { return sexo; }
 
     public void setSexo(String sexo) { this.sexo = sexo; }
@@ -73,4 +78,20 @@ public class Persona {
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

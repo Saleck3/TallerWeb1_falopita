@@ -6,4 +6,6 @@ public interface ServicioPersona {
     Double calcularHorasDeSuenio(Persona persona);
 
     public Persona obtenerPersona(Long id);
+
+    public Persona obtenerPersona(String email, String password);
 }

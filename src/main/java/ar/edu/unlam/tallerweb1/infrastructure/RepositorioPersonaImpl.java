@@ -1,13 +1,14 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.usuarios.Persona;
-import ar.edu.unlam.tallerweb1.domain.usuarios.RepositorioPersona;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
+@Repository("repositorioPersona")
 public class RepositorioPersonaImpl implements RepositorioPersona {
 
     @Autowired
@@ -20,29 +21,10 @@ public class RepositorioPersonaImpl implements RepositorioPersona {
     }
 
     @Override
-    public Persona obtener(String nombre) {
-        return null;
-    }
-
-    @Override
-    public Persona obtener(Double peso) {
-        return null;
-    }
-
-    @Override
-    public Persona obtener(Integer edad) {
-        return null;
-    }
-
-    @Override
-    public Persona obtener(Character sexo) {
-        return null;
-    }
-
-    @Override
-    public void guardar(Persona persona) {
+    public Long guardar(Persona persona) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(persona);
+
+        return (Long) session.save(persona);
     }
 
     @Override
@@ -55,5 +37,12 @@ public class RepositorioPersonaImpl implements RepositorioPersona {
     public void eliminar(Persona persona) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(persona);
+    }
+
+    @Override
+    public List<Persona> listar() {
+        Session session = sessionFactory.getCurrentSession();
+        return (List<Persona>)session.createCriteria(Persona.class)
+                .list();
     }
 }

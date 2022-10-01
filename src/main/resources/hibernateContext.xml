@@ -43,6 +43,8 @@
 		<property name="packagesToScan">
 			<list>
 				<value>ar.edu.unlam.tallerweb1.domain</value>
+				<value>ar.edu.unlam.tallerweb1.infrastructure</value>
+				<value>ar.edu.unlam.tallerweb1.delivery</value>
 			</list>
 		</property>
 	</bean>

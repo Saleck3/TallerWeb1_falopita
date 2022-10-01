@@ -1,14 +1,19 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.personas;
 
 import javax.persistence.*;
 
 @Entity
 public class Persona {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(nullable = false, length = 50)
     private String nombre;
@@ -19,17 +24,23 @@ public class Persona {
     @Column(nullable = false)
     private Double peso;
 
-    @Column(nullable = false, length = 1)
-    private String sexo;
+    @Column(nullable = true)
+    private Double altura;
 
+    @Column(nullable = false)
+    private Character sexo;
+
+    //constructor requerido por Hibernate
     public Persona(){};
 
-    public Persona(Long id, String nombre, Integer edad, Double peso, String sexo){
-        this.id = id;
+    public Persona(String email, String password, String nombre, Integer edad, Double peso, Double altura, Character sexo){
         this.nombre = nombre;
         this.edad = edad;
         this.peso = peso;
+        this.altura = altura;
         this.sexo = sexo;
+        this.email = email;
+        this.password = password;
     };
 
     public String getNombre() {
@@ -54,11 +65,33 @@ public class Persona {
 
     public void setPeso(Double peso) { this.peso = peso; }
 
-    public String getSexo() { return sexo; }
+    public Double getAltura() {
+        return altura;
+    }
 
-    public void setSexo(String sexo) { this.sexo = sexo; }
+    public void setAltura(Double altura) { this.peso = altura; }
+
+    public Character getSexo() { return sexo; }
+
+    public void setSexo(Character sexo) { this.sexo = sexo; }
 
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

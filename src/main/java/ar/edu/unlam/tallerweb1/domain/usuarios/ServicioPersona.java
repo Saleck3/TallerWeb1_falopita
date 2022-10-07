@@ -8,4 +8,6 @@ public interface ServicioPersona {
     public Persona obtenerPersona(Long id);
 
     public Persona obtenerPersona(String email, String password);
+
+    boolean validarPersona(Persona personaAValidar);
 }

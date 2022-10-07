@@ -21,7 +21,7 @@ public class Persona {
     @Column(nullable = false)
     private Integer edad;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Double peso;
 
     @Column(nullable = true)

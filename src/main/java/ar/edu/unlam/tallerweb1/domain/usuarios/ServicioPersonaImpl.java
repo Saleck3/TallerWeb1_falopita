@@ -34,6 +34,16 @@ public class ServicioPersonaImpl implements ServicioPersona {
     @Override
     public boolean validarPersona(Persona personaAValidar) {
 
+        //Tiene que si o si tener mail, nombre, sexo, password, edad
+        if (personaAValidar.getEmail() == null ||
+                personaAValidar.getPassword() == null ||
+                personaAValidar.getNombre() == null ||
+                personaAValidar.getEdad() == null ||
+                personaAValidar.getSexo() == null
+        ) {
+            return false;
+        }
+
 
         //Debe tener Mail
         if (!esMailValido(personaAValidar.getEmail())) {
@@ -42,7 +52,7 @@ public class ServicioPersonaImpl implements ServicioPersona {
 
 
         //Debe tener nombre
-        if (personaAValidar.getNombre() == null || personaAValidar.getNombre() == "") {
+        if (personaAValidar.getNombre() == "") {
             return false;
         }
 
@@ -52,15 +62,21 @@ public class ServicioPersonaImpl implements ServicioPersona {
             return false;
         }
 
-
-        //No puede pesar menos de 10 Kg ni mas de 200 Kg
-        if (personaAValidar.getPeso() < 10 || personaAValidar.getPeso() > 200) {
-            return false;
+        //Puede no tener peso
+        if (personaAValidar.getPeso() != null) {
+            //No puede pesar menos de 10 Kg ni mas de 200 Kg
+            if (personaAValidar.getPeso() < 10 || personaAValidar.getPeso() > 200) {
+                return false;
+            }
         }
 
-        //No puede medir menos de 40 Cm ni mas de 200
-        if (personaAValidar.getAltura() < 40 || personaAValidar.getAltura() > 200) {
-            return false;
+
+        //Puede no tener altura
+        if (personaAValidar.getAltura() != null) {
+            //No puede medir menos de 40 Cm ni mas de 200
+            if (personaAValidar.getAltura() < 40 || personaAValidar.getAltura() > 200) {
+                return false;
+            }
         }
 
 

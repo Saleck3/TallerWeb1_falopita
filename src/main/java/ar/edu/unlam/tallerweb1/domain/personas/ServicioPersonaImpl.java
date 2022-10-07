@@ -64,7 +64,6 @@ public class ServicioPersonaImpl implements ServicioPersona {
             }
         }
 
-
         //Puede no tener altura
         if (personaAValidar.getAltura() != null) {
             //No puede medir menos de 40 Cm ni mas de 200

@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioPersona;
+import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,8 +45,9 @@ public class ControladorRegistro {
     public ModelAndView registrarUsuario(@ModelAttribute("persona") Persona personaIngresada, HttpServletRequest request) {
 
         if (servicioPersona.validarPersona(personaIngresada)) {
-            //TODO Guardar
-            // redirigir a pagina de datos personales
+
+            servicioPersona.guardarPersona(personaIngresada);
+            //TODO redirigir a pagina de datos personales
             return new ModelAndView("home");
         }
 

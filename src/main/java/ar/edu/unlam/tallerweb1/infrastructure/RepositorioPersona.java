@@ -15,4 +15,6 @@ public interface RepositorioPersona {
     void eliminar(Persona persona);
 
     List<Persona> listar();
+
+    Persona obtener(String email, String password);
 }

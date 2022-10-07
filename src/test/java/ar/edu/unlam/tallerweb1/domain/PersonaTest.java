@@ -1,8 +1,8 @@
 package ar.edu.unlam.tallerweb1.domain;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioPersona;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioPersonaImpl;
+import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
+import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersonaImpl;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

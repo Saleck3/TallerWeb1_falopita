@@ -23,7 +23,7 @@ public class RepositorioPersonaTest extends SpringTest {
     private RepositorioPersona repositorioPersona;
 
     //  intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
-   @Before
+    @Before
     public void init() {
         Persona persona1 = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
         Persona persona2 = new Persona("persona2@example.com", "12345678", "Nombre 2", 23, 60.4, 170.70, 'M');
@@ -38,14 +38,14 @@ public class RepositorioPersonaTest extends SpringTest {
 
 
     @Test(expected = Exception.class)
-    public void dadoPersonaConAtributosNulosArrojaExcepcionCuandoSePersiste(){
+    public void dadoPersonaConAtributosNulosArrojaExcepcionCuandoSePersiste() {
         Persona personaCreada = new Persona();
 
         repositorioPersona.guardar(personaCreada);
     }
 
     @Test
-    public void dadoIdDevuelveObjetoPersonaYSusDatos(){
+    public void dadoIdDevuelveObjetoPersonaYSusDatos() {
         Long idDada = 1L;
         String nombreEsperado = "Nombre 1";
         Integer edadEsperada = 23;
@@ -76,18 +76,36 @@ public class RepositorioPersonaTest extends SpringTest {
     }
 
     @Test
-    public void alPedirListaPersonasObtenemosLaListaCompleta(){
+    public void alPedirListaPersonasObtenemosLaListaCompleta() {
         //Preparacion
         dadoQueTengoPersonas();
 
         //Ejecucion
-        List <Persona> listaDePersonas = obtenerListaPersonas();
+        List<Persona> listaDePersonas = obtenerListaPersonas();
 
         //Verificacion
         entoncesEncuentroPersonas(listaDePersonas, 6);
     }
 
-    private void entoncesEncuentroPersonas(List <Persona> personas, int esperadas) {
+    @Test
+    public void queSePuedaBuscarUnaPersonaPorMailYPassword() {
+        dadoQueTengoPersonas();
+
+        //Busco "persona"
+        Persona personaBuscada = cuandoBuscoPorMailYPassword("persona@example.com", "1234567894");
+
+        //entoncesEncuentroALaPersona
+        assertThat(personaBuscada.getEmail()).isEqualTo("persona@example.com");
+        assertThat(personaBuscada.getNombre()).isEqualTo("Nombre 5");
+        assertThat(personaBuscada.getEdad()).isEqualTo(23);
+
+    }
+
+    private Persona cuandoBuscoPorMailYPassword(String mail, String password) {
+        return repositorioPersona.obtener(mail, password);
+    }
+
+    private void entoncesEncuentroPersonas(List<Persona> personas, int esperadas) {
         assertThat(personas).hasSize(esperadas);
     }
 
@@ -96,8 +114,8 @@ public class RepositorioPersonaTest extends SpringTest {
     }
 
     private void dadoQueTengoPersonas() {
-        Persona persona = new Persona("persona@example.com","1234567894", "Nombre 5", 23, 60.4, 170.70, 'M');
-        Persona persona_1 = new Persona("persona_1@example.com","12345671448","Nombre 6", 23, 60.4, 170.70, 'M');
+        Persona persona = new Persona("persona@example.com", "1234567894", "Nombre 5", 23, 60.4, 170.70, 'M');
+        Persona persona_1 = new Persona("persona_1@example.com", "12345671448", "Nombre 6", 23, 60.4, 170.70, 'M');
 
         repositorioPersona.guardar(persona);
         repositorioPersona.guardar(persona_1);

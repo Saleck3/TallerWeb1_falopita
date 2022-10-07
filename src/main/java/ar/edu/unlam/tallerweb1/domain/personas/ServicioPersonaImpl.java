@@ -1,20 +1,18 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.personas;
 
-import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import ar.edu.unlam.tallerweb1.infrastructure.RepositorioPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.*;
 
-import java.time.ZoneOffset;
-
 @Service("servicioPersona")
 @Transactional
 public class ServicioPersonaImpl implements ServicioPersona {
 
     @Autowired
-    private RepositorioUsuario repositorioPersona;
+    private RepositorioPersona repositorioPersona;
 
     @Override
     public Double calcularHorasDeSuenio(Persona persona) {
@@ -23,24 +21,20 @@ public class ServicioPersonaImpl implements ServicioPersona {
 
     @Override
     public Persona obtenerPersona(Long id) {
-        return null;
+
+        return repositorioPersona.obtener(id);
     }
 
     @Override
     public Persona obtenerPersona(String email, String password) {
-        return null;
+        return repositorioPersona.obtener(email, password);
     }
 
     @Override
     public boolean validarPersona(Persona personaAValidar) {
 
         //Tiene que si o si tener mail, nombre, sexo, password, edad
-        if (personaAValidar.getEmail() == null ||
-                personaAValidar.getPassword() == null ||
-                personaAValidar.getNombre() == null ||
-                personaAValidar.getEdad() == null ||
-                personaAValidar.getSexo() == null
-        ) {
+        if (personaAValidar.getEmail() == null || personaAValidar.getPassword() == null || personaAValidar.getNombre() == null || personaAValidar.getEdad() == null || personaAValidar.getSexo() == null) {
             return false;
         }
 
@@ -90,16 +84,17 @@ public class ServicioPersonaImpl implements ServicioPersona {
         return true;
     }
 
+    @Override
+    public void guardarPersona(Persona personaAGuardar) {
+        repositorioPersona.guardar(personaAGuardar);
+    }
+
     //Robado de internet, probablemente mejorable
     public static boolean esMailValido(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z" + "A-Z]{2,7}$";
 
         Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
+        if (email == null) return false;
         return pat.matcher(email).matches();
     }
 

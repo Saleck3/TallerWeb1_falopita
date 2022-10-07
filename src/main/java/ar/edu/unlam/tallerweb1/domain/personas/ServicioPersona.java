@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.domain.usuarios;
+package ar.edu.unlam.tallerweb1.domain.personas;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
@@ -10,4 +10,6 @@ public interface ServicioPersona {
     public Persona obtenerPersona(String email, String password);
 
     boolean validarPersona(Persona personaAValidar);
+
+    void guardarPersona(Persona personaAGuardar);
 }

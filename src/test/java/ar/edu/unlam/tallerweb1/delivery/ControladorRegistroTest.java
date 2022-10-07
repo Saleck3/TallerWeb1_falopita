@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioPersona;
+import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,7 +35,7 @@ public class ControladorRegistroTest {
     public void queCuandoRegistroAUnUsuarioValidoMeRedirijaADatosPersonales() {
         Persona personaValida = dadaUnaPersonaConDatosValidos();
         ModelAndView vistaDevuelta = cuandoMeRegistroYEsValida(personaValida);
-        //TODO Cambiar paor pagina de datos personales
+        //TODO Cambiar por pagina de datos personales
         assertThat(vistaDevuelta.getViewName()).isEqualTo("home");
     }
 

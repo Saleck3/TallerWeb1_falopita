@@ -2,7 +2,9 @@ package ar.edu.unlam.tallerweb1.domain.suenio;
 
 import ar.edu.unlam.tallerweb1.domain.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServicioSuenioImpl implements ServicioSuenio{
 
     public ServicioSuenioImpl() {

@@ -23,8 +23,6 @@ public class ControladorRegistro {
         this.servicioPersona = servicioPersona;
     }
 
-    ;
-
     //cargar pagina de registro (para ingresar solo usr y pass)
     @RequestMapping(path = "/registrar-usuario")
     public ModelAndView irARegistro() {
@@ -45,10 +43,9 @@ public class ControladorRegistro {
     public ModelAndView registrarUsuario(@ModelAttribute("persona") Persona personaIngresada, HttpServletRequest request) {
 
         if (servicioPersona.validarPersona(personaIngresada)) {
-
             servicioPersona.guardarPersona(personaIngresada);
-            //TODO redirigir a pagina de datos personales
-            return new ModelAndView("home");
+            request.getSession().setAttribute("ID", personaIngresada.getId());
+            return new ModelAndView("redirect:/perfil");
         }
 
         //Volver a la pagina de registro con un error

@@ -21,7 +21,7 @@
             <form:label path="nombre" for="nombre">Nombre:</form:label>
             <form:input path="nombre" id="nombre" class="form-control" required=""/>
             <form:label path="edad" for="edad">Edad:</form:label>
-            <form:input path="edad" id="edad" class="form-control" required=""/>
+            <form:input type="number" path="edad" id="edad" class="form-control" required=""/>
             <form:label path="sexo" for="sexo">Sexo:</form:label>
             <form:select path="sexo" id="sexo" cssClass="form-control" required="">
                 <form:option value="m">Masculino</form:option>

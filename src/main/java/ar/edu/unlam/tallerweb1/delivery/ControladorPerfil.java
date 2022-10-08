@@ -18,15 +18,17 @@ public class ControladorPerfil {
     private ServicioPersona servicioPersona;
 
     @Autowired
-    public ControladorPerfil(ServicioPersona servicioPersona){this.servicioPersona = servicioPersona;};
+    public ControladorPerfil(ServicioPersona servicioPersona) {
+        this.servicioPersona = servicioPersona;
+    }
 
     @RequestMapping(path = "/perfil")
-    public ModelAndView irAPerfil (HttpServletRequest request){
+    public ModelAndView irAPerfil(HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
         Long idPersona = (Long) request.getSession().getAttribute("ID");
 
-        if(idPersona == null){
+        if (idPersona == null) {
             model.put("datosLogin", new DatosLogin());
             model.put("error", "Debe loguerse para usar la aplicación");
             return new ModelAndView("login", model);

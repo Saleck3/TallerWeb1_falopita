@@ -5,11 +5,11 @@
     <title>Perfil</title>
 </head>
 <body>
-    <form:form modelAttribute="datosPerfil" action="/perfil" method="get">
+    <form:form modelAttribute="datosPerfil" action="/perfil" method="post">
         <label>Email:
             <form:input path="email"/>
         </label>
-        <label>Contraseña:
+        <label>Clave:
             <form:password path="password" disabled="true"/>
         </label>
         <label>Nombre:

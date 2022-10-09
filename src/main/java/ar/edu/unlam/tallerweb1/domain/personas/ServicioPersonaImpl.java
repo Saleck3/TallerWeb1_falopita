@@ -31,6 +31,11 @@ public class ServicioPersonaImpl implements ServicioPersona {
     }
 
     @Override
+    public void modificarPersona(Persona personaAModificar) {
+        repositorioPersona.modificar(personaAModificar);
+    }
+
+    @Override
     public boolean validarPersona(Persona personaAValidar) {
 
         //Tiene que si o si tener mail, nombre, sexo, password, edad

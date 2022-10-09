@@ -30,14 +30,20 @@ public class ControladorPerfil {
 
         if (idPersona == null) {
             model.put("datosLogin", new DatosLogin());
-            model.put("error", "Debe loguerse para usar la aplicación");
+            model.put("error", "Debe iniciar sesion para usar la aplicación");
             return new ModelAndView("login", model);
         }
 
-        Persona persona = servicioPersona.obtenerPersona(idPersona);
-        DatosPerfil datosPerfil = new DatosPerfil(persona);
-        model.put("datosPerfil", datosPerfil);
+        model.put("persona", servicioPersona.obtenerPersona(idPersona));
 
         return new ModelAndView("perfil", model);
+    }
+
+    @RequestMapping(path = "/perfil/modificar", method = RequestMethod.POST)
+    public ModelAndView modificarPerfil(@ModelAttribute Persona personaAModificar, HttpServletRequest request){
+        personaAModificar.setId((Long) request.getSession().getAttribute("ID"));
+        servicioPersona.modificarPersona(personaAModificar);
+
+        return new ModelAndView("redirect:/perfil");
     }
 }

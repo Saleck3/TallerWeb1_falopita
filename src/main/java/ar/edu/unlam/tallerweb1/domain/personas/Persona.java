@@ -65,14 +65,6 @@ public class Persona {
         this.peso = peso;
     }
 
-    public Double getAltura() {
-        return altura;
-    }
-
-    public void setAltura(Double altura) {
-        this.peso = altura;
-    }
-
     public Character getSexo() {
         return sexo;
     }
@@ -103,5 +95,13 @@ public class Persona {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(Double altura) {
+        this.altura = altura;
     }
 }

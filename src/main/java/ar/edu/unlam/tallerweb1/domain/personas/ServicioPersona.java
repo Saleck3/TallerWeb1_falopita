@@ -1,13 +1,13 @@
 package ar.edu.unlam.tallerweb1.domain.personas;
 
-import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-
 public interface ServicioPersona {
     Double calcularHorasDeSuenio(Persona persona);
 
-    public Persona obtenerPersona(Long id);
+    Persona obtenerPersona(Long id);
 
-    public Persona obtenerPersona(String email, String password);
+    Persona obtenerPersona(String email, String password);
+
+    void modificarPersona(Persona personaAModificar);
 
     boolean validarPersona(Persona personaAValidar);
 

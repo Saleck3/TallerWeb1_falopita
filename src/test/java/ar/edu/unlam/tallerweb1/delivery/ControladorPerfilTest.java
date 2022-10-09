@@ -22,32 +22,26 @@ public class ControladorPerfilTest extends SpringTest {
     @Mock
     ServicioPersona servicioPersonaMock;
     @Mock
-    HttpServletRequest request;
+    HttpServletRequest requestMock;
     @Mock
-    HttpSession session;
+    HttpSession sessionMock;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
         controladorPerfilParaTest = new ControladorPerfil(servicioPersonaMock);
 
-        when(request.getSession()).thenReturn(session);
+        when(requestMock.getSession()).thenReturn(sessionMock);
     }
 
     @Test
     public void dadoQueNoEstaLogueadoDevolverAlLoginConError() {
+        when(sessionMock.getAttribute("ID")).thenReturn(null);
 
-        //Esto da NullPointerException
-        //when(requestMock.getSession().getAttribute("ID")).thenReturn(null);
-
-
-        when(session.getAttribute("ID")).thenReturn(null);
-
-
-        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(request);
+        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(requestMock);
 
         assertThat(mavDevuelto.getViewName()).isEqualTo("login");
-        assertThat((String) mavDevuelto.getModel().get("error")).isEqualTo("Debe loguerse para usar la aplicación");
+        assertThat((String) mavDevuelto.getModel().get("error")).isNotNull();
     }
 
     @Test
@@ -55,13 +49,13 @@ public class ControladorPerfilTest extends SpringTest {
         Persona personaMock = new Persona("", "", "", 1, 1.0, 1.0, 'a');
         personaMock.setId(1L);
 
-
-        when(session.getAttribute("ID")).thenReturn(1L);
-
+        when(sessionMock.getAttribute("ID")).thenReturn(1L);
         when(servicioPersonaMock.obtenerPersona(anyLong())).thenReturn(personaMock);
-        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(request);
 
+        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(requestMock);
+        
         assertThat(mavDevuelto.getViewName()).isEqualTo("perfil");
-        assertThat((DatosPerfil) mavDevuelto.getModel().get("datosPerfil")).isNotNull();
+        assertThat(mavDevuelto.getModel().get("persona")).isNotNull();
+        assertThat((Persona) mavDevuelto.getModel().get("persona")).isNotNull();
     }
 }

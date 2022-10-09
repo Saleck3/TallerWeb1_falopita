@@ -46,7 +46,7 @@ public class RepositorioPersonaTest extends SpringTest {
 
     @Test
     public void dadoIdDevuelveObjetoPersonaYSusDatos() {
-        Long idDada = 1L;
+        Long idDada = 2L;
         String nombreEsperado = "Nombre 1";
         Integer edadEsperada = 23;
         Double pesoEsperado = 60.4;
@@ -65,8 +65,8 @@ public class RepositorioPersonaTest extends SpringTest {
 
     @Test
     public void dadaCreacionDeDosPersonasSePersistenConIdIncremental() {
-        Long primerIdEsperado = 1L;
-        Long segundoIdEsperado = 2L;
+        Long primerIdEsperado = 2L;
+        Long segundoIdEsperado = 3L;
 
         Persona personaObtenida1 = repositorioPersona.obtener(primerIdEsperado);
         Persona personaObtenida2 = repositorioPersona.obtener(segundoIdEsperado);
@@ -84,7 +84,7 @@ public class RepositorioPersonaTest extends SpringTest {
         List<Persona> listaDePersonas = obtenerListaPersonas();
 
         //Verificacion
-        entoncesEncuentroPersonas(listaDePersonas, 6);
+        entoncesEncuentroPersonas(listaDePersonas, 7);
     }
 
     @Test

@@ -7,31 +7,39 @@
     <title>Perfil</title>
 </head>
 <body>
-    <%@ include file="header.jsp" %>
-    <form:form modelAttribute="persona" action="perfil/modificar" method="POST" style="display:flex; flex-direction: column;">
-        <label>Email:
-            <form:input path="email"/>
-        </label>
-        <label>Clave:
-            <form:input path="password" />
-        </label>
-        <label>Nombre:
-            <form:input path="nombre" />
-        </label>
-        <label>Sexo:
-            <form:input path="sexo" />
-        </label>
-        <label>Edad:
-            <form:input path="edad" />
-        </label>
-        <label>Peso:
-            <form:input path="peso" />
-        </label>
-        <label>Altura:
-            <form:input path="altura" />
-        </label>
-        <form:button type="submit">Modificar</form:button>
-    </form:form>
-    <%@ include file="footer.jsp"%>
+<%@ include file="header.jsp" %>
+<form:form modelAttribute="persona" action="perfil/modificar" method="POST">
+    <div class="form-group">
+        <form:label path="email" class="form-label">Email:</form:label>
+        <form:input path="email" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <form:label path="password" class="form-label">Clave:</form:label>
+        <form:input path="password" class="form-control" type="password"/>
+    </div>
+    <div class="form-group">
+        <form:label path="nombre" class="form-label">Nombre:</form:label>
+        <form:input path="nombre" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <form:label path="sexo" class="form-label">Sexo:</form:label>
+        <form:input path="sexo" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <form:label path="edad" class="form-label">Edad:</form:label>
+        <form:input path="edad" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <form:label path="peso" class="form-label">Peso:</form:label>
+        <form:input path="peso" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <form:label path="altura" class="form-label">Altura:</form:label>
+        <form:input path="altura" class="form-control"/>
+    </div>
+
+    <form:button type="submit" class="btn btn-primary">Modificar</form:button>
+</form:form>
+<%@ include file="footer.jsp" %>
 </body>
 </html>

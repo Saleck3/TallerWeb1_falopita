@@ -1,32 +1,37 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
+<!doctype html>
+<html lang="es">
 <head>
+    <%@ include file="head.jsp" %>
     <title>Perfil</title>
 </head>
 <body>
-    <form:form modelAttribute="datosPerfil" action="/perfil" method="post">
+    <%@ include file="header.jsp" %>
+    <form:form modelAttribute="persona" action="perfil/modificar" method="POST" style="display:flex; flex-direction: column;">
         <label>Email:
             <form:input path="email"/>
         </label>
         <label>Clave:
-            <form:password path="password" disabled="true"/>
+            <form:input path="password" />
         </label>
         <label>Nombre:
-            <form:input path="nombre" disabled="true"/>
+            <form:input path="nombre" />
         </label>
         <label>Sexo:
-            <form:input path="sexo" disabled="true"/>
+            <form:input path="sexo" />
         </label>
         <label>Edad:
-            <form:input path="edad" disabled="true"/>
+            <form:input path="edad" />
         </label>
         <label>Peso:
-            <form:input path="peso" disabled="true"/>
+            <form:input path="peso" />
         </label>
         <label>Altura:
-            <form:input path="altura" disabled="true"/>
+            <form:input path="altura" />
         </label>
+        <form:button type="submit">Modificar</form:button>
     </form:form>
+    <%@ include file="footer.jsp"%>
 </body>
 </html>

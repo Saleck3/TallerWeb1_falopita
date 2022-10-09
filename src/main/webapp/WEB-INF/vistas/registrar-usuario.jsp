@@ -2,15 +2,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
-<html lang="es">
+<html lang="es" class="min-vh-100 d-flex flex-column">
 <head>
     <%@ include file="head.jsp" %>
     <title>Registro de usuario</title>
 </head>
-<body>
-<%@ include file="header.jsp"%>
+<body class="min-vh-100 d-flex flex-column">
+<%@ include file="header.jsp" %>
 <div class="container">
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <form:form action="registrar-usuario" method="POST" modelAttribute="persona">
             <h3 class="form-signin-heading">Nuevo Usuario</h3>
             <hr class="colorgraph">
@@ -29,14 +28,14 @@
                 <form:option value="o">Otro</form:option>
             </form:select>
             <form:label path="email" for="email">Email:</form:label>
-            <form:input path="email" id="email" class="form-control" required="" />
+            <form:input path="email" id="email" class="form-control" required=""/>
             <form:label path="password" for="password">Password:</form:label>
             <form:input path="password" type="password" id="password" class="form-control" required=""/>
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">
                 Registrarme
             </button>
-            <a href="login"	class="btn btn-lg btn-primary btn-block">Volver al inicio de sesion</a>
+            <a href="login" class="btn btn-lg btn-primary btn-block">Volver al inicio de sesion</a>
 
         </form:form>
 
@@ -44,8 +43,7 @@
             <h4><span>${error}</span></h4>
             <br>
         </c:if>
-    </div>
 </div>
-<%@ include file="footer.jsp"%>
+<%@ include file="footer.jsp" %>
 </body>
 </html>

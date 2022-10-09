@@ -69,4 +69,10 @@ public class ControladorLogin {
 	public ModelAndView inicio() {
 		return new ModelAndView("redirect:/login");
 	}
+
+	@RequestMapping(path = "/cerrar-sesion", method = RequestMethod.GET)
+	public ModelAndView cerrarSession(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return new ModelAndView("redirect:/");
+	}
 }

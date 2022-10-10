@@ -4,19 +4,19 @@
 <!doctype html>
 <html lang="es" class="min-vh-100 d-flex flex-column">
 <head>
-    <%@ include file="head.jsp" %>
+    <%@ include file="generales/head.jsp" %>
     <title>Registro de usuario</title>
 </head>
 <body class="min-vh-100 d-flex flex-column">
-<%@ include file="header.jsp" %>
+<%@ include file="generales/header.jsp" %>
 <div class="container">
-        <form:form action="registrar-usuario" method="POST" modelAttribute="persona">
-            <h3 class="form-signin-heading">Nuevo Usuario</h3>
-            <hr class="colorgraph">
-            <br>
+    <form:form action="registrar-usuario" method="POST" modelAttribute="persona">
+        <h3 class="form-signin-heading">Nuevo Usuario</h3>
+        <hr class="colorgraph">
+        <br>
 
-            ${mensaje}
-
+        ${mensaje}
+        <div class="mb-3">
             <form:label path="nombre" for="nombre">Nombre:</form:label>
             <form:input path="nombre" id="nombre" class="form-control" required=""/>
             <form:label path="edad" for="edad">Edad:</form:label>
@@ -31,19 +31,17 @@
             <form:input path="email" id="email" class="form-control" required=""/>
             <form:label path="password" for="password">Password:</form:label>
             <form:input path="password" type="password" id="password" class="form-control" required=""/>
+        </div>
+        <form:button class="btn btn-lg btn-primary ">Registrarme</form:button>
+        <a href="login" class="btn btn-lg btn-primary">Volver al inicio de sesion</a>
 
-            <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">
-                Registrarme
-            </button>
-            <a href="login" class="btn btn-lg btn-primary btn-block">Volver al inicio de sesion</a>
+    </form:form>
 
-        </form:form>
-
-        <c:if test="${not empty error}">
-            <h4><span>${error}</span></h4>
-            <br>
-        </c:if>
+    <c:if test="${not empty error}">
+        <h4><span>${error}</span></h4>
+        <br>
+    </c:if>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="generales/footer.jsp" %>
 </body>
 </html>

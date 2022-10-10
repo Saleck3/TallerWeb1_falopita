@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class ControladorPerfil {
@@ -24,26 +27,68 @@ public class ControladorPerfil {
 
     @RequestMapping(path = "/perfil")
     public ModelAndView irAPerfil(HttpServletRequest request) {
-        ModelMap model = new ModelMap();
+        ModelMap modelo = new ModelMap();
+        HttpSession sesion = request.getSession();
 
-        Long idPersona = (Long) request.getSession().getAttribute("ID");
+        Long idPersona = (Long) sesion.getAttribute("ID");
 
         if (idPersona == null) {
-            model.put("datosLogin", new DatosLogin());
-            model.put("error", "Debe iniciar sesion para usar la aplicación");
-            return new ModelAndView("login", model);
+            modelo.put("datosLogin", new DatosLogin());
+            modelo.put("error", "Debe iniciar sesion para usar la aplicación");
+            return new ModelAndView("login", modelo);
         }
 
-        model.put("persona", servicioPersona.obtenerPersona(idPersona));
+        modelo.put("errores", (HashMap<String, String>) sesion.getAttribute("errores"));
+        modelo.put("persona", servicioPersona.obtenerPersona(idPersona));
 
-        return new ModelAndView("perfil", model);
+        return new ModelAndView("perfil", modelo);
     }
 
     @RequestMapping(path = "/perfil/modificar", method = RequestMethod.POST)
     public ModelAndView modificarPerfil(@ModelAttribute Persona personaAModificar, HttpServletRequest request){
-        personaAModificar.setId((Long) request.getSession().getAttribute("ID"));
-        servicioPersona.modificarPersona(personaAModificar);
+        HttpSession sesion = request.getSession();
+        Map<String, String> errores = personaValida(personaAModificar);
 
+        if(!errores.isEmpty()){
+            sesion.setAttribute("errores", errores);
+            return new ModelAndView("redirect:/perfil");
+        }
+
+        personaAModificar.setId((Long) sesion.getAttribute("ID"));
+        servicioPersona.modificarPersona(personaAModificar);
         return new ModelAndView("redirect:/perfil");
+    }
+
+    private HashMap<String, String> personaValida(Persona personaAValidar){
+
+        HashMap<String, String> errores = new HashMap<>();
+
+        if(personaAValidar.getNombre() == null || personaAValidar.getNombre().equals("")){
+            errores.put("errorNombre", "error en el nombre");
+        };
+
+        if(personaAValidar.getEmail() == null || personaAValidar.getEmail().equals("")){
+            errores.put("errorEmail", "error en el email");
+        }
+
+        if(personaAValidar.getPassword() == null || personaAValidar.getPassword().equals("")){
+            errores.put("errorPass", "error en el password");
+        }
+
+        if(personaAValidar.getEdad() == null || personaAValidar.getEdad() <= 0){
+            errores.put("errorEdad", "error en la edad");
+        }
+
+        if(personaAValidar.getAltura() == null || personaAValidar.getAltura() <= 0){
+            errores.put("errorAltura", "error en la altura");
+        }
+
+        if(personaAValidar.getPeso() == null || personaAValidar.getPeso() <= 0) {
+            errores.put("errorPeso", "error en el peso");
+        }
+
+        //if(personaAValidar.getSexo().equals("")) return false; //TODO: incompleto
+
+        return errores;
     }
 }

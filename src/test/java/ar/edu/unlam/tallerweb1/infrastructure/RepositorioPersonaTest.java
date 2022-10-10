@@ -22,7 +22,6 @@ public class RepositorioPersonaTest extends SpringTest {
     @Autowired
     private RepositorioPersona repositorioPersona;
 
-    //  intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
     @Before
     public void init() {
         Persona persona1 = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
@@ -99,6 +98,20 @@ public class RepositorioPersonaTest extends SpringTest {
         assertThat(personaBuscada.getNombre()).isEqualTo("Nombre 5");
         assertThat(personaBuscada.getEdad()).isEqualTo(23);
 
+    }
+
+    @Test
+    public void queSePuedaModificarUnaPersona(){
+        Long idDado = 1L;
+        String emailModificado = "personaModificada@example.com";
+        //dadoQueTengoPersonaModificada
+        Persona personaAModificar = repositorioPersona.obtener(idDado);
+        personaAModificar.setEmail(emailModificado);
+        //modificoALaPersona
+        repositorioPersona.modificar(personaAModificar);
+        //encuentroALaPersonaModificada
+        Persona personaModificada = repositorioPersona.obtener(idDado);
+        assertThat(personaModificada.getEmail()).isEqualTo(emailModificado);
     }
 
     private Persona cuandoBuscoPorMailYPassword(String mail, String password) {

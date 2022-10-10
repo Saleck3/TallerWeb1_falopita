@@ -10,7 +10,11 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo01">
                 <a class="navbar-brand" href="home"><h2>SmartTime</h2></a>
-                <a class="navbar-brand me-auto" href="suenio">Calcular suenio</a>
+
+                <% if (request.getSession().getAttribute("ID") != null) {%>
+                    <a class="navbar-brand me-auto" href="suenio">Calcular suenio</a>
+                <%}%>
+
                 <ul class="navbar-nav mb-2 mb-lg-0 ">
                     <!-- Si no esta logueado -->
                     <% if (request.getSession().getAttribute("ID") == null) {%>

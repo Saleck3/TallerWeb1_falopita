@@ -5,7 +5,6 @@ import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import ar.edu.unlam.tallerweb1.domain.suenio.DatosSuenio;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenio;
-import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,7 +51,7 @@ public class ControladorSuenio {
             ValorRecomendado recomendacion = servicioSuenio.obtenerCantidadHorasSuenio(persona);
             modelo.put("recomendacion", recomendacion);
         } catch (Exception e) {
-            modelo.put("error", e.getMessage());
+            modelo.put("errorEdad", e.getMessage());
         }
 
         return new ModelAndView("suenio", modelo);

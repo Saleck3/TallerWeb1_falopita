@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,87 +38,74 @@ public class ControladorPerfilTest extends SpringTest {
     }
 
     @Test
-    public void dadoQueNoEstaLogueadoDevolverAlLoginConError() {
-        dadoQueTengoUnIdEnLaSesion(null);
+    public void dadoQueNoEstaLogueadoDevolverAVistaLoginConError() {
+        dadoQueObtengoUnIdDeLaSesion(null);
 
-        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(null, requestMock);
+        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(requestMock);
 
         assertThat(mavDevuelto.getViewName()).isEqualTo("login");
         assertThat((String) mavDevuelto.getModel().get("error")).isNotNull();
     }
 
     @Test
-    public void dadoQueEstaLogueadoDevolverPerfilConDatos() {
-        Persona personaMock = dadoQueTengoUnaPersonaCualquiera(true, 1L);
-        dadoQueTengoUnIdEnLaSesion(1L);
-        dadoQueObtengoUnaPersonaDelServicioPersona(personaMock);
+    public void dadoQueEstaLogueadoDevolverAVistaPerfil() {
+        dadoQueObtengoUnIdDeLaSesion(1L);
+        dadoQueObtengoUnaPersonaDelServicioPersona(true, 1L);
 
-        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(null, requestMock);
+        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(requestMock);
         
         assertThat(mavDevuelto.getViewName()).isEqualTo("perfil");
         assertThat(mavDevuelto.getModel().get("persona")).isNotNull();
     }
 
-    @Test //TODO: incompleto
+    @Test
     public void dadoQueLleganErroresDevolverMavConErrores(){
-        Persona personaMock = dadoQueTengoUnaPersonaCualquiera(true, 1L);
-        List<String> errores = dadoQueTengoUnaListaConErrores();
-        dadoQueTengoUnIdEnLaSesion(1L);
-        dadoQueObtengoUnaPersonaDelServicioPersona(personaMock);
+        dadoQueObtengoUnIdDeLaSesion(1L);
+        dadoQueObtengoUnaPersonaDelServicioPersona(false, 1L);
+        dadoQueObtengoUnMapaConErroresDeLaSesion();
 
-        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(errores, requestMock);
+        ModelAndView mavDevuelto = controladorPerfilParaTest.irAPerfil(requestMock);
 
-        assertThat((List<String>) mavDevuelto.getModel().get("errores")).hasSize(3);
-    }
-
-    private List<String> dadoQueTengoUnaListaConErrores() {
-        List<String> errores = new ArrayList<String>();
-        errores.add("error 1");
-        errores.add("error 2");
-        errores.add("error 3");
-        return errores;
-    }
-
-    @Test //TODO: incompleto
-    public void dadoQueLosDatosNoSonValidosDevolverErrorEnParametro(){
-        //dadoQueLlegaUnaPersonaConDatosNoValidos
-        Persona personaInvalida = dadoQueTengoUnaPersonaCualquiera(false, 1L);
-        dadoQueTengoUnIdEnLaSesion(1L);
-        dadoQueObtengoUnaPersonaDelServicioPersona(personaInvalida);
-
-        ModelAndView mavDevuelto = controladorPerfilParaTest.modificarPerfil(personaInvalida, requestMock);
-        //devuelvoUrlConParametro
-        assertThat(mavDevuelto.getViewName()).isEqualTo("redirect:/perfil?errores=1");
+        assertThat((Map<String,String>) mavDevuelto.getModel().get("errores")).hasSize(3);
     }
 
     @Test
-    public void dadoQueLosDatosSiSonValidosDevolverAVistaPerfil(){
-        //dadoQueLlegaUnaPersonaConDatosValidos
+    public void dadoQueNoLleganErroresDevolverAVistaPerfil(){
+        dadoQueObtengoUnIdDeLaSesion(1L);
         Persona personaValida = dadoQueTengoUnaPersonaCualquiera(true, 1L);
-        dadoQueTengoUnIdEnLaSesion(1L);
-        dadoQueObtengoUnaPersonaDelServicioPersona(personaValida);
 
         ModelAndView mavDevuelto = controladorPerfilParaTest.modificarPerfil(personaValida, requestMock);
-        //devuelvoUrlConParametro
+
         assertThat(mavDevuelto.getViewName()).isEqualTo("redirect:/perfil");
     }
 
     private Persona dadoQueTengoUnaPersonaCualquiera(Boolean valida, Long id){
-        Persona p = new Persona("", "a", "a", 1, 1.0, null, 'a');
+        Persona p = new Persona("", "1234", "Persona", 18, 50.0, 1.70, 'M');
         p.setId(id);
 
         if(valida){
-            p.setEmail("a");
+            p.setEmail("persona@example.com");
         }
 
         return p;
     }
 
-    private void dadoQueTengoUnIdEnLaSesion(Long id){
+    private void dadoQueObtengoUnIdDeLaSesion(Long id){
         when(sessionMock.getAttribute("ID")).thenReturn(id);
     }
 
-    private void dadoQueObtengoUnaPersonaDelServicioPersona(Persona p){
+    //una persona valida es aquella que tiene todos sus campos llenos y no vacios
+    //crea una instancia de persona con atributo email como cadena vacia o con una cadena valida
+    private void dadoQueObtengoUnaPersonaDelServicioPersona(Boolean valida, Long id){
+        Persona p = dadoQueTengoUnaPersonaCualquiera(valida, id);
         when(servicioPersonaMock.obtenerPersona(anyLong())).thenReturn(p);
+    }
+
+    private void dadoQueObtengoUnMapaConErroresDeLaSesion() {
+        Map<String,String> mapaMock = new HashMap<>();
+        mapaMock.put("1","1");
+        mapaMock.put("2","2");
+        mapaMock.put("3","3");
+        when(sessionMock.getAttribute("errores")).thenReturn(mapaMock);
     }
 }

@@ -8,12 +8,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class ControladorPerfil {
@@ -26,52 +26,69 @@ public class ControladorPerfil {
     }
 
     @RequestMapping(path = "/perfil")
-    public ModelAndView irAPerfil(@RequestParam(required = false) List<String> errores, HttpServletRequest request) {
-        ModelMap model = new ModelMap();
+    public ModelAndView irAPerfil(HttpServletRequest request) {
+        ModelMap modelo = new ModelMap();
+        HttpSession sesion = request.getSession();
 
-        Long idPersona = (Long) request.getSession().getAttribute("ID");
+        Long idPersona = (Long) sesion.getAttribute("ID");
 
         if (idPersona == null) {
-            model.put("datosLogin", new DatosLogin());
-            model.put("error", "Debe iniciar sesion para usar la aplicación");
-            return new ModelAndView("login", model);
+            modelo.put("datosLogin", new DatosLogin());
+            modelo.put("error", "Debe iniciar sesion para usar la aplicación");
+            return new ModelAndView("login", modelo);
         }
 
-        model.put("errores", errores); //TODO: incompleto
-        model.put("persona", servicioPersona.obtenerPersona(idPersona));
+        modelo.put("errores", (HashMap<String, String>) sesion.getAttribute("errores"));
+        modelo.put("persona", servicioPersona.obtenerPersona(idPersona));
 
-        return new ModelAndView("perfil", model);
+        return new ModelAndView("perfil", modelo);
     }
 
     @RequestMapping(path = "/perfil/modificar", method = RequestMethod.POST)
     public ModelAndView modificarPerfil(@ModelAttribute Persona personaAModificar, HttpServletRequest request){
-        personaAModificar.setId((Long) request.getSession().getAttribute("ID"));
+        HttpSession sesion = request.getSession();
+        Map<String, String> errores = personaValida(personaAModificar);
 
-        if(!personaValida(personaAModificar)){ //TODO: incompleto
-            return new ModelAndView("redirect:/perfil?errores=1");
+        if(!errores.isEmpty()){
+            sesion.setAttribute("errores", errores);
+            return new ModelAndView("redirect:/perfil");
         }
-        servicioPersona.modificarPersona(personaAModificar);
 
+        personaAModificar.setId((Long) sesion.getAttribute("ID"));
+        servicioPersona.modificarPersona(personaAModificar);
         return new ModelAndView("redirect:/perfil");
     }
 
-    private Boolean personaValida(Persona personaAValidar){
+    private HashMap<String, String> personaValida(Persona personaAValidar){
 
-        if(personaAValidar.getNombre().equals("") || personaAValidar.getNombre() == null) return false;
+        HashMap<String, String> errores = new HashMap<>();
 
-        if(personaAValidar.getEmail().equals("") || personaAValidar.getEmail() == null) return false;
+        if(personaAValidar.getNombre() == null || personaAValidar.getNombre().equals("")){
+            errores.put("errorNombre", "error en el nombre");
+        };
 
-        if(personaAValidar.getPassword().equals("") || personaAValidar.getPassword() == null) return false;
+        if(personaAValidar.getEmail() == null || personaAValidar.getEmail().equals("")){
+            errores.put("errorEmail", "error en el email");
+        }
 
-        if(personaAValidar.getEdad() <= 0 || personaAValidar.getEdad() == null) return false;
+        if(personaAValidar.getPassword() == null || personaAValidar.getPassword().equals("")){
+            errores.put("errorPass", "error en el password");
+        }
 
-        if(personaAValidar.getAltura() <= 0 || personaAValidar.getAltura() == null) return false;
+        if(personaAValidar.getEdad() == null || personaAValidar.getEdad() <= 0){
+            errores.put("errorEdad", "error en la edad");
+        }
 
-        if(personaAValidar.getPeso() <= 0 || personaAValidar.getPeso() == null) return false;
+        if(personaAValidar.getAltura() == null || personaAValidar.getAltura() <= 0){
+            errores.put("errorAltura", "error en la altura");
+        }
+
+        if(personaAValidar.getPeso() == null || personaAValidar.getPeso() <= 0) {
+            errores.put("errorPeso", "error en el peso");
+        }
 
         //if(personaAValidar.getSexo().equals("")) return false; //TODO: incompleto
 
-        return true;
-
+        return errores;
     }
 }

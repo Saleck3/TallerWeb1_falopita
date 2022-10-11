@@ -13,8 +13,8 @@
     <h1>Recomendacion de horas de sueño</h1>
 
     <c:choose>
-        <c:when test="${not empty error}">
-            <h3 class="text-bg-danger">${error}</h3>
+        <c:when test="${not empty errorEdad}">
+            <h3 class="text-bg-danger">${errorEdad}</h3>
             <a href="perfil" class="btn btn-primary">Modificar datos</a>
             <br>
         </c:when>

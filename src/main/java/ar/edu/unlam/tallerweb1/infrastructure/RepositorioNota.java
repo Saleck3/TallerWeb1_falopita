@@ -9,7 +9,7 @@ public interface RepositorioNota {
 
     Nota obtener(Long id);
 
-    Serializable guardar(Nota notaAGuardar);
+    Nota guardar(Nota notaAGuardar);
 
     void modificar(Nota notaAGuardar);
 

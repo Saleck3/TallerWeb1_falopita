@@ -15,6 +15,8 @@ public class Nota {
 
     private estadosPosibles estado;
 
+
+
     public enum estadosPosibles {
         ACTIVO,
         ANCLADO,
@@ -46,6 +48,9 @@ public class Nota {
         this.contenido = contenido;
     }
 
+    public estadosPosibles getEstado() {
+        return estado;
+    }
     public void activar(){
         this.estado = estadosPosibles.ACTIVO;
     }

@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,9 +27,10 @@ public class RepositorioNotaImpl implements RepositorioNota {
     }
 
     @Override
-    public Serializable guardar(Nota notaAGuardar) {
+    public Nota guardar(Nota notaAGuardar) {
         session = sessionFactory.getCurrentSession();
-        return session.save(notaAGuardar);
+        session.save(notaAGuardar);
+        return notaAGuardar;
     }
 
     @Override

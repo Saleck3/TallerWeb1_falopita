@@ -1,14 +1,15 @@
-package ar.edu.unlam.tallerweb1.domain;
+package ar.edu.unlam.tallerweb1.domain.nota;
 
-import ar.edu.unlam.tallerweb1.domain.nota.Nota;
-import ar.edu.unlam.tallerweb1.domain.nota.ServicioNota;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioNota;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import ar.edu.unlam.tallerweb1.infrastructure.nota.RepositorioNota;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ServicioNotaImpl implements ServicioNota {
 
     @Autowired
@@ -22,12 +23,17 @@ public class ServicioNotaImpl implements ServicioNota {
     }
 
     @Override
-    public Nota guardarNota(Nota notaAGuardar) {
+    public Nota guardar(Nota notaAGuardar) {
         return repositorioNota.guardar(notaAGuardar);
     }
 
     @Override
-    public void archivarNota(Nota nota) {
+    public Nota obtener(Long id) {
+        return repositorioNota.obtener(id);
+    }
+
+    @Override
+    public void archivar(Nota nota) {
         nota.archivar();
         repositorioNota.modificar(nota);
     }
@@ -39,7 +45,7 @@ public class ServicioNotaImpl implements ServicioNota {
     }
 
     @Override
-    public void anclarNota(Nota nota) {
+    public void anclar(Nota nota) {
         nota.anclar();
         repositorioNota.modificar(nota);
     }
@@ -51,9 +57,19 @@ public class ServicioNotaImpl implements ServicioNota {
     }
 
     @Override
-    public List<Nota> listarNotas() {
-        List<Nota> notas = repositorioNota.listarAncladas();
-        notas.addAll(repositorioNota.listarActivas());
+    public void eliminar(Nota nota) {
+        repositorioNota.eliminar(nota);
+    }
+
+    @Override
+    public List<Nota> listar(Persona persona) {
+        List<Nota> notas = repositorioNota.listarAncladas(persona);
+        notas.addAll(repositorioNota.listarActivas(persona));
         return notas;
+    }
+
+    @Override
+    public List<Nota> listarArchivadas(Persona persona) {
+        return repositorioNota.listarArchivadas(persona);
     }
 }

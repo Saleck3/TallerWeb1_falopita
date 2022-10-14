@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.personas;
 
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioPersona;
+import ar.edu.unlam.tallerweb1.infrastructure.persona.RepositorioPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

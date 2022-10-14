@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.infrastructure;
+package ar.edu.unlam.tallerweb1.infrastructure.suenio;
 
 import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
 import org.hibernate.Session;
@@ -7,7 +7,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Repository

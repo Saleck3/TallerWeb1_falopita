@@ -8,12 +8,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <a class="navbar-brand" href="home"><h2>SmartTime</h2></a>
             <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="home"><h2>SmartTime</h2></a>
 
-                <% if (request.getSession().getAttribute("ID") != null) {%>
-                    <a class="navbar-brand me-auto" href="suenio">Calcular suenio</a>
-                <%}%>
+
+
+                <ul class="navbar-nav mb-2 mb-lg-0 ">
+                    <% if (request.getSession().getAttribute("ID") != null) {%>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="suenio">Calcular suenio</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="notas">Ver notas</a>
+                    </li>
+                    <%}%>
+                </ul>
 
                 <ul class="navbar-nav mb-2 mb-lg-0 ">
                     <!-- Si no esta logueado -->

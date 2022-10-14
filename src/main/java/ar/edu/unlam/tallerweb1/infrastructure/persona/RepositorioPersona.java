@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.infrastructure;
+package ar.edu.unlam.tallerweb1.infrastructure.persona;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 

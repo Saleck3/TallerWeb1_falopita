@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.ejercicio;
 
-import ar.edu.unlam.tallerweb1.domain.ValorRecomendado;
+import ar.edu.unlam.tallerweb1.domain.suenio.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 public class Ejercicio {

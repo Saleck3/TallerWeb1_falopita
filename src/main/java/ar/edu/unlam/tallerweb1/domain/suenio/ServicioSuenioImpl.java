@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.domain.suenio;
 
-import ar.edu.unlam.tallerweb1.domain.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,7 @@ public class ServicioSuenioImpl implements ServicioSuenio{
             recomendacion.setMinMax(8d, 10d);
         } else {
             //Adulto
-            recomendacion.setMinMax(7d, 7d);
+            recomendacion.setMinMax(7d, 8d);
         }
 
         return recomendacion;

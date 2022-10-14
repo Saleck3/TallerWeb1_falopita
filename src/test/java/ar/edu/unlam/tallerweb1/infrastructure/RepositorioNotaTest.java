@@ -2,6 +2,8 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.nota.Nota;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import ar.edu.unlam.tallerweb1.infrastructure.nota.RepositorioNota;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -20,24 +22,26 @@ public class RepositorioNotaTest extends SpringTest {
 
     @Test
     public void dadasVariasNotasObtenemosLaListaCompleta() {
-        dadoQueTengoNota();
-        dadoQueTengoNota();
+        Persona persona = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
 
-        List<Nota> notas = cuandoBuscoNotas();
+        List<Nota> notas = cuandoBuscoNotas(persona);
 
         entoncesObtengoNotas(notas, 2);
     }
 
     @Test
     public void dadasVariasNotasConAlgunasArchivadasObtenemosLaCantidadArchivada() {
-        dadoQueTengoNota();
-        dadoQueTengoNota();
-        dadoQueTengoNotaArchivada();
-        dadoQueTengoNotaArchivada();
-        dadoQueTengoNotaArchivada();
+        Persona persona = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
+        dadoQueTengoNotaArchivada(persona);
+        dadoQueTengoNotaArchivada(persona);
+        dadoQueTengoNotaArchivada(persona);
 
-        List<Nota> notasTotales = cuandoBuscoNotas();
-        List<Nota> notasArchivadas = cuandoBuscoNotasArchivadas();
+        List<Nota> notasTotales = cuandoBuscoNotas(persona);
+        List<Nota> notasArchivadas = cuandoBuscoNotasArchivadas(persona);
 
         entoncesObtengoNotas(notasTotales, 5);
         entoncesObtengoNotas(notasArchivadas, 3);
@@ -45,15 +49,16 @@ public class RepositorioNotaTest extends SpringTest {
 
     @Test
     public void dadasVariasNotasConAlgunasAncladasObtenemosLaCantidadAncladas() {
-        dadoQueTengoNota();
-        dadoQueTengoNota();
-        dadoQueTengoNota();
-        dadoQueTengoNotaAnclada();
-        dadoQueTengoNotaAnclada();
+        Persona persona = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
+        dadoQueTengoNotaAnclada(persona);
+        dadoQueTengoNotaAnclada(persona);
 
 
-        List<Nota> notasTotales = cuandoBuscoNotas();
-        List<Nota> notasAncladas = cuandoBuscoNotasAncladas();
+        List<Nota> notasTotales = cuandoBuscoNotas(persona);
+        List<Nota> notasAncladas = cuandoBuscoNotasAncladas(persona);
 
         entoncesObtengoNotas(notasTotales, 5);
         entoncesObtengoNotas(notasAncladas, 2);
@@ -61,17 +66,19 @@ public class RepositorioNotaTest extends SpringTest {
 
     @Test
     public void dadasVariasNotasConLosTresEstadosObtengoSoloLasActivas() {
-        dadoQueTengoNota();
-        dadoQueTengoNota();
-        dadoQueTengoNota();
-        dadoQueTengoNotaAnclada();
-        dadoQueTengoNotaAnclada();
-        dadoQueTengoNotaArchivada();
-        dadoQueTengoNotaArchivada();
+
+        Persona persona = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
+        dadoQueTengoNotaAnclada(persona);
+        dadoQueTengoNotaAnclada(persona);
+        dadoQueTengoNotaArchivada(persona);
+        dadoQueTengoNotaArchivada(persona);
 
 
-        List<Nota> notasTotales = cuandoBuscoNotas();
-        List<Nota> notasActivas = cuandoBuscoNotasActivas();
+        List<Nota> notasTotales = cuandoBuscoNotas(persona);
+        List<Nota> notasActivas = cuandoBuscoNotasActivas(persona);
 
         entoncesObtengoNotas(notasTotales, 7);
         entoncesObtengoNotas(notasActivas, 3);
@@ -80,59 +87,85 @@ public class RepositorioNotaTest extends SpringTest {
 
     @Test
     public void dadasNotasCuandoEliminoNotasObtenemosLaCantidadCorrecta() {
-        dadoQueTengoNota();
-        dadoQueTengoNota();
-        Nota notaAEliminar = dadoQueTengoNota();
+
+        Persona persona = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona);
+        Nota notaAEliminar = dadoQueTengoNota(persona);
 
         dadoQueEliminoNota(notaAEliminar);
 
-        List<Nota> notasTotales = cuandoBuscoNotas();
+        List<Nota> notasTotales = cuandoBuscoNotas(persona);
 
         entoncesObtengoNotas(notasTotales, 2);
     }
 
+    @Test
+    public void dadoQueTengoNotasDeDistintasPersonasTraigoSoloDeLaPersonaSolicitada() {
 
-    private Nota dadoQueTengoNota() {
-        Nota nota = new Nota("Titulo", "Descripcion");
+        Persona persona = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
+        Persona persona2 = new Persona("persona2@example.com", "12345678", "Nombre 2", 23, 60.4, 170.70, 'M');
+
+        dadoQueTengoNota(persona);
+        dadoQueTengoNota(persona2);
+
+        List<Nota> notas = cuandoBuscoNotas(persona);
+
+        entoncesNotasSonDePersona(notas, persona);
+    }
+
+
+    private Nota dadoQueTengoNota(Persona persona) {
+        Nota nota = new Nota(persona, "Titulo", "Descripcion");
         respositorioNota.guardar(nota);
         return nota;
     }
 
 
-    private Nota dadoQueTengoNotaArchivada() {
-        Nota nota = new Nota("Titulo", "Descripcion");
+    private Nota dadoQueTengoNotaArchivada(Persona persona) {
+        Nota nota = new Nota(persona, "Titulo", "Descripcion");
         nota.archivar();
         respositorioNota.guardar(nota);
         return nota;
     }
 
-    private Nota dadoQueTengoNotaAnclada() {
-        Nota nota = new Nota("Titulo", "Descripcion");
+    private Nota dadoQueTengoNotaAnclada(Persona persona) {
+        Nota nota = new Nota(persona, "Titulo", "Descripcion");
         nota.anclar();
         respositorioNota.guardar(nota);
         return nota;
     }
 
+
     private void dadoQueEliminoNota(Nota notaAEliminar) {
         respositorioNota.eliminar(notaAEliminar);
     }
-    private List<Nota> cuandoBuscoNotas() {
-        return respositorioNota.listarTodas();
+
+    private List<Nota> cuandoBuscoNotas(Persona persona) {
+        return respositorioNota.listarTodas(persona);
     }
 
-    private List<Nota> cuandoBuscoNotasActivas() {
-        return respositorioNota.listarActivas();
+    private List<Nota> cuandoBuscoNotasActivas(Persona persona) {
+        return respositorioNota.listarActivas(persona);
     }
 
-    private List<Nota> cuandoBuscoNotasArchivadas() {
-        return respositorioNota.listarArchivadas();
+    private List<Nota> cuandoBuscoNotasArchivadas(Persona persona) {
+        return respositorioNota.listarArchivadas(persona);
     }
 
-    private List<Nota> cuandoBuscoNotasAncladas() {
-        return respositorioNota.listarAncladas();
+    private List<Nota> cuandoBuscoNotasAncladas(Persona persona) {
+        return respositorioNota.listarAncladas(persona);
     }
 
     private void entoncesObtengoNotas(List<Nota> notasObtenidas, int cantidadEsperada) {
         assertThat(notasObtenidas.size()).isEqualTo(cantidadEsperada);
+    }
+
+    private void entoncesNotasSonDePersona(List<Nota> notas, Persona persona) {
+
+        for (Nota nota : notas) {
+            assertThat(nota.getPersona()).isEqualTo(persona);
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.infrastructure;
+package ar.edu.unlam.tallerweb1.infrastructure.suenio;
 
 import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
 

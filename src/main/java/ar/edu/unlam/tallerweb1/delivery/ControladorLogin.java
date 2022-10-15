@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioPersona;
+import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -68,5 +68,11 @@ public class ControladorLogin {
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public ModelAndView inicio() {
 		return new ModelAndView("redirect:/login");
+	}
+
+	@RequestMapping(path = "/cerrar-sesion", method = RequestMethod.GET)
+	public ModelAndView cerrarSession(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return new ModelAndView("redirect:/");
 	}
 }

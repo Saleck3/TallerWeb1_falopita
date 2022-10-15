@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.domain;
+package ar.edu.unlam.tallerweb1.domain.suenio;
 
 public class ValorRecomendado {
     private Double minimo;

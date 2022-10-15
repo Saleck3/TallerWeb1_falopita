@@ -2,15 +2,14 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import ar.edu.unlam.tallerweb1.infrastructure.persona.RepositorioPersona;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -22,8 +21,7 @@ public class RepositorioPersonaTest extends SpringTest {
     @Autowired
     private RepositorioPersona repositorioPersona;
 
-    //  intento de precargar los datos usando @BeforeClass pero se ejecuta para cada test
-   @Before
+    @Before
     public void init() {
         Persona persona1 = new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
         Persona persona2 = new Persona("persona2@example.com", "12345678", "Nombre 2", 23, 60.4, 170.70, 'M');
@@ -38,15 +36,15 @@ public class RepositorioPersonaTest extends SpringTest {
 
 
     @Test(expected = Exception.class)
-    public void dadoPersonaConAtributosNulosArrojaExcepcionCuandoSePersiste(){
+    public void dadoPersonaConAtributosNulosArrojaExcepcionCuandoSePersiste() {
         Persona personaCreada = new Persona();
 
         repositorioPersona.guardar(personaCreada);
     }
 
     @Test
-    public void dadoIdDevuelveObjetoPersonaYSusDatos(){
-        Long idDada = 1L;
+    public void dadoIdDevuelveObjetoPersonaYSusDatos() {
+        Long idDada = 2L;
         String nombreEsperado = "Nombre 1";
         Integer edadEsperada = 23;
         Double pesoEsperado = 60.4;
@@ -65,8 +63,8 @@ public class RepositorioPersonaTest extends SpringTest {
 
     @Test
     public void dadaCreacionDeDosPersonasSePersistenConIdIncremental() {
-        Long primerIdEsperado = 1L;
-        Long segundoIdEsperado = 2L;
+        Long primerIdEsperado = 2L;
+        Long segundoIdEsperado = 3L;
 
         Persona personaObtenida1 = repositorioPersona.obtener(primerIdEsperado);
         Persona personaObtenida2 = repositorioPersona.obtener(segundoIdEsperado);
@@ -76,18 +74,50 @@ public class RepositorioPersonaTest extends SpringTest {
     }
 
     @Test
-    public void alPedirListaPersonasObtenemosLaListaCompleta(){
+    public void alPedirListaPersonasObtenemosLaListaCompleta() {
         //Preparacion
         dadoQueTengoPersonas();
 
         //Ejecucion
-        List <Persona> listaDePersonas = obtenerListaPersonas();
+        List<Persona> listaDePersonas = obtenerListaPersonas();
 
         //Verificacion
-        entoncesEncuentroPersonas(listaDePersonas, 6);
+        entoncesEncuentroPersonas(listaDePersonas, 7);
     }
 
-    private void entoncesEncuentroPersonas(List <Persona> personas, int esperadas) {
+    @Test
+    public void queSePuedaBuscarUnaPersonaPorMailYPassword() {
+        dadoQueTengoPersonas();
+
+        //Busco "persona"
+        Persona personaBuscada = cuandoBuscoPorMailYPassword("persona@example.com", "1234567894");
+
+        //entoncesEncuentroALaPersona
+        assertThat(personaBuscada.getEmail()).isEqualTo("persona@example.com");
+        assertThat(personaBuscada.getNombre()).isEqualTo("Nombre 5");
+        assertThat(personaBuscada.getEdad()).isEqualTo(23);
+
+    }
+
+    @Test
+    public void queSePuedaModificarUnaPersona(){
+        Long idDado = 1L;
+        String emailModificado = "personaModificada@example.com";
+        //dadoQueTengoPersonaModificada
+        Persona personaAModificar = repositorioPersona.obtener(idDado);
+        personaAModificar.setEmail(emailModificado);
+        //modificoALaPersona
+        repositorioPersona.modificar(personaAModificar);
+        //encuentroALaPersonaModificada
+        Persona personaModificada = repositorioPersona.obtener(idDado);
+        assertThat(personaModificada.getEmail()).isEqualTo(emailModificado);
+    }
+
+    private Persona cuandoBuscoPorMailYPassword(String mail, String password) {
+        return repositorioPersona.obtener(mail, password);
+    }
+
+    private void entoncesEncuentroPersonas(List<Persona> personas, int esperadas) {
         assertThat(personas).hasSize(esperadas);
     }
 
@@ -96,8 +126,8 @@ public class RepositorioPersonaTest extends SpringTest {
     }
 
     private void dadoQueTengoPersonas() {
-        Persona persona = new Persona("persona@example.com","1234567894", "Nombre 5", 23, 60.4, 170.70, 'M');
-        Persona persona_1 = new Persona("persona_1@example.com","12345671448","Nombre 6", 23, 60.4, 170.70, 'M');
+        Persona persona = new Persona("persona@example.com", "1234567894", "Nombre 5", 23, 60.4, 170.70, 'M');
+        Persona persona_1 = new Persona("persona_1@example.com", "12345671448", "Nombre 6", 23, 60.4, 170.70, 'M');
 
         repositorioPersona.guardar(persona);
         repositorioPersona.guardar(persona_1);

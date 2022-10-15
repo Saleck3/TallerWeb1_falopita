@@ -4,12 +4,15 @@
 <!doctype html>
 <html lang="es" class="min-vh-100 d-flex flex-column">
 <head>
-    <%@ include file="head.jsp" %>
+    <%@ include file="generales/head.jsp" %>
     <title>Perfil</title>
 </head>
 <body class="min-vh-100 d-flex flex-column">
-<%@ include file="header.jsp" %>
-<div class="container-md">
+<%@ include file="generales/header.jsp" %>
+<div class="container-md mb-3">
+    <h3 class="form-signin-heading">Editar datos</h3>
+    <hr class="colorgraph">
+    <br>
     <form:form modelAttribute="persona" action="perfil/modificar" method="POST">
         <div class="form-group">
             <form:label path="email" class="form-label">Email:</form:label>
@@ -33,13 +36,6 @@
             </c:if>
         </div>
         <div class="form-group">
-            <form:label path="sexo" class="form-label">Sexo:</form:label>
-            <form:input path="sexo" class="form-control"/>
-            <c:if test="${not empty errorSexo}">
-                <small class="text-bg-danger">${errorSexo}</small>
-            </c:if>
-        </div>
-        <div class="form-group">
             <form:label path="edad" class="form-label">Edad:</form:label>
             <form:input path="edad" class="form-control"/>
             <c:if test="${not empty errorEdad}">
@@ -54,16 +50,26 @@
             </c:if>
         </div>
         <div class="form-group">
-            <form:label path="altura" class="form-label">Altura:</form:label>
-            <form:input path="altura" class="form-control"/>
-            <c:if test="${not empty errorPeso}">
-                <small class="text-bg-danger">${errorPeso}</small>
+            <form:label path="sexo" class="form-label">Sexo:</form:label>
+            <form:select path="sexo" id="sexo" class="form-control" required="">
+                <form:option value="m">Masculino</form:option>
+                <form:option value="f">Femenino</form:option>
+                <form:option value="o">Otro</form:option>
+            </form:select>
+            <c:if test="${not empty errorSexo}">
+                <small class="text-bg-danger">${errorSexo}</small>
             </c:if>
         </div>
-
+        <div class="form-group">
+            <form:label path="altura" class="form-label">Altura:</form:label>
+            <form:input path="altura" class="form-control"/>
+            <c:if test="${not empty errorAltura}">
+                <small class="text-bg-danger">${errorAltura}</small>
+            </c:if>
+        </div>
         <form:button type="submit" class="btn btn-primary">Modificar</form:button>
     </form:form>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="generales/footer.jsp" %>
 </body>
 </html>

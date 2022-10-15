@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.ValorRecomendado;
+import ar.edu.unlam.tallerweb1.domain.suenio.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import ar.edu.unlam.tallerweb1.domain.suenio.DatosSuenio;

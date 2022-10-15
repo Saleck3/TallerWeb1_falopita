@@ -1,16 +1,16 @@
-package ar.edu.unlam.tallerweb1.infrastructure;
+package ar.edu.unlam.tallerweb1.infrastructure.nota;
 
 import ar.edu.unlam.tallerweb1.domain.nota.Nota;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.List;
 
-@Repository
+@Repository("repositorioNota")
 public class RepositorioNotaImpl implements RepositorioNota {
 
     @Autowired
@@ -28,9 +28,10 @@ public class RepositorioNotaImpl implements RepositorioNota {
     }
 
     @Override
-    public Serializable guardar(Nota notaAGuardar) {
+    public Nota guardar(Nota notaAGuardar) {
         session = sessionFactory.getCurrentSession();
-        return session.save(notaAGuardar);
+        session.save(notaAGuardar);
+        return notaAGuardar;
     }
 
     @Override
@@ -46,33 +47,26 @@ public class RepositorioNotaImpl implements RepositorioNota {
     }
 
     @Override
-    public List<Nota> listarTodas() {
+    public List<Nota> listarTodas(Persona persona) {
         session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Nota.class)
-                .list();
+        return session.createCriteria(Nota.class).add(Restrictions.eq("persona", persona)).list();
     }
 
     @Override
-    public List<Nota> listarActivas() {
+    public List<Nota> listarActivas(Persona persona) {
         session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Nota.class)
-                .add(Restrictions.eq("estado", Nota.estadosPosibles.ACTIVO))
-                .list();
+        return session.createCriteria(Nota.class).add(Restrictions.eq("estado", Nota.estadosPosibles.ACTIVO)).add(Restrictions.eq("persona", persona)).list();
     }
 
     @Override
-    public List<Nota> listarAncladas() {
+    public List<Nota> listarAncladas(Persona persona) {
         session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Nota.class)
-                .add(Restrictions.eq("estado", Nota.estadosPosibles.ANCLADO))
-                .list();
+        return session.createCriteria(Nota.class).add(Restrictions.eq("estado", Nota.estadosPosibles.ANCLADO)).add(Restrictions.eq("persona", persona)).list();
     }
 
     @Override
-    public List<Nota> listarArchivadas() {
+    public List<Nota> listarArchivadas(Persona persona) {
         session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Nota.class)
-                .add(Restrictions.eq("estado", Nota.estadosPosibles.ARCHIVADO))
-                .list();
+        return session.createCriteria(Nota.class).add(Restrictions.eq("estado", Nota.estadosPosibles.ARCHIVADO)).add(Restrictions.eq("persona", persona)).list();
     }
 }

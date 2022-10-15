@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 @Entity
 public class Persona {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -29,7 +30,8 @@ public class Persona {
     private Character sexo;
 
     //constructor requerido por Hibernate
-    public Persona(){}
+    public Persona() {
+    }
 
     public Persona(String email, String password, String nombre, Integer edad, Double peso, Double altura, Character sexo) {
         this.nombre = nombre;
@@ -103,5 +105,14 @@ public class Persona {
 
     public void setAltura(Double altura) {
         this.altura = altura;
+    }
+
+    public String toString() {
+        return "ID: " + this.id +
+                " Nombre: " + this.nombre +
+                " Mail: " + this.email +
+                " Edad: " + this.edad +
+                " Altura: " + this.altura +
+                " Peso: " + this.peso;
     }
 }

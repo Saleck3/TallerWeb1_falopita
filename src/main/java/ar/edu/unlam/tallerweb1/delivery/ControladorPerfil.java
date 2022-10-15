@@ -38,7 +38,8 @@ public class ControladorPerfil {
             return new ModelAndView("login", modelo);
         }
 
-        modelo.put("errores", (HashMap<String, String>) sesion.getAttribute("errores"));
+        Util.ponerErrores(modelo, sesion);
+
         modelo.put("persona", servicioPersona.obtenerPersona(idPersona));
 
         return new ModelAndView("perfil", modelo);
@@ -47,10 +48,10 @@ public class ControladorPerfil {
     @RequestMapping(path = "/perfil/modificar", method = RequestMethod.POST)
     public ModelAndView modificarPerfil(@ModelAttribute Persona personaAModificar, HttpServletRequest request) {
         HttpSession sesion = request.getSession();
-        Map<String, String> errores = personaValida(personaAModificar);
+        Map<String, Object> mapaErrores = personaValida(personaAModificar);
 
-        if (!errores.isEmpty()) {
-            sesion.setAttribute("errores", errores);
+        if(!mapaErrores.isEmpty()){
+            sesion.setAttribute("errores", mapaErrores);
             return new ModelAndView("redirect:/perfil");
         }
 
@@ -58,10 +59,10 @@ public class ControladorPerfil {
         servicioPersona.modificarPersona(personaAModificar);
         return new ModelAndView("redirect:/perfil");
     }
+    //TODO: Agregar más validaciones
+    private HashMap<String, Object> personaValida(Persona personaAValidar){
 
-    private HashMap<String, String> personaValida(Persona personaAValidar) {
-
-        HashMap<String, String> errores = new HashMap<>();
+        HashMap<String, Object> errores = new HashMap<>();
 
         if (personaAValidar.getNombre() == null || personaAValidar.getNombre().equals("")) {
             errores.put("errorNombre", "error en el nombre");

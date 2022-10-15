@@ -51,7 +51,7 @@ public class ControladorSuenio {
             ValorRecomendado recomendacion = servicioSuenio.obtenerCantidadHorasSuenio(persona);
             modelo.put("recomendacion", recomendacion);
         } catch (Exception e) {
-            modelo.put("error", e.getMessage());
+            modelo.put("errorEdad", e.getMessage());
         }
 
         return new ModelAndView("suenio", modelo);

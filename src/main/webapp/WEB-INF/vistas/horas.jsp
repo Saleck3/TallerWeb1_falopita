@@ -1,16 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Shushu
-  Date: 29/9/2022
-  Time: 21:26
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
+<html lang="es" class="min-vh-100 d-flex flex-column">
 <head>
+    <%@ include file="generales/head.jsp" %>
     <title>Horas</title>
 </head>
-<body>
-<h1>Horas Obtenidas: ${edadObtenida}</h1>
+<body class="min-vh-100 d-flex flex-column">
+
+<%@ include file="generales/header.jsp" %>
+<div class="container">
+    <h1>Horas Obtenidas: ${edadObtenida}</h1>
+</div>
+<%@ include file="generales/footer.jsp" %>
+
 </body>
 </html>

@@ -15,14 +15,12 @@ public class Suenio {
     private int edad;
     private int horasQueNecesitaDormir;
 
-    public Suenio(int edad, int horasQueNecesitaDormir){
-        this.edad= edad;
-        this.horasQueNecesitaDormir=horasQueNecesitaDormir;
+    public Suenio(int edad, int horasQueNecesitaDormir) {
+        this.edad = edad;
+        this.horasQueNecesitaDormir = horasQueNecesitaDormir;
     }
 
-    public Suenio() {
-
-    }
+    public Suenio() {}
 
     public int getHorasQueNecesitaDormir() {
         return horasQueNecesitaDormir;

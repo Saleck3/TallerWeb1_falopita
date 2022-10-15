@@ -1,0 +1,19 @@
+.nota, .nota-anclada, .nota-archivada {
+    max-width: 18rem;
+    display: inline-block;
+}
+
+.grupo-links{
+    margin: 0 3px;
+
+}
+
+.grupo-links a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.link-unstyled, .link-unstyled:link, .link-unstyled:hover {
+    color: inherit;
+    text-decoration: inherit;
+}

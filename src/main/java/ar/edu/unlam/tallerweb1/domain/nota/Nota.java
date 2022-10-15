@@ -18,23 +18,11 @@ public class Nota {
     @JoinColumn(name = "persona_id")
     private Persona persona;
 
-    public Long getID() {
-        return ID;
-    }
-
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona usuario) {
-        this.persona = usuario;
-    }
-
-
     public enum estadosPosibles {
         ACTIVO,
         ANCLADO,
-        ARCHIVADO
+        ARCHIVADO,
+        ELIMINADO
     }
 
     public Nota() {
@@ -86,6 +74,22 @@ public class Nota {
 
     public void desarchivar() {
         this.estado = estadosPosibles.ACTIVO;
+    }
+
+    public Long getID() {
+        return ID;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona usuario) {
+        this.persona = usuario;
+    }
+
+    public void eliminar() {
+        this.estado = estadosPosibles.ELIMINADO;
     }
 
 }

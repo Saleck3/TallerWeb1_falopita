@@ -42,24 +42,30 @@ public class RepositorioNotaImpl implements RepositorioNota {
 
     @Override
     public void eliminar(Nota notaAEliminar) {
-        session = sessionFactory.getCurrentSession();
-        session.delete(notaAEliminar);
+        notaAEliminar.eliminar();
+        modificar(notaAEliminar);
     }
 
     @Override
-    public List<Nota> listarTodas(Persona persona) {
+    public List listarTodas(Persona persona) {
         session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Nota.class).add(Restrictions.eq("persona", persona)).list();
+        return session.createCriteria(Nota.class)
+                .add(Restrictions.eq("persona", persona))
+                .add(Restrictions.not(Restrictions.eq("estado", Nota.estadosPosibles.ELIMINADO)))
+                .list();
     }
 
     @Override
-    public List<Nota> listarActivas(Persona persona) {
+    public List listarActivas(Persona persona) {
         session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Nota.class).add(Restrictions.eq("estado", Nota.estadosPosibles.ACTIVO)).add(Restrictions.eq("persona", persona)).list();
+        return session.createCriteria(Nota.class)
+                .add(Restrictions.eq("estado", Nota.estadosPosibles.ACTIVO))
+                .add(Restrictions.eq("persona", persona))
+                .list();
     }
 
     @Override
-    public List<Nota> listarAncladas(Persona persona) {
+    public List listarAncladas(Persona persona) {
         session = sessionFactory.getCurrentSession();
         return session.createCriteria(Nota.class).add(Restrictions.eq("estado", Nota.estadosPosibles.ANCLADO)).add(Restrictions.eq("persona", persona)).list();
     }

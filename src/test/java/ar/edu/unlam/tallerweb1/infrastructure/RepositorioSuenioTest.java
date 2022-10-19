@@ -35,7 +35,7 @@ public class RepositorioSuenioTest extends SpringTest {
 
     private void entoncesObtengoLasHorasQueEsperoDormir(List<Suenio> listaDeHorasXEdad) {
         //TODO: A REVISAR PORQUE SE PUEDE MEJORAR
-        Suenio suenio= listaDeHorasXEdad.stream().filter(S->S.getEdad()==25).findFirst().get();//esto es un for manga de energumenos
+        Suenio suenio= listaDeHorasXEdad.stream().filter(S->S.getEdad()==25).findFirst().get();
         assertEquals(6,suenio.getHorasQueNecesitaDormir());
     }
 

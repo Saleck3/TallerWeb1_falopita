@@ -38,19 +38,20 @@ public class ControladorPerfil {
             return new ModelAndView("login", modelo);
         }
 
-        modelo.put("errores", (HashMap<String, String>) sesion.getAttribute("errores"));
+        Util.ponerErrores(modelo, sesion);
+
         modelo.put("persona", servicioPersona.obtenerPersona(idPersona));
 
         return new ModelAndView("perfil", modelo);
     }
 
     @RequestMapping(path = "/perfil/modificar", method = RequestMethod.POST)
-    public ModelAndView modificarPerfil(@ModelAttribute Persona personaAModificar, HttpServletRequest request){
+    public ModelAndView modificarPerfil(@ModelAttribute Persona personaAModificar, HttpServletRequest request) {
         HttpSession sesion = request.getSession();
-        Map<String, String> errores = personaValida(personaAModificar);
+        Map<String, Object> mapaErrores = personaValida(personaAModificar);
 
-        if(!errores.isEmpty()){
-            sesion.setAttribute("errores", errores);
+        if(!mapaErrores.isEmpty()){
+            sesion.setAttribute("errores", mapaErrores);
             return new ModelAndView("redirect:/perfil");
         }
 
@@ -58,36 +59,39 @@ public class ControladorPerfil {
         servicioPersona.modificarPersona(personaAModificar);
         return new ModelAndView("redirect:/perfil");
     }
+    //TODO: Agregar más validaciones
+    private HashMap<String, Object> personaValida(Persona personaAValidar){
 
-    private HashMap<String, String> personaValida(Persona personaAValidar){
+        HashMap<String, Object> errores = new HashMap<>();
 
-        HashMap<String, String> errores = new HashMap<>();
-
-        if(personaAValidar.getNombre() == null || personaAValidar.getNombre().equals("")){
+        if (personaAValidar.getNombre() == null || personaAValidar.getNombre().equals("")) {
             errores.put("errorNombre", "error en el nombre");
-        };
+        }
+        ;
 
-        if(personaAValidar.getEmail() == null || personaAValidar.getEmail().equals("")){
+        if (personaAValidar.getEmail() == null || personaAValidar.getEmail().equals("")) {
             errores.put("errorEmail", "error en el email");
         }
 
-        if(personaAValidar.getPassword() == null || personaAValidar.getPassword().equals("")){
+        if (personaAValidar.getPassword() == null || personaAValidar.getPassword().equals("")) {
             errores.put("errorPass", "error en el password");
         }
 
-        if(personaAValidar.getEdad() == null || personaAValidar.getEdad() <= 0){
+        if (personaAValidar.getEdad() == null || personaAValidar.getEdad() <= 0) {
             errores.put("errorEdad", "error en la edad");
         }
 
-        if(personaAValidar.getAltura() == null || personaAValidar.getAltura() <= 0){
+        if (personaAValidar.getAltura() == null || personaAValidar.getAltura() <= 0) {
             errores.put("errorAltura", "error en la altura");
         }
 
-        if(personaAValidar.getPeso() == null || personaAValidar.getPeso() <= 0) {
+        if (personaAValidar.getPeso() == null || personaAValidar.getPeso() <= 0) {
             errores.put("errorPeso", "error en el peso");
         }
 
-        //if(personaAValidar.getSexo().equals("")) return false; //TODO: incompleto
+        if (!personaAValidar.getSexo().equals("m") || !personaAValidar.getSexo().equals("f") || !personaAValidar.getSexo().equals("o")) {
+            errores.put("errorSexo", "error en el sexo");
+        }
 
         return errores;
     }

@@ -1,9 +1,10 @@
 package ar.edu.unlam.tallerweb1.infrastructure.suenio;
 
-import ar.edu.unlam.tallerweb1.domain.suenio.Suenio;
+
+
+import ar.edu.unlam.tallerweb1.domain.suenio.RegistroSuenio;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,26 +13,33 @@ import java.util.List;
 @Repository
 public class RepositorioSuenioImpl implements RepositorioSuenio{
 
-    private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioSuenioImpl(SessionFactory sessionFactory){
-        this.sessionFactory=sessionFactory;
-    }
-    @Override
-    public List<Suenio> TraerPorEdadDeterminada(int edad) {
+    private SessionFactory sessionFactory;
 
-        final Session session= sessionFactory.getCurrentSession();
-        return (List<Suenio>) session.createCriteria(Suenio.class)
-                .add(Restrictions.eq("edad", edad))
-                .list();
+    private Session session;
+
+    @Override
+    public List<RegistroSuenio> obtener(Long idPersona) {
+        return null;
     }
 
     @Override
-    public List<Suenio> listar() {
+    public RegistroSuenio guardar(RegistroSuenio registro) {
+        session = sessionFactory.getCurrentSession();
+        session.save(registro);
+        return registro;
+    }
 
-        final Session session= sessionFactory.getCurrentSession();
-        return (List<Suenio>) session.createCriteria(Suenio.class)
-                .list();
+    @Override
+    public void modificar(RegistroSuenio registro) {
+        session = sessionFactory.getCurrentSession();
+        session.update(registro);
+    }
+
+    @Override
+    public void eliminar(RegistroSuenio registro) {
+        session = sessionFactory.getCurrentSession();
+        session.save(registro);
     }
 }

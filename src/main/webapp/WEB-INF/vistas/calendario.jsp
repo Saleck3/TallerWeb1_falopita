@@ -47,7 +47,7 @@
             };
             eventiList.push(newEvent);
         });
-
+//aver ke onda
 
         console.log(eventiList);
         $('#calendar').evoCalendar({

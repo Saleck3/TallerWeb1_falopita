@@ -19,30 +19,41 @@
 <body class="min-vh-100 d-flex flex-column">
 <%@ include file="generales/header.jsp" %>
 <div class="container">
-<div id="calendar"></div>
+    <div id="calendar"></div>
 </div>
 
 
-
-
-
-
- <%@ include file="generales/footer.jsp" %>
+<%@ include file="generales/footer.jsp" %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script src="js/evo-calendar.min.js"></script>
 <script>
     // initialize your calendar, once the page's DOM is ready
-    $(document).ready(function() {
+
+    let i;
+    $(document).ready(function () {
+        let eventiList = [];
+        let eventos = JSON.stringify();
+        console.log(typeof eventos);
+        console.log({eventos});
+
+        eventos.forEach((evento) => {
+            let newEvent = {
+                id: evento.ID,
+                name: eventos.name,
+                date: eventos.date,
+                description: eventos.description,
+                type: eventos.type,
+                everyYear: eventos.everyYear,
+            };
+            eventiList.push(newEvent);
+        });
+
+
+        console.log(eventiList);
         $('#calendar').evoCalendar({
-            calendarEvents:[{
-                id:'event 1',
-                name:"new year",
-                date:"January/1/2022",
-                description:"asdasdasdasda",
-                type:"holiday",
-                everyYear:true
-            }]
-        })
+            'calendarEvents': eventiList
+        });
+
     })
 </script>
 </body>

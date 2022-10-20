@@ -34,7 +34,7 @@ public class ControladorCalendarioTest {
     @Test
     public void dadoQueUnaPersonaNoEstaLogueadaDevolverALoginConError(){
         dadoQueObtengoUnIdDeLaSesion(null);
-        ModelAndView mavDevuelto = controladorCalendario.irAAviso(requestMock);
+        ModelAndView mavDevuelto = controladorCalendario.irACalendario(requestMock);
 
         assertThat(mavDevuelto.getViewName()).isEqualTo("login");
         assertThat((String) mavDevuelto.getModel().get("error")).isNotNull();

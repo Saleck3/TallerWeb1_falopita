@@ -1,25 +1,35 @@
 package ar.edu.unlam.tallerweb1.domain.suenio;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+
+import javax.persistence.*;
 
 @Entity
 public class RegistroSuenio {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ID;
     private Long horaInicio;
     private Long horaFin;
     private Long cantidadHoras;
-    private Long id;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "persona_id")
+    private Persona persona;
 
-    public RegistroSuenio(){}
+    private boolean eliminado = false;
 
-    public RegistroSuenio(Long horaInicio, Long horaFin){
+    public RegistroSuenio() {
+    }
+
+    public RegistroSuenio(Persona persona, Long horaInicio, Long horaFin) {
+        this.persona = persona;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.cantidadHoras = horaFin - horaInicio;
     }
 
-    public RegistroSuenio(Long cantidadHoras){
+    public RegistroSuenio(Persona persona, Long cantidadHoras) {
+        this.persona = persona;
         this.cantidadHoras = cantidadHoras;
     }
 
@@ -30,7 +40,7 @@ public class RegistroSuenio {
     public void setHoraInicio(Long horaInicio) {
         this.horaInicio = horaInicio;
 
-        if(this.horaFin != null){
+        if (this.horaFin != null) {
             this.cantidadHoras = this.horaFin - this.horaInicio;
         }
     }
@@ -42,7 +52,7 @@ public class RegistroSuenio {
     public void setHoraFin(Long horaFin) {
         this.horaFin = horaFin;
 
-        if(this.horaInicio != null){
+        if (this.horaInicio != null) {
             this.cantidadHoras = this.horaFin - this.horaInicio;
         }
     }
@@ -55,18 +65,14 @@ public class RegistroSuenio {
         this.cantidadHoras = cantidadHoras;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setInicioyFin(Long horaInicio, Long horaFin){
+    public void setInicioyFin(Long horaInicio, Long horaFin) {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.cantidadHoras = horaFin - horaInicio;
     }
 
-    @Id
-    public Long getId() {
-        return id;
+    public void eliminar() {
+        this.eliminado = true;
     }
+
 }

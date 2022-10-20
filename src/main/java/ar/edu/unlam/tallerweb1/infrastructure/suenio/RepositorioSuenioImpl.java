@@ -1,16 +1,16 @@
 package ar.edu.unlam.tallerweb1.infrastructure.suenio;
 
-
-
+import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.suenio.RegistroSuenio;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository("repositorioSuenio")
 public class RepositorioSuenioImpl implements RepositorioSuenio{
 
 
@@ -19,9 +19,17 @@ public class RepositorioSuenioImpl implements RepositorioSuenio{
 
     private Session session;
 
+    public RepositorioSuenioImpl() {
+    }
+
     @Override
-    public List<RegistroSuenio> obtener(Long idPersona) {
-        return null;
+    public List<RegistroSuenio> obtener(Persona Persona) {
+
+        session = sessionFactory.getCurrentSession();
+        return session.createCriteria(RegistroSuenio.class)
+                .add(Restrictions.eq("persona", Persona))
+                .add(Restrictions.eq("eliminado", false))
+                .list();
     }
 
     @Override
@@ -40,6 +48,7 @@ public class RepositorioSuenioImpl implements RepositorioSuenio{
     @Override
     public void eliminar(RegistroSuenio registro) {
         session = sessionFactory.getCurrentSession();
+        registro.eliminar();
         session.save(registro);
     }
 }

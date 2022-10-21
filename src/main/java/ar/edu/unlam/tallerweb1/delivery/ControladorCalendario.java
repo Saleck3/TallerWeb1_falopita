@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.evento.Evento;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -68,8 +69,11 @@ public class ControladorCalendario {
 
         Util.ponerErrores(model, sesion);
 
+
+        Gson Json= new Gson();
+        String eventosJson= Json.toJson(listaDeEvento);
         model.put("persona", servicioPersona.obtenerPersona(idPersona));
-        model.put("eventos", listaDeEvento);
+        model.put("eventos", eventosJson);
         return new ModelAndView("calendario", model);
     }
 

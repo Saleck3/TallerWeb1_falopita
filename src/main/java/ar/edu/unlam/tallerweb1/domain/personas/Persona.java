@@ -1,6 +1,9 @@
 package ar.edu.unlam.tallerweb1.domain.personas;
 
+import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Persona {
@@ -8,25 +11,14 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false, length = 50)
     private String nombre;
-
-    @Column(nullable = false)
     private Integer edad;
-
-    @Column(nullable = true)
     private Double peso;
-
-    @Column(nullable = true)
     private Double altura;
-
-    @Column(nullable = false)
     private Character sexo;
 
     //constructor requerido por Hibernate

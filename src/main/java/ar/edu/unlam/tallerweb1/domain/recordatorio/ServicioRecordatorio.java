@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ServicioRecordatorio {
 
-    Recordatorio crearRecordatorio(DatosRecordatorio recordatorio, Persona personaAsociada);
-    List<Recordatorio> listarRecordatorios(Persona persona);
+    Recordatorio obtenerRecordatorio(Long idRecordatorio);
+    Recordatorio crearRecordatorio(DatosRecordatorio datosRecordatorio, Long idPersonaAsociada);
+    void eliminarRecordatorio(Long idRecordatorio);
+    List<Recordatorio> listarRecordatorios(Long idPersonaAsociada);
 }

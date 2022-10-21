@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +21,10 @@ import java.util.List;
 @Controller
 public class ControladorRecordatorio {
 
-    private ServicioPersona servicioPersona;
     private ServicioRecordatorio servicioRecordatorio;
 
     @Autowired
-    public ControladorRecordatorio(ServicioPersona servicioPersona, ServicioRecordatorio servicioRecordatorio) {
-        this.servicioPersona = servicioPersona;
+    public ControladorRecordatorio(ServicioRecordatorio servicioRecordatorio) {
         this.servicioRecordatorio = servicioRecordatorio;
     }
 
@@ -42,22 +41,27 @@ public class ControladorRecordatorio {
             return new ModelAndView("login", modelo);
         }
 
-        Persona personaObtenida = servicioPersona.obtenerPersona(idPersona);
-
         modelo.put("datosRecordatorio", new DatosRecordatorio());
-        modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(personaObtenida));
+        modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona));
 
         return new ModelAndView("recordatorios", modelo);
     }
 
     @RequestMapping(path = "/recordatorios/crear", method = RequestMethod.POST)
-    public ModelAndView crearRecordatorio(@ModelAttribute DatosRecordatorio recordatorio, HttpServletRequest request){
+    public ModelAndView crearRecordatorio(@ModelAttribute DatosRecordatorio datos, HttpServletRequest request){
         HttpSession sesion = request.getSession();
 
         Long idPersona = (Long) sesion.getAttribute("ID");
-        Persona personaObtenida = servicioPersona.obtenerPersona(idPersona);
-        Recordatorio recordatorioGuardado = servicioRecordatorio.crearRecordatorio(recordatorio, personaObtenida);
+        Recordatorio recordatorioGuardado = servicioRecordatorio.crearRecordatorio(datos, idPersona);
 
+        return new ModelAndView("redirect:/recordatorios");
+    }
+
+    @RequestMapping(path = "/recordatorios/eliminar", method = RequestMethod.GET)
+    public ModelAndView eliminarRecordatorio(@RequestParam Long id){
+
+        //sospecho que esto no está bien, obtener el recordatorio cuando yo en realidad tengo la lista en memoria
+        servicioRecordatorio.eliminarRecordatorio(id);
         return new ModelAndView("redirect:/recordatorios");
     }
 }

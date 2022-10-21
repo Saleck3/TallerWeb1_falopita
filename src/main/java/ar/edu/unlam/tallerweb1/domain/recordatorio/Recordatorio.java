@@ -8,19 +8,19 @@ import java.util.Date;
 @Entity
 public class Recordatorio {
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Persona persona;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Persona persona;
 
     private String contenido;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNotificacion;
 
-    private Boolean eliminado = false;
+    private Boolean oculto = false;
 
     public Recordatorio(){}
 
@@ -62,11 +62,11 @@ public class Recordatorio {
         this.fechaNotificacion = fechaNotificacion;
     }
 
-    public Boolean getEliminado() {
-        return eliminado;
+    public Boolean getOculto() {
+        return oculto;
     }
 
-    public void setEliminado(Boolean eliminado) {
-        this.eliminado = eliminado;
+    public void setOculto(Boolean eliminado) {
+        this.oculto = eliminado;
     }
 }

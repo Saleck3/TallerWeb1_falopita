@@ -33,11 +33,17 @@ public class RepositorioRecordatorioImpl implements RepositorioRecordatorio{
     }
 
     @Override
-    public List<Recordatorio> listar(Persona persona) {
+    public void eliminar(Recordatorio recordatorioAEliminar) {
+        session = sessionFactory.getCurrentSession();
+        session.delete(recordatorioAEliminar);
+    }
+
+    @Override
+    public List<Recordatorio> listar(Persona personaAsociada) {
         session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Recordatorio.class);
-        cr.add(Restrictions.eq("persona", persona));
-        cr.add(Restrictions.eq("eliminado", false));
+        cr.add(Restrictions.eq("persona", personaAsociada));
+        cr.add(Restrictions.eq("oculto", false));
         return cr.list();
     }
 }

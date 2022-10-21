@@ -31,7 +31,6 @@ public class ControladorRecordatorioTest {
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);
-        controladorRecordatorio = new ControladorRecordatorio(servicioPersonaMock, servicioRecordatorioMock);
     }
 
     /*

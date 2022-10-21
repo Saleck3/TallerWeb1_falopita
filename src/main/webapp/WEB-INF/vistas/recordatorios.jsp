@@ -29,7 +29,7 @@
         </div>
         <div>
             <c:forEach var="r" items="${recordatorios}">
-                <p>${r.id}</p>
+                <a href="recordatorios/eliminar?id=${r.id}">Eliminar</a>
                 <p>${r.contenido}</p>
                 <p>${r.fechaNotificacion}</p>
             </c:forEach>

@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 
 @Transactional
 public class RepositorioSuenioTest extends SpringTest {
@@ -21,8 +23,8 @@ public class RepositorioSuenioTest extends SpringTest {
     public void queCuandregistroTraigaLaCantidadCorrecta() {
         Persona persona = dadoQueTengoUnaPersona();
 
-        cuandoTengoRegistro(persona, 7L, 9L);
-        cuandoTengoRegistro(persona, 8L);
+        cuandoTengoRegistro(persona, new Date(), new Date());
+        cuandoTengoRegistro(persona, new Date(), new Date());
 
         entoncesTengoRegistros(persona, 2);
     }
@@ -32,8 +34,8 @@ public class RepositorioSuenioTest extends SpringTest {
     public void queCuandoEliminoTraigaLaCantidadCorrecta() {
         Persona persona = dadoQueTengoUnaPersona();
 
-        cuandoTengoRegistro(persona, 7L, 9L);
-        RegistroSuenio registroAEliminar = cuandoTengoRegistro(persona, 8L);
+        cuandoTengoRegistro(persona, new Date(), new Date());
+        RegistroSuenio registroAEliminar = cuandoTengoRegistro(persona, new Date(), new Date());
         cuandoEliminoRegistro(registroAEliminar);
 
         entoncesTengoRegistros(persona, 1);
@@ -43,7 +45,7 @@ public class RepositorioSuenioTest extends SpringTest {
         return new Persona("persona1@example.com", "12345678", "Nombre 1", 23, 60.4, 170.70, 'M');
     }
 
-    private RegistroSuenio cuandoTengoRegistro(Persona persona, Long horaInicio, Long horaFin) {
+    private RegistroSuenio cuandoTengoRegistro(Persona persona, Date horaInicio, Date horaFin) {
         RegistroSuenio registro = new RegistroSuenio(persona, horaInicio, horaFin);
         repositorioSuenio.guardar(registro);
         return registro;

@@ -3,15 +3,17 @@ package ar.edu.unlam.tallerweb1.domain.suenio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 import javax.persistence.*;
+import java.time.Period;
+import java.util.Date;
 
 @Entity
 public class RegistroSuenio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
-    private Long horaInicio;
-    private Long horaFin;
-    private Long cantidadHoras;
+    private Date horaInicio;
+    private Date horaFin;
+    public static final int MILISEGUNDOS_A_HORA = 1000 * 60;
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "persona_id")
     private Persona persona;
@@ -21,54 +23,41 @@ public class RegistroSuenio {
     public RegistroSuenio() {
     }
 
-    public RegistroSuenio(Persona persona, Long horaInicio, Long horaFin) {
+    public RegistroSuenio(Persona persona, Date horaInicio, Date horaFin) {
         this.persona = persona;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
-        this.cantidadHoras = horaFin - horaInicio;
     }
 
     public RegistroSuenio(Persona persona, Long cantidadHoras) {
         this.persona = persona;
-        this.cantidadHoras = cantidadHoras;
     }
 
-    public Long getHoraInicio() {
+    public Date getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Long horaInicio) {
+    public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
-
-        if (this.horaFin != null) {
-            this.cantidadHoras = this.horaFin - this.horaInicio;
-        }
     }
 
-    public Long getHoraFin() {
+    public Date getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Long horaFin) {
+    public void setHoraFin(Date horaFin) {
         this.horaFin = horaFin;
-
-        if (this.horaInicio != null) {
-            this.cantidadHoras = this.horaFin - this.horaInicio;
-        }
     }
 
     public Long getCantidadHoras() {
-        return cantidadHoras;
+        return (horaFin.getTime() - horaInicio.getTime()) * MILISEGUNDOS_A_HORA;
     }
 
-    public void setCantidadHoras(Long cantidadHoras) {
-        this.cantidadHoras = cantidadHoras;
-    }
 
-    public void setInicioyFin(Long horaInicio, Long horaFin) {
+    public void setInicioyFin(Date horaInicio, Date horaFin) {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
-        this.cantidadHoras = horaFin - horaInicio;
+
     }
 
     public void eliminar() {

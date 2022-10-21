@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.suenio.RegistroSuenio;
 import ar.edu.unlam.tallerweb1.domain.suenio.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
@@ -51,6 +52,8 @@ public class ControladorSuenio {
         } catch (Exception e) {
             modelo.put("errorEdad", e.getMessage());
         }
+
+        modelo.put("registroNuevo",new RegistroSuenio());
 
         return new ModelAndView("suenio", modelo);
     }

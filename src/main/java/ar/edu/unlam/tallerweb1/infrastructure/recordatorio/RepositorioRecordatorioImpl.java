@@ -19,6 +19,11 @@ public class RepositorioRecordatorioImpl implements RepositorioRecordatorio{
 
     private Session session;
 
+    @Override
+    public Recordatorio obtener(Long id) {
+        session = sessionFactory.getCurrentSession();
+        return session.get(Recordatorio.class, id);
+    }
 
     @Override
     public Recordatorio guardar(Recordatorio recordatorioAGuardar) {

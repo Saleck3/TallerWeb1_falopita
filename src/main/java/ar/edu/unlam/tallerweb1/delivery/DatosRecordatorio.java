@@ -1,13 +1,9 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class DatosRecordatorio {
     private String contenido;
     private String strFecha;
+    private String strHora;
 
     public String getContenido() {
         return contenido;
@@ -21,12 +17,19 @@ public class DatosRecordatorio {
         return strFecha;
     }
 
-    public Date getFecha() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
-        return dateFormat.parse(this.strFecha);
-    }
-
     public void setStrFecha(String strFecha) {
         this.strFecha = strFecha;
+    }
+
+    public String getStrHora() {
+        return strHora;
+    }
+
+    public void setStrHora(String strHora) {
+        this.strHora = strHora;
+    }
+
+    public String getFechaCompleta(){
+        return this.strFecha.concat(this.strHora);
     }
 }

@@ -44,22 +44,20 @@ public class ControladorRecordatorio {
 
         Persona personaObtenida = servicioPersona.obtenerPersona(idPersona);
 
-        List<Recordatorio> recordatorios = servicioRecordatorio.listarRecordatorios(personaObtenida);
-
-        modelo.put("recordatorios", recordatorios);
+        modelo.put("datosRecordatorio", new DatosRecordatorio());
+        modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(personaObtenida));
 
         return new ModelAndView("recordatorios", modelo);
     }
 
-    @RequestMapping(path = "/recordatorios/crear")
+    @RequestMapping(path = "/recordatorios/crear", method = RequestMethod.POST)
     public ModelAndView crearRecordatorio(@ModelAttribute DatosRecordatorio recordatorio, HttpServletRequest request){
-        ModelMap modelo = new ModelMap();
         HttpSession sesion = request.getSession();
 
         Long idPersona = (Long) sesion.getAttribute("ID");
         Persona personaObtenida = servicioPersona.obtenerPersona(idPersona);
         Recordatorio recordatorioGuardado = servicioRecordatorio.crearRecordatorio(recordatorio, personaObtenida);
 
-        return new ModelAndView("recordatorios", modelo);
+        return new ModelAndView("redirect:/recordatorios");
     }
 }

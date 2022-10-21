@@ -7,11 +7,36 @@
 <head>
     <%@ include file="generales/head.jsp" %>
     <title>Recordatorios</title>
-</head class="min-vh-100 d-flex flex-column">
-<body>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+    <!-- Header -->
     <%@ include file="generales/header.jsp" %>
-</body>
-    <form:form modelAttribute="">
 
-    </form:form>
+    <!-- Main -->
+    <main>
+        <h1>Recordatorios</h1>
+        <div>
+            <form:form action="recordatorios/crear" modelAttribute="datosRecordatorio" method="post">
+                <form:input path="contenido" type="text" placeholder="Cuestion a recordar..."/>
+
+                <form:label path="strFecha">Fecha</form:label>
+                <form:input path="strFecha" type="date"/>
+
+                <form:label path="strHora">Hora</form:label>
+                <form:input path="strHora" type="time"/>
+                <form:button type="submit">Submit</form:button>
+            </form:form>
+        </div>
+        <div>
+            <c:forEach var="r" items="${recordatorios}">
+                <p>${r.id}</p>
+                <p>${r.contenido}</p>
+                <p>${r.fechaNotificacion}</p>
+            </c:forEach>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%@ include file="generales/footer.jsp"%>
+</body>
 </html>

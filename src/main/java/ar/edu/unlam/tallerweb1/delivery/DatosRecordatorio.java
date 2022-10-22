@@ -1,9 +1,14 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
 public class DatosRecordatorio {
     private String contenido;
-    private String strFecha;
-    private String strHora;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date fechaHora;
 
     public String getContenido() {
         return contenido;
@@ -13,23 +18,12 @@ public class DatosRecordatorio {
         this.contenido = contenido;
     }
 
-    public String getStrFecha() {
-        return strFecha;
+
+    public Date getFechaHora() {
+        return fechaHora;
     }
 
-    public void setStrFecha(String strFecha) {
-        this.strFecha = strFecha;
-    }
-
-    public String getStrHora() {
-        return strHora;
-    }
-
-    public void setStrHora(String strHora) {
-        this.strHora = strHora;
-    }
-
-    public String getFechaCompleta(){
-        return this.strFecha.concat(this.strHora);
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
     }
 }

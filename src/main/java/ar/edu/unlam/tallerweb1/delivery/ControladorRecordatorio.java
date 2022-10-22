@@ -1,22 +1,17 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.personas.Persona;
-import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
 import ar.edu.unlam.tallerweb1.domain.recordatorio.ServicioRecordatorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.Date;
 
 @Controller
 public class ControladorRecordatorio {
@@ -50,18 +45,22 @@ public class ControladorRecordatorio {
     @RequestMapping(path = "/recordatorios/crear", method = RequestMethod.POST)
     public ModelAndView crearRecordatorio(@ModelAttribute DatosRecordatorio datos, HttpServletRequest request){
         HttpSession sesion = request.getSession();
-
         Long idPersona = (Long) sesion.getAttribute("ID");
+
         Recordatorio recordatorioGuardado = servicioRecordatorio.crearRecordatorio(datos, idPersona);
 
         return new ModelAndView("redirect:/recordatorios");
     }
 
     @RequestMapping(path = "/recordatorios/eliminar", method = RequestMethod.GET)
-    public ModelAndView eliminarRecordatorio(@RequestParam Long id){
-
-        //sospecho que esto no está bien, obtener el recordatorio cuando yo en realidad tengo la lista en memoria
+    public ModelAndView eliminarRecordatorio(@RequestParam("id") Long id){
         servicioRecordatorio.eliminarRecordatorio(id);
+        return new ModelAndView("redirect:/recordatorios");
+    }
+
+    @RequestMapping(path = "/recordatorios/ocultar", method = RequestMethod.GET)
+    public ModelAndView ocultarRecordatorio(@RequestParam("id") Long id){
+        servicioRecordatorio.ocultarRecordatorio(id);
         return new ModelAndView("redirect:/recordatorios");
     }
 }

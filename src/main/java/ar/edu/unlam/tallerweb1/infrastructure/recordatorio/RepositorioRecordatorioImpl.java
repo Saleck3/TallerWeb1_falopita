@@ -39,6 +39,13 @@ public class RepositorioRecordatorioImpl implements RepositorioRecordatorio{
     }
 
     @Override
+    public Recordatorio modificar(Recordatorio recordatorioAModificar) {
+        session = sessionFactory.getCurrentSession();
+        session.update(recordatorioAModificar);
+        return recordatorioAModificar;
+    }
+
+    @Override
     public List<Recordatorio> listar(Persona personaAsociada) {
         session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Recordatorio.class);

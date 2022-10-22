@@ -66,7 +66,7 @@ public class Recordatorio {
         return oculto;
     }
 
-    public void setOculto(Boolean eliminado) {
-        this.oculto = eliminado;
+    public void setOculto(Boolean oculto) {
+        this.oculto = oculto;
     }
 }

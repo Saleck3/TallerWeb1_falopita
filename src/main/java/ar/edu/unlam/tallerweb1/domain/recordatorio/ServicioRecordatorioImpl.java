@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,18 +32,9 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
     @Override
     public Recordatorio crearRecordatorio(DatosRecordatorio datos, Long idPersonaAsociada) {
 
-        Recordatorio recordatorioAGuardar;
-        Persona personaAsociada;
-
-        try {
-            personaAsociada =  servicioPersona.obtenerPersona(idPersonaAsociada);
-            recordatorioAGuardar = new Recordatorio(personaAsociada,
-                                                    datos.getContenido(),
-                                                    parsearFecha(datos.getFechaCompleta())
-                                                   );
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        Persona personaAsociada =  servicioPersona.obtenerPersona(idPersonaAsociada);
+        Recordatorio recordatorioAGuardar = new Recordatorio(personaAsociada, datos.getContenido(),
+                                                    datos.getFechaHora());
 
         Recordatorio recordatorioGuardado = repositorioRecordatorio.guardar(recordatorioAGuardar);
 
@@ -59,14 +49,21 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
     }
 
     @Override
+    public List<Recordatorio> listarRecordatorios(Long idPersonaAsociada, Date fechaFiltro)
+    {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Recordatorio ocultarRecordatorio(Long idRecordatorio) {
+        Recordatorio recordatorioAModificar = repositorioRecordatorio.obtener(idRecordatorio);
+        recordatorioAModificar.setOculto(true);
+        return repositorioRecordatorio.modificar(recordatorioAModificar);
+    }
+
+    @Override
     public void eliminarRecordatorio(Long idRecordatorio) {
         Recordatorio recordatorioAEliminar = repositorioRecordatorio.obtener(idRecordatorio);
         repositorioRecordatorio.eliminar(recordatorioAEliminar);
-    }
-
-    //esto puede ir en util
-    private Date parsearFecha(String fechaHora) throws ParseException {
-        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-ddHH:mm");
-        return formateador.parse(fechaHora);
     }
 }

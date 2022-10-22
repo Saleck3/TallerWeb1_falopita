@@ -33,4 +33,26 @@ public class ValorRecomendado {
         this.minimo = minimo;
         this.maximo = maximo;
     }
+
+    public void sumarAMinimo(Double cantidadHoras){
+        this.minimo += cantidadHoras;
+    }
+    public void sumarAMaximo(Double cantidadHoras) {
+        this.maximo += cantidadHoras;
+    }
+    public void sumarMinimoYMaximo(Double cantidadHoras){
+        this.minimo += cantidadHoras;
+        this.maximo += cantidadHoras;
+    }
+
+    public void restarAMinimo(Double cantidadHoras){
+        this.minimo -= cantidadHoras;
+    }
+    public void restarAMaximo(Double cantidadHoras) {
+        this.maximo -= cantidadHoras;
+    }
+    public void restarMinimoYMaximo(Double cantidadHoras){
+        this.minimo += cantidadHoras;
+        this.maximo += cantidadHoras;
+    }
 }

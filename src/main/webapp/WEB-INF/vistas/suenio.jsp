@@ -46,49 +46,39 @@
                     </form>
 
                 </div>
-                <aside name="notaNueva" class="col col-lg-3 ">
-                    <form:form modelAttribute="registroNuevo" action="suenio/nuevoRegistro" method="POST" class="card">
+                <aside name="registroNuevo" class="col col-lg-3 ">
+                    <form action="suenio/nuevoRegistro" method="POST" class="card">
                         <div class="card-body">
-                            <form:label path="horaInicio" name="horaInicio" for="horaInicio"
-                                        class="form-label">Hora inicio:</form:label>
-                            <form:input path="horaInicio" required="true" type="datetime-local" name="horaInicio"
-                                        id="horaInicio" cssClass="form-control"/>
-                            <form:label path="horaFin" name="horaFin" for="horaFin"
-                                        class="form-label">Hora fin:</form:label>
-                            <form:input path="horaFin" type="datetime-local" name="horaFin" id="horaFin"
-                                        class="form-control mb-3"/>
-                            <form:button type="submit" class="btn btn-primary">Ingresar</form:button>
+                            <label path="horaInicio" name="horaInicio" for="horaInicio"
+                                   class="form-label">Hora inicio:</label>
+                            <input path="horaInicio" required="true" type="datetime-local" name="horaInicio"
+                                   id="horaInicio" class="form-control mb-3" />
+                            <label path="horaFin" name="horaFin" for="horaFin"
+                                   class="form-label">Hora fin:</label>
+                            <input path="horaFin" type="datetime-local" name="horaFin" id="horaFin"
+                                   class="form-control mb-3"/>
+                            <button type="submit" class="btn btn-primary">Ingresar</button>
                         </div>
-                    </form:form>
+                    </form>
                 </aside>
             </main>
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Hora Inicio</th>
                     <th scope="col">Hora fin</th>
                     <th scope="col">Cantidad de horas</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                <c:forEach var="registro" items="${registros}">
+                    <tr>
+
+                        <td>${registro.printHoraInicio()}</td>
+                        <td>${registro.printHoraFin()}</td>
+                        <td>${registro.cantidadHoras}</td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </c:otherwise>

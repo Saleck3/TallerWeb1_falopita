@@ -6,23 +6,24 @@ import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 @Controller
 public class ControladorSuenio {
 
     private ServicioPersona servicioPersona;
     private ServicioSuenio servicioSuenio;
-
-    public ControladorSuenio() {
-    }
+    ModelMap modelo = new ModelMap();
 
     @Autowired
     public ControladorSuenio(ServicioPersona servicioPersona, ServicioSuenio servicioSuenio) {
@@ -37,7 +38,6 @@ public class ControladorSuenio {
 
         Long idPersona = (Long) sesion.getAttribute("ID");
 
-        ModelMap modelo = new ModelMap();
         if (idPersona == null) {
             modelo.put("datosLogin", new DatosLogin());
             modelo.put("error", "Debe iniciar sesion para usar la aplicación");
@@ -53,9 +53,38 @@ public class ControladorSuenio {
             modelo.put("errorEdad", e.getMessage());
         }
 
-        modelo.put("registroNuevo",new RegistroSuenio());
+        if (servicioSuenio.obtenerRegistrosSuenio(persona) != null) {
+            modelo.put("registros", servicioSuenio.obtenerRegistrosSuenio(persona));
+        }
+
+        modelo.put("registroNuevo", new RegistroSuenio());
 
         return new ModelAndView("suenio", modelo);
     }
 
+    @RequestMapping(path = "/suenio/nuevoRegistro", method = RequestMethod.POST)
+    public ModelAndView nuevoRegistro(HttpServletRequest request,
+              //Prefiero manejarlos como fecha para poder mandarles el formato
+              @RequestParam("horaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                LocalDateTime horaInicio,
+              @RequestParam("horaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                LocalDateTime horaFin) {
+
+        HttpSession sesion = request.getSession();
+
+        Long idPersona = (Long) sesion.getAttribute("ID");
+
+        if (idPersona == null) {
+            modelo.put("datosLogin", new DatosLogin());
+            modelo.put("error", "Debe iniciar sesion para usar la aplicación");
+            return new ModelAndView("login", modelo);
+        }
+        Persona persona = servicioPersona.obtenerPersona(idPersona);
+        RegistroSuenio nuevoRegistro = new RegistroSuenio(persona, horaInicio, horaFin);
+
+        nuevoRegistro.setPersona(persona);
+        servicioSuenio.guardarRegistroSuenio(nuevoRegistro);
+
+        return new ModelAndView("redirect:/suenio");
+    }
 }

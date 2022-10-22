@@ -3,17 +3,20 @@ package ar.edu.unlam.tallerweb1.domain.suenio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 import javax.persistence.*;
-import java.time.Period;
-import java.util.Date;
+import java.text.Format;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Formatter;
 
 @Entity
 public class RegistroSuenio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
-    private Date horaInicio;
-    private Date horaFin;
-    public static final int MILISEGUNDOS_A_HORA = 1000 * 60;
+    private LocalDateTime horaInicio;
+    private LocalDateTime horaFin;
+
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "persona_id")
     private Persona persona;
@@ -23,7 +26,7 @@ public class RegistroSuenio {
     public RegistroSuenio() {
     }
 
-    public RegistroSuenio(Persona persona, Date horaInicio, Date horaFin) {
+    public RegistroSuenio(Persona persona, LocalDateTime horaInicio, LocalDateTime horaFin) {
         this.persona = persona;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
@@ -33,28 +36,38 @@ public class RegistroSuenio {
         this.persona = persona;
     }
 
-    public Date getHoraInicio() {
+    public LocalDateTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(LocalDateTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraFin() {
+    public LocalDateTime getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(Date horaFin) {
+    public String printHoraInicio() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return horaInicio.format(formatter);
+    }
+
+    public String printHoraFin() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return horaFin.format(formatter);
+    }
+
+    public void setHoraFin(LocalDateTime horaFin) {
         this.horaFin = horaFin;
     }
 
     public Long getCantidadHoras() {
-        return (horaFin.getTime() - horaInicio.getTime()) * MILISEGUNDOS_A_HORA;
+        return horaInicio.until(horaFin, ChronoUnit.HOURS);
     }
 
 
-    public void setInicioyFin(Date horaInicio, Date horaFin) {
+    public void setInicioyFin(LocalDateTime horaInicio, LocalDateTime horaFin) {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
 
@@ -64,4 +77,11 @@ public class RegistroSuenio {
         this.eliminado = true;
     }
 
+    public Long getID() {
+        return ID;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
 }

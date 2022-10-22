@@ -5,12 +5,14 @@ import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import java.util.List;
 
 public interface ServicioSuenio {
-    public ValorRecomendado obtenerCantidadHorasSuenio(Integer edad) throws Exception;
-    public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception;
+    ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception;
 
-    RegistroSuenio guardar(RegistroSuenio registroSuenioAGuardar);
+    Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, int cantidadDias);
 
-    List<RegistroSuenio> obtener(Persona persona);
+    RegistroSuenio guardarRegistroSuenio(RegistroSuenio registroSuenioAGuardar);
 
-    void eliminar(RegistroSuenio registroSuenio);
+    List<RegistroSuenio> obtenerRegistrosSuenio(Persona persona);
+
+    void eliminarRegistroSuenio(RegistroSuenio registroSuenio);
+
 }

@@ -12,8 +12,6 @@ import java.util.List;
 
 @Repository("repositorioSuenio")
 public class RepositorioSuenioImpl implements RepositorioSuenio{
-
-
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -24,7 +22,6 @@ public class RepositorioSuenioImpl implements RepositorioSuenio{
 
     @Override
     public List<RegistroSuenio> obtener(Persona persona) {
-
         session = sessionFactory.getCurrentSession();
         return session.createCriteria(RegistroSuenio.class)
                 .add(Restrictions.eq("persona", persona))

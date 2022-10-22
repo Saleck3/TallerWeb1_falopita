@@ -7,12 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface ServicioRecordatorio {
-
     Recordatorio obtenerRecordatorio(Long idRecordatorio);
     Recordatorio crearRecordatorio(DatosRecordatorio datosRecordatorio, Long idPersonaAsociada);
     void eliminarRecordatorio(Long idRecordatorio);
     List<Recordatorio> listarRecordatorios(Long idPersonaAsociada);
-    List<Recordatorio> listarRecordatorios(Long idPersona, Date fechaFiltro);
+    List<Recordatorio> listarRecordatorios(Long idPersona, DatosRecordatorio datosRecordatorio);
     Recordatorio ocultarRecordatorio(Long idRecordatorio);
-
 }

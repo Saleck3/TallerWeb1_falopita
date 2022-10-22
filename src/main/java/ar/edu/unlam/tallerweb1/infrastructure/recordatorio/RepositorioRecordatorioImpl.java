@@ -1,14 +1,17 @@
 package ar.edu.unlam.tallerweb1.infrastructure.recordatorio;
 
+import ar.edu.unlam.tallerweb1.delivery.DatosRecordatorio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository("repositorioRecordatorio")
@@ -53,4 +56,21 @@ public class RepositorioRecordatorioImpl implements RepositorioRecordatorio{
         cr.add(Restrictions.eq("oculto", false));
         return cr.list();
     }
+
+    @Override
+    public List<Recordatorio> listar(Persona personaAsociada, DatosRecordatorio datosFiltro) {
+        session = sessionFactory.getCurrentSession();
+        Criteria cr = session.createCriteria(Recordatorio.class);
+        cr.add(Restrictions.eq("persona", personaAsociada));
+
+        if (!datosFiltro.getContenido().equals(""))
+            cr.add(Restrictions.ilike("contenido", datosFiltro.getContenido(), MatchMode.ANYWHERE));
+
+        if(datosFiltro.getFechaHora() != null)
+            cr.add(Restrictions.eq("fechaNotificacion", datosFiltro.getFechaHora()));
+
+        cr.add(Restrictions.eq("oculto", false));
+        return cr.list();
+    }
+
 }

@@ -17,10 +17,7 @@
         <h1>Recordatorios</h1>
         <div>
             <form:form action="recordatorios/buscar" method="get">
-
-                <form:label path="fechaFiltro">Fecha y hora</form:label>
-                <form:input path="fechaFiltro" type="datetime-local"/>
-
+                <form:input path="fechaFiltro" type="date" placeholder="Ingrese fecha filtro" />
                 <form:button type="submit">Filtrar</form:button>
             </form:form>
         </div>

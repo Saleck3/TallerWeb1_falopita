@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,9 +48,10 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
     }
 
     @Override
-    public List<Recordatorio> listarRecordatorios(Long idPersonaAsociada, Date fechaFiltro)
+    public List<Recordatorio> listarRecordatorios(Long idPersonaAsociada, DatosRecordatorio datosFiltro)
     {
-        return new ArrayList<>();
+        Persona personaAsociada = servicioPersona.obtenerPersona(idPersonaAsociada);
+        return repositorioRecordatorio.listar(personaAsociada, datosFiltro);
     }
 
     @Override

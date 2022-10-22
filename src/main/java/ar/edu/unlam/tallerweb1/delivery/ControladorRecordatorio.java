@@ -36,8 +36,22 @@ public class ControladorRecordatorio {
             return new ModelAndView("login", modelo);
         }
 
+        modelo.put("datosRecordatorioFiltro", new DatosRecordatorio());
         modelo.put("datosRecordatorio", new DatosRecordatorio());
         modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona));
+
+        return new ModelAndView("recordatorios", modelo);
+    }
+
+    @RequestMapping(path = "/recordatorios/buscar", method = RequestMethod.GET)
+    public ModelAndView buscarRecordatorios(@ModelAttribute DatosRecordatorio datos, HttpServletRequest request){
+        ModelMap modelo = new ModelMap();
+        HttpSession sesion = request.getSession();
+        Long idPersona = (Long) sesion.getAttribute("ID");
+
+        modelo.put("datosRecordatorioFiltro", new DatosRecordatorio());
+        modelo.put("datosRecordatorio", new DatosRecordatorio());
+        modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona, datos));
 
         return new ModelAndView("recordatorios", modelo);
     }

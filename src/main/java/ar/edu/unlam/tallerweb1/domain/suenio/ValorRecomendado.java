@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.domain.suenio;
 public class ValorRecomendado {
     private Double minimo;
     private Double maximo;
+    private String mensaje;
 
     public ValorRecomendado() {
         this.minimo = this.maximo = 0D;
@@ -34,25 +35,37 @@ public class ValorRecomendado {
         this.maximo = maximo;
     }
 
-    public void sumarAMinimo(Double cantidadHoras){
+    public void sumarAMinimo(Double cantidadHoras) {
         this.minimo += cantidadHoras;
     }
+
     public void sumarAMaximo(Double cantidadHoras) {
         this.maximo += cantidadHoras;
     }
-    public void sumarMinimoYMaximo(Double cantidadHoras){
+
+    public void sumarMinimoYMaximo(Double cantidadHoras) {
         this.minimo += cantidadHoras;
         this.maximo += cantidadHoras;
     }
 
-    public void restarAMinimo(Double cantidadHoras){
+    public void restarAMinimo(Double cantidadHoras) {
         this.minimo -= cantidadHoras;
     }
+
     public void restarAMaximo(Double cantidadHoras) {
         this.maximo -= cantidadHoras;
     }
-    public void restarMinimoYMaximo(Double cantidadHoras){
+
+    public void restarMinimoYMaximo(Double cantidadHoras) {
         this.minimo += cantidadHoras;
         this.maximo += cantidadHoras;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 }

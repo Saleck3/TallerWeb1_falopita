@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import static java.time.LocalDateTime.*;
 
 @Service
 @Transactional
@@ -14,6 +16,9 @@ public class ServicioSuenioImpl implements ServicioSuenio {
 
     @Autowired
     private RepositorioSuenio repositorioSuenio;
+
+    private ValorRecomendado recomendacion = new ValorRecomendado(7d, 8d);
+    ;
 
     public ServicioSuenioImpl() {
     }
@@ -31,7 +36,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         }
 
         //primero calculo las horas segun la edad
-        ValorRecomendado recomendacion = horasSegunEdad(persona.getEdad());
+        horasSegunEdad(persona.getEdad());
 
         //Agrego horas si hizo ejercicio
         recomendacion.sumarMinimoYMaximo(agregadoHorasPorEjercicio(persona));
@@ -42,27 +47,32 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         return recomendacion;
     }
 
-    private ValorRecomendado horasSegunEdad(Integer edad) {
+    private void horasSegunEdad(Integer edad) {
         //Por ahora me baso en esto: https://www.elcorreo.com/content-local/cuantas-horas-necesitamos-dormir-en-funcion-de-la-edad/
         if (edad <= 1) {
-            return new ValorRecomendado(12D, 15D);
+            recomendacion.setMinMax(12D, 15D);
+            return;
         }
         if (edad <= 2) {
-            return new ValorRecomendado(11d, 14d);
+            recomendacion.setMinMax(11d, 14d);
+            return;
         }
         if (edad <= 5) {
-            return new ValorRecomendado(10d, 13d);
+            recomendacion.setMinMax(10d, 13d);
+            return;
         }
         if (edad <= 13) {
-            return new ValorRecomendado(9d, 11d);
+            recomendacion.setMinMax(9d, 11d);
+            return;
         }
         if (edad <= 18) {
-            return new ValorRecomendado(8d, 10d);
+            recomendacion.setMinMax(8d, 10d);
+            return;
         }
         if (edad <= 64) {
-            return new ValorRecomendado(7d, 9d);
+            recomendacion.setMinMax(7d, 9d);
         }
-        return new ValorRecomendado(7d, 8d);
+        return;
     }
 
 
@@ -81,12 +91,6 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         repositorioSuenio.eliminar(registroSuenio);
     }
 
-    @Override
-    public Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, int cantidadDias) {
-        //TODO
-        return null;
-    }
-
     private Double agregadoHorasPorEjercicio(Persona persona) {
         /* Si hace ejercicio, deberia dormir mas
          * Voy a subir 30 minutos por cada hora de ejercicio
@@ -99,10 +103,18 @@ public class ServicioSuenioImpl implements ServicioSuenio {
 
     private Double restaDeHorasPorMuchoSuenio(Persona persona, ValorRecomendado recomendacion) {
 
-
+        Double ultimos2Dias;
         // Si venis durmiendo mucho tendrias que dormir menos horas para que el cuerpo no se acostumbre
         Double tiempo = 0D;
-        Double ultimos2Dias = cantidadHorasDormidaEnLosUltimosXDias(persona, 2);
+        try {
+            ultimos2Dias = cantidadHorasDormidaEnLosUltimosXDias(persona, 2L);
+        } catch (NoTieneRegistroDeSuenio e) {
+            recomendacion.setMensaje(e.getMessage());
+            return 0.0;
+        } catch (Exception e) {
+            recomendacion.setMensaje(e.getMessage());
+            return 0.0;
+        }
 
         //si dormiste mas de 3 horas de la maxima recomendadas en los ultimos dos dias, disminuyo media hora
         //EJ: mas de 21 horas (9*2+3) disminuyo media hora
@@ -131,7 +143,24 @@ public class ServicioSuenioImpl implements ServicioSuenio {
          * Si pasa esto, voy a agregar dos horas
          */
 //TODO
-        return null;
+        return 0.0;
     }
 
+    @Override
+    public Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, Long cantidadDias) throws NoTieneRegistroDeSuenio {
+        List<RegistroSuenio> registros = repositorioSuenio.obtener(persona);
+
+        if (registros.isEmpty()) {
+            throw new NoTieneRegistroDeSuenio();
+        }
+        Double cantidadHoras = 0.0;
+
+        for (RegistroSuenio registro : registros) {
+            if (registro.getHoraFin().until(now(), ChronoUnit.DAYS) < cantidadDias) {
+                cantidadHoras += registro.getCantidadHoras();
+            }
+        }
+
+        return cantidadHoras;
+    }
 }

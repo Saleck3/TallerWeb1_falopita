@@ -7,12 +7,13 @@ import java.util.List;
 public interface ServicioSuenio {
     ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception;
 
-    Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, int cantidadDias);
+    Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, Long cantidadDias) throws NoTieneRegistroDeSuenio;
 
     RegistroSuenio guardarRegistroSuenio(RegistroSuenio registroSuenioAGuardar);
 
     List<RegistroSuenio> obtenerRegistrosSuenio(Persona persona);
 
     void eliminarRegistroSuenio(RegistroSuenio registroSuenio);
+
 
 }

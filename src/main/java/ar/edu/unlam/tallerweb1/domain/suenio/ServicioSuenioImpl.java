@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
 import static java.time.LocalDateTime.*;
 
 @Service
@@ -28,6 +29,21 @@ public class ServicioSuenioImpl implements ServicioSuenio {
     }
 
     @Override
+    public RegistroSuenio guardarRegistroSuenio(RegistroSuenio registroSuenioAGuardar) {
+        return repositorioSuenio.guardar(registroSuenioAGuardar);
+    }
+
+    @Override
+    public List<RegistroSuenio> obtenerRegistrosSuenio(Persona persona) {
+        return repositorioSuenio.obtener(persona);
+    }
+
+    @Override
+    public void eliminarRegistroSuenio(RegistroSuenio registroSuenio) {
+        repositorioSuenio.eliminar(registroSuenio);
+    }
+
+    @Override
     public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception {
 
 
@@ -41,12 +57,11 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         //Agrego horas si hizo ejercicio
         recomendacion.sumarMinimoYMaximo(agregadoHorasPorEjercicio(persona));
         //Segun como viene durmiendo, agrego o saco horas
-        recomendacion.sumarMinimoYMaximo(sumaDeHorasPorPocoSuenio(persona, recomendacion));
-        recomendacion.restarMinimoYMaximo(restaDeHorasPorMuchoSuenio(persona, recomendacion));
+        recomendacion.sumarMinimoYMaximo(sumaDeHorasPorPocoSuenio(persona));
+        recomendacion.restarMinimoYMaximo(restaDeHorasPorMuchoSuenio(persona));
 
         return recomendacion;
     }
-
     private void horasSegunEdad(Integer edad) {
         //Por ahora me baso en esto: https://www.elcorreo.com/content-local/cuantas-horas-necesitamos-dormir-en-funcion-de-la-edad/
         if (edad <= 1) {
@@ -74,23 +89,6 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         }
         return;
     }
-
-
-    @Override
-    public RegistroSuenio guardarRegistroSuenio(RegistroSuenio registroSuenioAGuardar) {
-        return repositorioSuenio.guardar(registroSuenioAGuardar);
-    }
-
-    @Override
-    public List<RegistroSuenio> obtenerRegistrosSuenio(Persona persona) {
-        return repositorioSuenio.obtener(persona);
-    }
-
-    @Override
-    public void eliminarRegistroSuenio(RegistroSuenio registroSuenio) {
-        repositorioSuenio.eliminar(registroSuenio);
-    }
-
     private Double agregadoHorasPorEjercicio(Persona persona) {
         /* Si hace ejercicio, deberia dormir mas
          * Voy a subir 30 minutos por cada hora de ejercicio
@@ -101,11 +99,12 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         return 0.0;
     }
 
-    private Double restaDeHorasPorMuchoSuenio(Persona persona, ValorRecomendado recomendacion) {
+    private Double restaDeHorasPorMuchoSuenio(Persona persona) {
 
         Double ultimos2Dias;
-        // Si venis durmiendo mucho tendrias que dormir menos horas para que el cuerpo no se acostumbre
         Double tiempo = 0D;
+        // Si venis durmiendo mucho tendrias que dormir menos horas para que el cuerpo no se acostumbre
+
         try {
             ultimos2Dias = cantidadHorasDormidaEnLosUltimosXDias(persona, 2L);
         } catch (NoTieneRegistroDeSuenio e) {
@@ -131,23 +130,52 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         return tiempo;
     }
 
-    private Double sumaDeHorasPorPocoSuenio(Persona persona, ValorRecomendado recomendacion) {
+    private Double sumaDeHorasPorPocoSuenio(Persona persona) {
+
+//TODO
+        Double ultimos2Dias;
+        Double tiempo = 0D;
+
+        try {
+            ultimos2Dias = cantidadHorasDormidaEnLosUltimosXDias(persona, 2L);
+        } catch (NoTieneRegistroDeSuenio e) {
+            recomendacion.setMensaje(e.getMessage());
+            return 0.0;
+        } catch (Exception e) {
+            recomendacion.setMensaje(e.getMessage());
+            return 0.0;
+        }
+
         /*
          ** Para los ejemplos asumo horas recomendadas (despues del ejercicio) de 7 a 9
-         * Si viene durmiendo poco, deberia dormir mas
-         * Voy a setear poco en tres cuartos de las horas minimas recomendadas en los ultimos 2 dias
-         ** EJ: Menos de 10.5 (7*2*0.75=10.5)
+         * Si viene durmiendo poco, deberia dormir mas*/
+        /*
+
+        /*
+        * Voy a setear muy poco si durmio menos de la cantidad de horas maximas recomendadas para un dia en los ultimos dos
+        ** EJ: Menos de 9 horas
+        * Si pasa esto, voy a agregar dos horas
+        */
+        if (ultimos2Dias - recomendacion.getMaximo() <= 0) {
+            tiempo += 2;
+        }
+
+        /*
+         *Voy a setear poco en tres cuartos de las horas minimas recomendadas en los ultimos 2 dias
+         **EJ: Menos de 10.5 (7 * 2 * 0.75 = 10.5)
          * Si pasa esto, voy a agregar una hora
-         * Voy a setear muy poco en la mitad de las horas maximas recomendadas en los ultimos 2 dias
-         ** EJ: Menos de 9 horas (9*2/2)
-         * Si pasa esto, voy a agregar dos horas
          */
-//TODO
-        return 0.0;
+        if (ultimos2Dias - recomendacion.getMinimo() * 2 * 0.75 <= 0) {
+            tiempo += 1;
+        }
+
+
+        return tiempo;
     }
 
     @Override
-    public Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, Long cantidadDias) throws NoTieneRegistroDeSuenio {
+    public Double cantidadHorasDormidaEnLosUltimosXDias(Persona persona, Long cantidadDias) throws
+            NoTieneRegistroDeSuenio {
         List<RegistroSuenio> registros = repositorioSuenio.obtener(persona);
 
         if (registros.isEmpty()) {

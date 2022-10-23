@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("repositorioSuenio")
-public class RepositorioSuenioImpl implements RepositorioSuenio{
+public class RepositorioSuenioImpl implements RepositorioSuenio {
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -27,6 +27,12 @@ public class RepositorioSuenioImpl implements RepositorioSuenio{
                 .add(Restrictions.eq("persona", persona))
                 .add(Restrictions.eq("eliminado", false))
                 .list();
+    }
+
+    @Override
+    public RegistroSuenio obtener(Long id) {
+        session = sessionFactory.getCurrentSession();
+        return session.get(RegistroSuenio.class, id);
     }
 
     @Override

@@ -3,11 +3,9 @@ package ar.edu.unlam.tallerweb1.domain.suenio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 import javax.persistence.*;
-import java.text.Format;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Formatter;
 
 @Entity
 public class RegistroSuenio {
@@ -21,19 +19,22 @@ public class RegistroSuenio {
     @JoinColumn(name = "persona_id")
     private Persona persona;
 
-    private boolean eliminado = false;
+    private boolean eliminado;
 
     public RegistroSuenio() {
+        this.eliminado = false;
     }
 
     public RegistroSuenio(Persona persona, LocalDateTime horaInicio, LocalDateTime horaFin) {
         this.persona = persona;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
+        this.eliminado = false;
     }
 
     public RegistroSuenio(Persona persona, Long cantidadHoras) {
         this.persona = persona;
+        this.eliminado = false;
     }
 
     public LocalDateTime getHoraInicio() {
@@ -83,5 +84,13 @@ public class RegistroSuenio {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public boolean isEliminado() {
+        return eliminado;
     }
 }

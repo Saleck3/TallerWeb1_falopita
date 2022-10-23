@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenio;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenioImpl;
+import ar.edu.unlam.tallerweb1.domain.suenio.EdadNegativaException;
 import ar.edu.unlam.tallerweb1.infrastructure.suenio.RepositorioSuenio;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,13 +36,13 @@ public class ServicioSuenioTest extends SpringTest {
         try {
             assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMinimo()).isEqualTo(7d);
             assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMaximo()).isEqualTo(9d);
-        } catch (Exception e) {
+        } catch (EdadNegativaException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Test(expected = Exception.class)
-    public void siTengoEdadNegativaTiroExcepcion() throws Exception {
+    @Test(expected = EdadNegativaException.class)
+    public void siTengoEdadNegativaTiroExcepcion() throws EdadNegativaException {
         Persona persona = dadoQueTengoUnaPersonaConEdadNegativa();
         servicioSuenio.obtenerCantidadHorasSuenio(persona);
     }
@@ -53,7 +54,7 @@ public class ServicioSuenioTest extends SpringTest {
         try {
             assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMinimo()).isEqualTo(10d);
             assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMaximo()).isEqualTo(13d);
-        } catch (Exception e) {
+        } catch (EdadNegativaException e) {
             throw new RuntimeException(e);
         }
     }

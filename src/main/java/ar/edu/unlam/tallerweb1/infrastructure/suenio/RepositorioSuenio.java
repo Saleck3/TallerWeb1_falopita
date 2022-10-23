@@ -8,6 +8,8 @@ import java.util.List;
 public interface RepositorioSuenio {
     List<RegistroSuenio> obtener(Persona Persona);
 
+    RegistroSuenio obtener(Long id);
+
     RegistroSuenio guardar(RegistroSuenio registro);
 
     void modificar(RegistroSuenio registro);

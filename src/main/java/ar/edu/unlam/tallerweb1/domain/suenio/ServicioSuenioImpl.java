@@ -39,16 +39,20 @@ public class ServicioSuenioImpl implements ServicioSuenio {
     }
 
     @Override
+    public RegistroSuenio obtenerRegistroSuenio(Long id) {
+        return repositorioSuenio.obtener(id);
+    }
+    @Override
     public void eliminarRegistroSuenio(RegistroSuenio registroSuenio) {
         repositorioSuenio.eliminar(registroSuenio);
     }
 
     @Override
-    public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws Exception {
+    public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws EdadNegativaException {
 
 
         if (persona.getEdad() < 0) {
-            throw new Exception("Una persona no puede tener edad negativa");
+            throw new EdadNegativaException();
         }
 
         //primero calculo las horas segun la edad
@@ -96,6 +100,8 @@ public class ServicioSuenioImpl implements ServicioSuenio {
          */
 
         //TODO Despues de hacer la clase ejercicio
+
+        recomendacion.setMensaje("Aun no se implemento el calculo por ejercicio");
         return 0.0;
     }
 
@@ -132,7 +138,6 @@ public class ServicioSuenioImpl implements ServicioSuenio {
 
     private Double sumaDeHorasPorPocoSuenio(Persona persona) {
 
-//TODO
         Double ultimos2Dias;
         Double tiempo = 0D;
 

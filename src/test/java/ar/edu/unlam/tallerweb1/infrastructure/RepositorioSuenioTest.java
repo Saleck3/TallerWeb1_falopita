@@ -37,10 +37,12 @@ public class RepositorioSuenioTest extends SpringTest {
         Persona persona = dadoQueTengoUnaPersona();
 
         cuandoTengoRegistro(persona);
+        cuandoTengoRegistro(persona);
+        cuandoTengoRegistro(persona);
         RegistroSuenio registroAEliminar = cuandoTengoRegistro(persona);
         cuandoEliminoRegistro(registroAEliminar);
 
-        entoncesTengoRegistros(persona, 1);
+        entoncesTengoRegistros(persona, 3);
     }
 
     @Test

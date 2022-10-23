@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.domain.suenio.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenio;
+import ar.edu.unlam.tallerweb1.domain.suenio.EdadNegativaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,8 @@ public class ControladorSuenio {
         try {
             ValorRecomendado recomendacion = servicioSuenio.obtenerCantidadHorasSuenio(persona);
             modelo.put("recomendacion", recomendacion);
-        } catch (Exception e) {
+            modelo.put("errorRecomendacion", recomendacion.getMensaje());
+        } catch (EdadNegativaException e) {
             modelo.put("errorEdad", e.getMessage());
         }
 
@@ -64,11 +66,11 @@ public class ControladorSuenio {
 
     @RequestMapping(path = "/suenio/nuevoRegistro", method = RequestMethod.POST)
     public ModelAndView nuevoRegistro(HttpServletRequest request,
-              //Prefiero manejarlos como fecha para poder mandarles el formato
-              @RequestParam("horaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                LocalDateTime horaInicio,
-              @RequestParam("horaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                LocalDateTime horaFin) {
+                                      //Prefiero manejarlos como fecha para poder mandarles el formato
+                                      @RequestParam("horaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                      LocalDateTime horaInicio,
+                                      @RequestParam("horaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                      LocalDateTime horaFin) {
 
         HttpSession sesion = request.getSession();
 
@@ -84,6 +86,24 @@ public class ControladorSuenio {
 
         nuevoRegistro.setPersona(persona);
         servicioSuenio.guardarRegistroSuenio(nuevoRegistro);
+
+        return new ModelAndView("redirect:/suenio");
+    }
+
+    @RequestMapping(path = "/suenio/eliminarRegistro", method = RequestMethod.GET)
+    public ModelAndView eliminarRegistro(HttpServletRequest request, Long idRegistro) {
+        HttpSession sesion = request.getSession();
+
+        Long idPersona = (Long) sesion.getAttribute("ID");
+
+        //Esta logueado
+        if (idPersona != null) {
+            RegistroSuenio registro = servicioSuenio.obtenerRegistroSuenio(idRegistro);
+
+            if (idPersona.equals(registro.getPersona().getId())) {
+                servicioSuenio.eliminarRegistroSuenio(registro);
+            }
+        }
 
         return new ModelAndView("redirect:/suenio");
     }

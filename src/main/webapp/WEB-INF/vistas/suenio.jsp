@@ -26,6 +26,9 @@
                         a ${recomendacion.getMaximo()} horas</h3>
                     <a href="perfil" class="btn btn-primary">Modificar datos</a>
 
+                    <!-- TODO agregar mensaje de error-->
+
+
                     <form action="recordatorio-fin" method="post">
                         <div class="mb-3">
                             <label path="recordatorio-fin"
@@ -68,6 +71,7 @@
                     <th scope="col">Hora Inicio</th>
                     <th scope="col">Hora fin</th>
                     <th scope="col">Cantidad de horas</th>
+                    <th scope="col">Eliminar</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,6 +81,7 @@
                         <td>${registro.printHoraInicio()}</td>
                         <td>${registro.printHoraFin()}</td>
                         <td>${registro.cantidadHoras}</td>
+                        <td><a href="suenio/eliminarRegistro?idRegistro=${registro.ID}"class="link-unstyled icon-button">X</a> </td>
                     </tr>
                 </c:forEach>
                 </tbody>

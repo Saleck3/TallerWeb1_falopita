@@ -57,8 +57,8 @@ public class ValorRecomendado {
     }
 
     public void restarMinimoYMaximo(Double cantidadHoras) {
-        this.minimo += cantidadHoras;
-        this.maximo += cantidadHoras;
+        this.minimo -= cantidadHoras;
+        this.maximo -= cantidadHoras;
     }
 
     public String getMensaje() {

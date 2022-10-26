@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Rolon
@@ -19,32 +20,43 @@
 <body class="min-vh-100 d-flex flex-column">
 <%@ include file="generales/header.jsp" %>
 <div class="container">
-<div id="calendar"></div>
+    <div id="calendar"></div>
+
 </div>
 
 
-
-
-
-
- <%@ include file="generales/footer.jsp" %>
+<%@ include file="generales/footer.jsp" %>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script src="js/evo-calendar.min.js"></script>
+</body>
 <script>
     // initialize your calendar, once the page's DOM is ready
-    $(document).ready(function() {
+
+    let i;
+    $(document).ready(function () {
+        let eventList= [];
+      let eventos= ${eventos};
+
+
+        eventos.forEach(evento=> {
+            let newEvent = {
+                id: evento.name,
+                name: evento.name,
+                date: evento.date,
+                description: evento.description,
+                type: "events",
+                everyYear: true,
+            };
+            eventList.push(newEvent);
+        });
+
+
         $('#calendar').evoCalendar({
-            calendarEvents:[{
-                id:'event 1',
-                name:"new year",
-                date:"January/1/2022",
-                description:"asdasdasdasda",
-                type:"holiday",
-                everyYear:true
-            }]
-        })
+            'calendarEvents': eventList
+        });
+
+
     })
 </script>
-</body>
 
 </html>

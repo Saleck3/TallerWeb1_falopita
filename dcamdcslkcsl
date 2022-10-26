@@ -1,0 +1,451 @@
+[33mcommit e7c5b58c7715832b5f071abcc525d3d11f67a764[m[33m ([m[1;36mHEAD -> [m[1;32mnahue[m[33m, [m[1;31morigin/dev[m[33m)[m
+Merge: 755ff07 57824bf
+Author: Nahue <narolon@alumno.unlam.edu.ar>
+Date:   Tue Oct 18 21:44:02 2022 -0300
+
+    Merge branch 'dev' of https://github.com/Saleck3/TallerWeb1_falopita into nahue
+
+[33mcommit 755ff07303eefcf24c7ec2bd513c720addb555bf[m
+Author: Nahue <narolon@alumno.unlam.edu.ar>
+Date:   Tue Oct 18 21:43:47 2022 -0300
+
+    se agrego calendario
+
+[33mcommit 57824bf2c76c8e2ac954b7c0df7cbc3b4eba8a55[m
+Merge: 71e895b a6b22e8
+Author: Alejandro Gonzalez <52363035+Saleck3@users.noreply.github.com>
+Date:   Sat Oct 15 16:49:40 2022 -0300
+
+    Merge pull request #3 from Saleck3/notas
+    
+    Agregado registro y notas
+
+[33mcommit a6b22e8fa5d855115df4dec1b36bbfc25e0f5c20[m
+Merge: 3e4bc06 8fcc2f0
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Oct 15 16:46:36 2022 -0300
+
+    Merge branch 'registro' into notas
+
+[33mcommit 3e4bc065831f5f87665b96dbd98e193271ff0d5f[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Oct 15 16:41:32 2022 -0300
+
+    Agregada eliminacion logica
+
+[33mcommit 8fcc2f05a353800822efe847fbfa6c373ce49cc2[m
+Merge: 78e9615 de99b5f
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sat Oct 15 15:38:45 2022 -0300
+
+    Merge extraño
+
+[33mcommit 70cc072b7cc60d3f9a6c886ec47e81249963c01c[m
+Merge: 1906bf4 eee3142
+Author: Nahue <narolon@alumno.unlam.edu.ar>
+Date:   Sat Oct 15 13:32:55 2022 -0300
+
+    Merge branch 'notas' of https://github.com/Saleck3/TallerWeb1_falopita into nahue
+
+[33mcommit eee3142c7be4f29695d8602bc415f4579054fde9[m[33m ([m[1;31morigin/notas[m[33m)[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Thu Oct 13 22:39:07 2022 -0300
+
+    Agregado controladorNotas, error al eliminar
+
+[33mcommit 5d8d53b41a8aea43abf50ce07f9fa34ebfed3c05[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Thu Oct 13 10:35:09 2022 -0300
+
+    Servicio
+
+[33mcommit 1906bf4f8c893769b679c9869e035b7c098b2021[m
+Merge: 0795cf4 de99b5f
+Author: Nahue <narolon@alumno.unlam.edu.ar>
+Date:   Tue Oct 11 20:28:25 2022 -0300
+
+    Merge branch 'registro' of https://github.com/Saleck3/TallerWeb1_falopita into nahue
+
+[33mcommit 0795cf472219c9567cf5250c8538dd533c175828[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Mon Oct 10 20:35:34 2022 -0300
+
+    Creacion de clase y repositorio
+
+[33mcommit de99b5f35cf58633da7869115ac48ba0227e73a9[m[33m ([m[1;31morigin/registro[m[33m)[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Mon Oct 10 20:35:17 2022 -0300
+
+    Cambio nombre de error
+
+[33mcommit 78e9615f5ffbef0aaa466b178665ea236e0be4e1[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Mon Oct 10 18:53:26 2022 -0300
+
+    Errores en perfil funcionando
+
+[33mcommit 6fe21196080131fc6af04bc57646cd6c14f70a5c[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Mon Oct 10 18:52:57 2022 -0300
+
+    Añadida clase de funciones varias Util
+
+[33mcommit 9e80ed83bc52cd4a053aba1e1d357f4e17f86e69[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Mon Oct 10 18:20:17 2022 -0300
+
+    ControladorSuenio ahora pasa por ServicioSuenio
+
+[33mcommit c34655b4460262ade7451a071a2767249d5d413e[m
+Merge: 7642ef3 da20202
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Mon Oct 10 01:12:18 2022 -0300
+
+    Merge branch 'registro' of https://github.com/Saleck3/TallerWeb1_falopita into registro
+
+[33mcommit 7642ef319673668e97d233f845dcc5d56eb7e9a1[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Mon Oct 10 01:12:12 2022 -0300
+
+    Estilos generales y correcciones de forms
+
+[33mcommit da20202f737674ec20dbd37d9f0968f4b67d1770[m
+Merge: 3c7ea8c 4b3390d
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Mon Oct 10 00:58:44 2022 -0300
+
+    Merge branch 'registro' of https://github.com/Saleck3/TallerWeb1_falopita into registro
+
+[33mcommit 3c7ea8c13e711683376324da7209ca174658f40b[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Mon Oct 10 00:58:39 2022 -0300
+
+    Refactor en PerfilController y los tests de perfil
+
+[33mcommit 4b3390dca9c62944d9046615a24ab153fc1be953[m
+Merge: 6401042 2e89473
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sun Oct 9 22:27:03 2022 -0300
+
+    Merge branch 'main' into registro
+
+[33mcommit 908e3909bc31ea7fb1704eabbca237b8a6442538[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sun Oct 9 21:59:56 2022 -0300
+
+    Validacion de datos en la modificaciones del perfil y errores
+
+[33mcommit 64010421b25cd16493a84b08c997683afb3fc95c[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sun Oct 9 15:44:03 2022 -0300
+
+    Test contemplan un usuario precargado
+
+[33mcommit ebe5aa4ecab05f3e4e7994f649cbb858595567f5[m
+Merge: 807f460 a928f14
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sun Oct 9 03:15:55 2022 -0300
+
+    Merge branch 'registro' of https://github.com/Saleck3/TallerWeb1_falopita into registro
+
+[33mcommit 807f4607a1fc587e82da56329c09e6b521a21b24[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sun Oct 9 03:15:26 2022 -0300
+
+    AAAhora se puede modificar los datos de la persona
+
+[33mcommit 89d2c27b3867ff1d653a447c1614e29b65624680[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sun Oct 9 03:14:35 2022 -0300
+
+    uUltimos retoques a las vistas
+
+[33mcommit 90a9012f1a9ff069c59a594dc0dceca571e314f1[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sun Oct 9 02:27:50 2022 -0300
+
+    Arreglado bug con Bootstrap y JS, eliminados JQuery y agregado Popper(dependencia)
+
+[33mcommit 393519087d5501e5a176fe53135b554f8664cee9[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sun Oct 9 00:55:30 2022 -0300
+
+    Se reaÃÃlizaron cambios en la vistas para modulalizar codigo
+
+[33mcommit a928f1461a6cbc5e2a61e4161d4ea44ada307270[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Oct 8 19:53:14 2022 -0300
+
+    Agregado un usuario por defecto
+
+[33mcommit 8d72c1ac4d9b4b4117ae8587bdb6d156ca82d0b0[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Oct 8 19:01:46 2022 -0300
+
+    Agregado metodo para cerrar sesion
+
+[33mcommit c3c64b78fd6f8bbf048530f77e818c1fc90cb620[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Oct 8 18:01:38 2022 -0300
+
+    Fix de tests con HttpServletRequest
+
+[33mcommit c1298387058f1be513504e3e30e3b65d0de347f7[m
+Merge: b27fe2a cdacbcf
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sat Oct 8 00:41:07 2022 -0300
+
+    Merge branch 'registro' of https://github.com/Saleck3/TallerWeb1_falopita into registro
+
+[33mcommit b27fe2a42435c8ed60a18707f01cf7c3187c867d[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Sat Oct 8 00:40:38 2022 -0300
+
+    Agregada vista y controlador de perfil WIP!!!
+
+[33mcommit cdacbcf202088536386bea0d2a1c61ec04264b5c[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Oct 7 20:41:38 2022 -0300
+
+    Cambios de estilo
+
+[33mcommit bda779b5282151c03d2d55789801c1480c577f3f[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Oct 7 18:43:21 2022 -0300
+
+    Eliminadas clases innesesarias de usuario
+
+[33mcommit af6e91a2cc75a8b4be769d78846ac62b087b3c87[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Oct 7 18:43:06 2022 -0300
+
+    Ahora el registro genera el usuario
+
+[33mcommit ecd38f2e372b39d9573404561435ea25daabb73c[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Oct 7 16:11:29 2022 -0300
+
+    Solucionado nullException en ejecucion
+
+[33mcommit aa2d28a1445626a722d58ed0ef55b1bb01cd0be4[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Oct 7 15:23:22 2022 -0300
+
+    Generado ControladorRegistro con validaciones
+
+[33mcommit 2e89473d9778f036c17fe4a99052c924be971b97[m[33m ([m[1;31morigin/main[m[33m)[m
+Merge: 223b2cd 71e895b
+Author: Alejandro Gonzalez <52363035+Saleck3@users.noreply.github.com>
+Date:   Sat Oct 1 14:07:20 2022 -0300
+
+    Merge pull request #1 from Saleck3/dev
+    
+    Clase Suenio y calcular hroas suenio
+    Merge despues de la review
+
+[33mcommit 71e895b338382dd73e4d9a3942fb31f2858ff48e[m
+Author: Pablo Maitini <pmaitini@alumno.unlam.edu.ar>
+Date:   Sat Oct 1 10:34:28 2022 -0300
+
+    se agrega un test a RepositorioPersonaTest
+
+[33mcommit a68b236ca4b33fb5a3892d91d4671a9de8b3f12d[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Fri Sep 30 23:29:14 2022 -0300
+
+    Tests para ControladorLogin
+
+[33mcommit d13c5ce0dcf140ee99cf37bc9c36a9ae548ded12[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Fri Sep 30 22:16:09 2022 -0300
+
+    Arreglos de tests, todo verde
+
+[33mcommit 11c0ae3e735d8b38f1d57d9ec7016d12083f72b9[m
+Merge: d04bfff 6c9868c
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Fri Sep 30 21:30:37 2022 -0300
+
+    Merge branch 'tests-refactor' into dev
+
+[33mcommit d04bfff17eb249cf219bad389c5d9d2a538ab562[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Fri Sep 30 21:29:32 2022 -0300
+
+    Se modifico ControladorLogin con Persona y servicioLogin para que funcione con Persona
+
+[33mcommit 6c9868c5796fc7feac9c27448fbd908cf0d32963[m[33m ([m[1;31morigin/tests-refactor[m[33m)[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Sep 30 21:26:43 2022 -0300
+
+    Refactor para usar innit
+
+[33mcommit ac0d778ba6256f757a5b20064da56a93033a889a[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Sep 30 18:21:05 2022 -0300
+
+    Arreglado el refactor
+
+[33mcommit 857d88955b6555ec493ac69e69f8aae9b1b08bf1[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Fri Sep 30 18:20:54 2022 -0300
+
+    las constantes van en mayuscula maestro, mayuscula
+
+[33mcommit a83e6168b563de338baa7d881f22347ada632e09[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Fri Sep 30 03:11:46 2022 -0300
+
+    Refactor de tests unitarios de RepoPersona y agregado otros nuevos
+
+[33mcommit 69c34ffdfdf8a9d1abe291880098fe30dfca0522[m
+Author: Pablo Maitini <pmaitini@alumno.unlam.edu.ar>
+Date:   Thu Sep 29 21:48:30 2022 -0300
+
+    se agrega get y post de prueba
+
+[33mcommit fa9fbf9a3a9ac20324245cc1ee8289a58250e14a[m
+Merge: 7bc55bc fd67916
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Thu Sep 29 18:23:34 2022 -0300
+
+    Merge branch 'dev' of https://github.com/Saleck3/TallerWeb1_falopita into dev
+
+[33mcommit 7bc55bc7ba6bfdc8ae89c5faa74bc67edaf2fd63[m
+Author: Lucas David Cardozo <lucas.david.car99@gmail.com>
+Date:   Thu Sep 29 18:22:49 2022 -0300
+
+    Se eliminaron archivos innecesarios
+
+[33mcommit fd67916cd60f9f822c09d9f0f2946c005d15ae53[m
+Author: Nahue <narolon@alumno.unlam.edu.ar>
+Date:   Thu Sep 29 18:17:37 2022 -0300
+
+    se arreglaron cositas
+
+[33mcommit 5ee29a4b4b34d1b79972dc13adc64de26a6ffeb2[m
+Author: Nahue <narolon@alumno.unlam.edu.ar>
+Date:   Thu Sep 29 00:58:48 2022 -0300
+
+    Test segunMiEdadDarMisHorasDeSuenioRecomendadas
+
+[33mcommit 31ce90c60b282017ca7df90a53d2b54b2a60adce[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Tue Sep 27 01:39:40 2022 -0300
+
+    Arreglado constructor en test
+
+[33mcommit 476047cd98805bb9852dd9a7c5fb1e9e721f5fc4[m
+Author: Ain Moises Ponce <ponce.ain@gmail.com>
+Date:   Tue Sep 27 01:29:09 2022 -0300
+
+    Creacion clase Ejercicio y agregado altura a clase Persona.
+
+[33mcommit 5b8c11ff2a22b380a53aa3e602cddc71cb326e68[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Tue Sep 27 00:36:23 2022 -0300
+
+    Agregado metodo de calculo de horas de suenio por persona
+
+[33mcommit 4e175890e65a04005e94f5bca9669968ad40f933[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Tue Sep 27 00:24:34 2022 -0300
+
+    Generada clase ValorRecomendado y generado test de suenio
+
+[33mcommit 759b32a0a91f44cea8a0d1587fd228eed716c030[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Sep 26 22:49:02 2022 -0300
+
+    Arreglado problema con tests de RepositorioPersona
+
+[33mcommit 1b08c1ba31eb550e71e2dbbd186a01dea75143d5[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Sep 26 21:50:54 2022 -0300
+
+    Nuevos tests para RepositorioPersona
+
+[33mcommit 6a7a6d6352c7a5154a9ed85922d842dca33c400a[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Sep 26 20:16:46 2022 -0300
+
+    Arreglado error de paquetes
+
+[33mcommit 5ef8d7f5c0b1b67e17cfdca26a86ced9dc72b039[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Sep 26 20:16:03 2022 -0300
+
+    Añadido bundle Bootstrap v5.2
+
+[33mcommit c25c1da657de0a0dfae2515b1c52252cf0fddb01[m
+Author: Pablo Maitini <pmaitini@alumno.unlam.edu.ar>
+Date:   Mon Sep 26 01:09:13 2022 -0300
+
+    Clase Suenio y calcular hroas suenio
+
+[33mcommit 223b2cda927f17fbd8e8d7eb4805748dade758d5[m[33m ([m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Sun Sep 25 22:36:36 2022 -0300
+
+    Realizada Entidad Persona, su correspondiente repositorio y tests asociados
+
+[33mcommit b62aa1053beb1928123115a995f4b582066ad4b5[m
+Merge: c98758a 016589a
+Author: Ain Moises Ponce <ponce.ain@gmail.com>
+Date:   Fri Aug 26 11:37:31 2022 -0300
+
+    Merge remote-tracking branch 'origin/main'
+
+[33mcommit c98758a4cd3282a2bea002d84a11fa2572f7d409[m
+Author: Ain Moises Ponce <ponce.ain@gmail.com>
+Date:   Fri Aug 26 11:27:56 2022 -0300
+
+    ClaseTallerWeb-26/8
+
+[33mcommit 016589a4d40c7b1f4edf804b014a876a58c760ad[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Thu Aug 25 13:05:01 2022 -0300
+
+    Prueba de subida en nuevo equipo
+
+[33mcommit 1cdcd651af04da3a71a8f062ac81d8a83cf146eb[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Aug 22 15:33:25 2022 -0300
+
+    build en verde funcionando
+
+[33mcommit 8c1a39b3c9d69d04a7173196f6e9322dff0f7b09[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Aug 22 15:28:09 2022 -0300
+
+    prueba notificacion - error de compilacion
+
+[33mcommit a2c6bc3328f556ef24a78cd5c550b4b99d7e903a[m
+Author: Lucas <lucas.david.car99@gmail.com>
+Date:   Mon Aug 22 15:23:41 2022 -0300
+
+    arreglo en travis.yml
+
+[33mcommit 61cec92099a5a671e1ba5476b9c549a897fc1aa0[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Aug 20 20:24:23 2022 -0300
+
+    Arreglo del test anterior
+
+[33mcommit ebe6c2b7a702b553582848319e263a8aa1a5fb02[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Aug 20 20:17:15 2022 -0300
+
+    Test de fallo de compilacion
+
+[33mcommit 5bed6b456db9575f9f387ed4dfd1caa1a4cb8b01[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Aug 20 20:03:22 2022 -0300
+
+    Cambios en CI y leeme
+
+[33mcommit c7fa64c334eca341ab68964d6c447adc5380b9f5[m
+Author: Saleck3 <aledagonale@gmail.com>
+Date:   Sat Aug 20 19:58:01 2022 -0300
+
+    primer commit - proyecto limpio

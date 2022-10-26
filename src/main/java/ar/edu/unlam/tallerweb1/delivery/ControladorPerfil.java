@@ -89,9 +89,7 @@ public class ControladorPerfil {
             errores.put("errorPeso", "error en el peso");
         }
 
-        if (!personaAValidar.getSexo().equals("m") || !personaAValidar.getSexo().equals("f") || !personaAValidar.getSexo().equals("o")) {
-            errores.put("errorSexo", "error en el sexo");
-        }
+
 
         return errores;
     }

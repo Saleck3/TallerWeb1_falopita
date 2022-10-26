@@ -52,6 +52,6 @@ public class RepositorioSuenioImpl implements RepositorioSuenio {
     public void eliminar(RegistroSuenio registro) {
         session = sessionFactory.getCurrentSession();
         registro.eliminar();
-        session.save(registro);
+        session.update(registro);
     }
 }

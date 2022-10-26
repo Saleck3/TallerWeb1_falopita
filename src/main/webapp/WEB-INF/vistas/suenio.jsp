@@ -22,6 +22,7 @@
         <c:otherwise>
             <main class="row">
                 <div class="card-columns col col-lg-9">
+                    <span>${recomendacion.getMensaje()}</span>
                     <h3> Segun sus datos registrados se recomienda que duerma de ${recomendacion.getMinimo()}
                         a ${recomendacion.getMaximo()} horas</h3>
                     <a href="perfil" class="btn btn-primary">Modificar datos</a>
@@ -77,7 +78,6 @@
                 <tbody>
                 <c:forEach var="registro" items="${registros}">
                     <tr>
-
                         <td>${registro.printHoraInicio()}</td>
                         <td>${registro.printHoraFin()}</td>
                         <td>${registro.cantidadHoras}</td>

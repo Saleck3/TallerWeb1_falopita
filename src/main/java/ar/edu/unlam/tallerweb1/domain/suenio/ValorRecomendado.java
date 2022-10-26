@@ -66,6 +66,10 @@ public class ValorRecomendado {
     }
 
     public void setMensaje(String mensaje) {
-        this.mensaje = this.mensaje + "<br>" + mensaje;
+        if(this.mensaje == null){
+            this.mensaje = mensaje;
+        }else {
+            this.mensaje += "<br>" + mensaje;
+        }
     }
 }

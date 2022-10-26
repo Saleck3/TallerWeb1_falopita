@@ -18,8 +18,8 @@ public class ServicioSuenioImpl implements ServicioSuenio {
     @Autowired
     private RepositorioSuenio repositorioSuenio;
 
-    private ValorRecomendado recomendacion = new ValorRecomendado(7d, 8d);
-    ;
+    private ValorRecomendado recomendacion;
+
 
     public ServicioSuenioImpl() {
     }
@@ -42,6 +42,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
     public RegistroSuenio obtenerRegistroSuenio(Long id) {
         return repositorioSuenio.obtener(id);
     }
+
     @Override
     public void eliminarRegistroSuenio(RegistroSuenio registroSuenio) {
         repositorioSuenio.eliminar(registroSuenio);
@@ -49,7 +50,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
 
     @Override
     public ValorRecomendado obtenerCantidadHorasSuenio(Persona persona) throws EdadNegativaException {
-
+        recomendacion = new ValorRecomendado(7d, 8d);
 
         if (persona.getEdad() < 0) {
             throw new EdadNegativaException();
@@ -66,6 +67,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
 
         return recomendacion;
     }
+
     private void horasSegunEdad(Integer edad) {
         //Por ahora me baso en esto: https://www.elcorreo.com/content-local/cuantas-horas-necesitamos-dormir-en-funcion-de-la-edad/
         if (edad <= 1) {
@@ -93,6 +95,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         }
         return;
     }
+
     private Double agregadoHorasPorEjercicio(Persona persona) {
         /* Si hace ejercicio, deberia dormir mas
          * Voy a subir 30 minutos por cada hora de ejercicio

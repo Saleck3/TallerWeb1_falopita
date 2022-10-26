@@ -10,9 +10,8 @@
 <!doctype html>
 <html lang="es" class="min-vh-100 d-flex flex-column">
 <head>
-
-    <%@ include file="generales/head.jsp" %>
     <link rel="stylesheet" href="css\evo-calendar.min.css">
+    <%@ include file="generales/head.jsp" %>
     <title>SmartTime</title>
 
 
@@ -34,11 +33,11 @@
 
     let i;
     $(document).ready(function () {
-        let eventList= [];
-      let eventos= ${eventos};
+        let eventList = [];
+        let eventos = ${eventos};
 
 
-        eventos.forEach(evento=> {
+        eventos.forEach(evento => {
             let newEvent = {
                 id: evento.name,
                 name: evento.name,

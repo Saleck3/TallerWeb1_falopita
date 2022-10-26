@@ -30,7 +30,7 @@ public class ControladorCalendario {
 
         HttpSession sesion = request.getSession();
 
-        Long idPersona = (Long)sesion.getAttribute("ID");
+        Long idPersona = (Long) sesion.getAttribute("ID");
 
         if (idPersona == null) {
             model.put("datosLogin", new DatosLogin());
@@ -39,29 +39,28 @@ public class ControladorCalendario {
         }
 
 
-
         Evento evento = new Evento();
-        evento.setPersona( servicioPersona.obtenerPersona(idPersona));
+        evento.setPersona(servicioPersona.obtenerPersona(idPersona));
         evento.setDate("January/1/2022");
         evento.setDescription("probandoputas");
         evento.setEveryYear(true);
         evento.setName("nombre");
 
         Evento evento1 = new Evento();
-        evento1.setPersona( servicioPersona.obtenerPersona(idPersona));
+        evento1.setPersona(servicioPersona.obtenerPersona(idPersona));
         evento1.setDate("January/2/2022");
         evento1.setDescription("probandoputas");
         evento1.setEveryYear(true);
         evento1.setName("nombre1");
 
         Evento evento2 = new Evento();
-        evento2.setPersona( servicioPersona.obtenerPersona(idPersona));
+        evento2.setPersona(servicioPersona.obtenerPersona(idPersona));
         evento2.setDate("January/3/2022");
         evento2.setDescription("probandoputas");
         evento2.setEveryYear(true);
         evento2.setName("nombre2");
 
-        List<Evento> listaDeEvento= new ArrayList<>();
+        List<Evento> listaDeEvento = new ArrayList<>();
 
         listaDeEvento.add(evento);
         listaDeEvento.add(evento1);
@@ -70,8 +69,8 @@ public class ControladorCalendario {
         Util.ponerErrores(model, sesion);
 
 
-        Gson Json= new Gson();
-        String eventosJson= Json.toJson(listaDeEvento);
+        Gson Json = new Gson();
+        String eventosJson = Json.toJson(listaDeEvento);
         model.put("persona", servicioPersona.obtenerPersona(idPersona));
         model.put("eventos", eventosJson);
         return new ModelAndView("calendario", model);

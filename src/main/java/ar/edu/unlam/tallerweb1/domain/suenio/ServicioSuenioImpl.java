@@ -62,8 +62,18 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         //Agrego horas si hizo ejercicio
         recomendacion.sumarMinimoYMaximo(agregadoHorasPorEjercicio(persona));
         //Segun como viene durmiendo, agrego o saco horas
-        recomendacion.sumarMinimoYMaximo(sumaDeHorasPorPocoSuenio(persona));
-        recomendacion.restarMinimoYMaximo(restaDeHorasPorMuchoSuenio(persona));
+
+        Double horasAcumuladas = 0D;
+        try {
+            horasAcumuladas = cantidadHorasDormidaEnLosUltimosXDias(persona, 2L);
+        } catch (NoTieneRegistroDeSuenio e) {
+            recomendacion.setMensaje(e.getMessage());
+        } catch (Exception e) {
+            recomendacion.setMensaje(e.getMessage());
+        }
+
+        recomendacion.sumarMinimoYMaximo(sumaDeHorasPorPocoSuenio(persona, horasAcumuladas));
+        recomendacion.restarMinimoYMaximo(restaDeHorasPorMuchoSuenio(persona, horasAcumuladas));
 
         return recomendacion;
     }
@@ -108,51 +118,36 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         return 0.0;
     }
 
-    private Double restaDeHorasPorMuchoSuenio(Persona persona) {
+    private Double restaDeHorasPorMuchoSuenio(Persona persona, Double horasAcumuladas) {
 
-        Double ultimos2Dias;
+        if (horasAcumuladas == 0D)
+            return 0D;
+
+
         Double tiempo = 0D;
         // Si venis durmiendo mucho tendrias que dormir menos horas para que el cuerpo no se acostumbre
 
-        try {
-            ultimos2Dias = cantidadHorasDormidaEnLosUltimosXDias(persona, 2L);
-        } catch (NoTieneRegistroDeSuenio e) {
-            recomendacion.setMensaje(e.getMessage());
-            return 0.0;
-        } catch (Exception e) {
-            recomendacion.setMensaje(e.getMessage());
-            return 0.0;
-        }
-
         //si dormiste mas de 3 horas de la maxima recomendadas en los ultimos dos dias, disminuyo media hora
         //EJ: mas de 21 horas (9*2+3) disminuyo media hora
-        if (ultimos2Dias - recomendacion.getMaximo() * 2 >= 3) {
+        if (horasAcumuladas - recomendacion.getMaximo() * 2 >= 3) {
             tiempo += 0.5;
         }
 
         // A partir de ahi, bajo una hora por cada hora que se haya pasado
         // EJ: si durmio 23 horas (9*2+3+2) disminuyo dos horas y media
-        if (ultimos2Dias - recomendacion.getMaximo() * 2 > 4) {
-            tiempo += ultimos2Dias - recomendacion.getMaximo() * 2 - 3;
+        if (horasAcumuladas - recomendacion.getMaximo() * 2 > 4) {
+            tiempo += horasAcumuladas - recomendacion.getMaximo() * 2 - 3;
         }
 
         return tiempo;
     }
 
-    private Double sumaDeHorasPorPocoSuenio(Persona persona) {
+    private Double sumaDeHorasPorPocoSuenio(Persona persona, Double horasAcumuladas) {
 
-        Double ultimos2Dias;
+        if (horasAcumuladas == 0D)
+            return 0D;
+
         Double tiempo = 0D;
-
-        try {
-            ultimos2Dias = cantidadHorasDormidaEnLosUltimosXDias(persona, 2L);
-        } catch (NoTieneRegistroDeSuenio e) {
-            recomendacion.setMensaje(e.getMessage());
-            return 0.0;
-        } catch (Exception e) {
-            recomendacion.setMensaje(e.getMessage());
-            return 0.0;
-        }
 
         /*
          ** Para los ejemplos asumo horas recomendadas (despues del ejercicio) de 7 a 9
@@ -164,7 +159,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
         ** EJ: Menos de 9 horas
         * Si pasa esto, voy a agregar dos horas
         */
-        if (ultimos2Dias - recomendacion.getMaximo() <= 0) {
+        if (horasAcumuladas - recomendacion.getMaximo() <= 0) {
             tiempo += 2;
         }
 
@@ -173,7 +168,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
          **EJ: Menos de 10.5 (7 * 2 * 0.75 = 10.5)
          * Si pasa esto, voy a agregar una hora
          */
-        if (ultimos2Dias - recomendacion.getMinimo() * 2 * 0.75 <= 0) {
+        if (horasAcumuladas - recomendacion.getMinimo() * 2 * 0.75 <= 0) {
             tiempo += 1;
         }
 
@@ -196,7 +191,9 @@ public class ServicioSuenioImpl implements ServicioSuenio {
                 cantidadHoras += registro.getCantidadHoras();
             }
         }
-
+        if (cantidadHoras == 0) {
+            throw new NoTieneRegistroDeSuenio("No hay ningun registro en los ultimos" + cantidadDias + "dias");
+        }
         return cantidadHoras;
     }
 }

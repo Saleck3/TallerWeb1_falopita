@@ -21,6 +21,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="notas">Ver notas</a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="calendario">Calendario</a>
+                    </li>
                     <%}%>
                 </ul>
 

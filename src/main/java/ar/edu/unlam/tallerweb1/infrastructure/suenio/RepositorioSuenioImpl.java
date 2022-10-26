@@ -21,7 +21,7 @@ public class RepositorioSuenioImpl implements RepositorioSuenio {
     }
 
     @Override
-    public List<RegistroSuenio> obtener(Persona persona) {
+    public List obtener(Persona persona) {
         session = sessionFactory.getCurrentSession();
         return session.createCriteria(RegistroSuenio.class)
                 .add(Restrictions.eq("persona", persona))

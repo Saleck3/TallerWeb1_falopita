@@ -4,5 +4,5 @@
     <p>Taller Web I</p>
     <p>Tecnicatura en Desarrollo Web - Univerdad Nacional de La Matanza</p>
 </footer>
-<script src="js/popper.min.js"></script>
+
 <script src="js/bootstrap.min.js"></script>

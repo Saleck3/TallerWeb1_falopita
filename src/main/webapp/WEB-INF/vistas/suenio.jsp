@@ -27,27 +27,6 @@
                         a ${recomendacion.getMaximo()} horas</h3>
                     <a href="perfil" class="btn btn-primary">Modificar datos</a>
 
-                    <!-- TODO agregar mensaje de error-->
-
-
-                    <form action="recordatorio-fin" method="post">
-                        <div class="mb-3">
-                            <label path="recordatorio-fin"
-                                   for="hora-fin">Generar recordatorio para levantarse a las </label>
-                            <input path="recordatorio-fin" id="hora-fin" name="hora-fin" type="number" disabled/>
-                            <label path="recordatorio-fin" for="hora-fin">horas (proximamente)</label>
-                        </div>
-                    </form>
-
-                    <form action="recordatorio-inicio" method="post">
-                        <div class="mb-3">
-                            <label path="recordatorio-inicio"
-                                   for="hora-inicio">Generar recordatorio para acostarse a las </label>
-                            <input path="recordatorio-inicio" id="hora-inicio" name="hora-inicio" type="number"
-                                   disabled/>
-                            <label path="recordatorio-inicio" for="hora-inicio">horas (proximamente)</label>
-                        </div>
-                    </form>
 
                 </div>
                 <aside name="registroNuevo" class="col col-lg-3 ">
@@ -56,7 +35,7 @@
                             <label path="horaInicio" name="horaInicio" for="horaInicio"
                                    class="form-label">Hora inicio:</label>
                             <input path="horaInicio" required="true" type="datetime-local" name="horaInicio"
-                                   id="horaInicio" class="form-control mb-3" />
+                                   id="horaInicio" class="form-control mb-3"/>
                             <label path="horaFin" name="horaFin" for="horaFin"
                                    class="form-label">Hora fin:</label>
                             <input path="horaFin" type="datetime-local" name="horaFin" id="horaFin"
@@ -81,7 +60,8 @@
                         <td>${registro.printHoraInicio()}</td>
                         <td>${registro.printHoraFin()}</td>
                         <td>${registro.cantidadHoras}</td>
-                        <td><a href="suenio/eliminarRegistro?idRegistro=${registro.ID}"class="link-unstyled icon-button">X</a> </td>
+                        <td><a href="suenio/eliminarRegistro?idRegistro=${registro.ID}"
+                               class="link-unstyled icon-button">X</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -89,6 +69,70 @@
         </c:otherwise>
     </c:choose>
 
+    <div id="container" style="width:100%; height:400px;"></div>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script>
+        Highcharts.chart('container', {
+
+            title: {
+                text: 'Tu sueño en la semana'
+            },
+            yAxis: {
+                title: {
+                    text: 'Horas'
+                }
+            },
+
+            xAxis: {
+                type: 'datetime',
+                accessibility: {
+                    rangeDescription: 'Dias en la ultima semana'
+                }
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    pointStart: Date.UTC(2022, 10, 3),
+                    pointInterval: 24 * 3600 * 1000 // one day
+                }
+            },
+
+            series: [{
+                name: 'Horas registradas',
+                data: [7, 8, 9, 7, 5, 10, 8]
+            }, {
+                name: 'Minima recomendada',
+                data: [7]
+            }, {
+                name: 'Maxima recomendada',
+                data: [9]
+            }],
+
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+    </script>
 </div>
 <%@ include file="generales/footer.jsp" %>
 </body>

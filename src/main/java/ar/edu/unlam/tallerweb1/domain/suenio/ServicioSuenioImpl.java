@@ -192,7 +192,7 @@ public class ServicioSuenioImpl implements ServicioSuenio {
             }
         }
         if (cantidadHoras == 0) {
-            throw new NoTieneRegistroDeSuenio("No hay ningun registro en los ultimos" + cantidadDias + "dias");
+            throw new NoTieneRegistroDeSuenio("No hay ningun registro en los ultimos " + cantidadDias + " dias");
         }
         return cantidadHoras;
     }

@@ -58,8 +58,10 @@ public class ControladorSuenio {
         if (servicioSuenio.obtenerRegistrosSuenio(persona) != null) {
             modelo.put("registros", servicioSuenio.obtenerRegistrosSuenio(persona));
         }
-
-        modelo.put("registroNuevo", new RegistroSuenio());
+        RegistroSuenio nuevo = new RegistroSuenio();
+        nuevo.setHoraInicio(LocalDateTime.now());
+        nuevo.setHoraFin(LocalDateTime.now());
+        modelo.put("registroNuevo", nuevo);
 
         return new ModelAndView("suenio", modelo);
     }
@@ -106,5 +108,9 @@ public class ControladorSuenio {
         }
 
         return new ModelAndView("redirect:/suenio");
+    }
+
+    public String metricaDeHorasEnLaUltimaSemana(){
+        servicioSuenio.cantidadHorasDormidaEnLosUltimosXDias();
     }
 }

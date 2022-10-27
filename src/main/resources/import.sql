@@ -1,1 +1,0 @@
-insert into Persona (id, altura, edad, email, nombre, password, peso, sexo) values (default, 160, 25, 'hola@example', 'Falopita', '123456', 90, 'm')

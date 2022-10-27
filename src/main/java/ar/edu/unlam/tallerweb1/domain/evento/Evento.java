@@ -9,7 +9,7 @@ public class Evento {
 
 @Id
 @GeneratedValue(strategy= GenerationType.IDENTITY)
-private String ID;
+private Long ID;
 
 private String name;
 
@@ -36,11 +36,11 @@ public Evento(Persona persona, String name, String description, String date, Boo
 
     }
 
-    public String getID() {
+    public Long getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 

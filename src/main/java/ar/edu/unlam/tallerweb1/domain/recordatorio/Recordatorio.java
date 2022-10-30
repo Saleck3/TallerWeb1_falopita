@@ -3,7 +3,8 @@ package ar.edu.unlam.tallerweb1.domain.recordatorio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Recordatorio {
@@ -12,30 +13,31 @@ public class Recordatorio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Persona persona;
+
+    /*
+    @OneToMany
+    private List<Etiqueta> etiquetas;
+    */
+
+    @OneToMany(mappedBy = "recordatorio", orphanRemoval = true)
+    private List<FechaRecordatorio> fechas = new ArrayList<>();
 
     private String contenido;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaNotificacion;
-
-    private Boolean oculto = false;
+    private TipoRecordatorio tipo;
 
     public Recordatorio(){}
 
-    public Recordatorio(Persona persona, String contenido, Date fechaNotificacion){
+    public Recordatorio(Persona persona, String contenido, TipoRecordatorio tipo) {
         this.persona = persona;
         this.contenido = contenido;
-        this.fechaNotificacion = fechaNotificacion;
+        this.tipo = tipo;
     }
 
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public Recordatorio(List<FechaRecordatorio> listaFechas){
+        this.fechas = listaFechas;
     }
 
     public Long getId() {
@@ -46,6 +48,14 @@ public class Recordatorio {
         this.id = id;
     }
 
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
     public String getContenido() {
         return contenido;
     }
@@ -54,19 +64,36 @@ public class Recordatorio {
         this.contenido = contenido;
     }
 
-    public Date getFechaNotificacion() {
-        return fechaNotificacion;
+    public TipoRecordatorio getTipo() {
+        return tipo;
     }
 
-    public void setFechaNotificacion(Date fechaNotificacion) {
-        this.fechaNotificacion = fechaNotificacion;
+    public void setTipo(TipoRecordatorio tipo) {
+        this.tipo = tipo;
     }
 
-    public Boolean getOculto() {
-        return oculto;
+    public List<FechaRecordatorio> getFechas() {
+        return fechas;
     }
 
-    public void setOculto(Boolean oculto) {
-        this.oculto = oculto;
+    public void setFechas(List<FechaRecordatorio> fechas) {
+        this.fechas = fechas;
+    }
+
+    public void agregarFecha(FechaRecordatorio fechaRecordatorio) {
+        fechaRecordatorio.setRecordatorio(this);
+        this.fechas.add(fechaRecordatorio);
+    }
+
+    public enum TipoRecordatorio {
+        UNICO,
+        RECURRENTE
+    }
+
+    public enum TipoFrecuencia {
+        DIARIA,
+        SEMANAL,
+        MENSUAL,
+        ANUAL
     }
 }

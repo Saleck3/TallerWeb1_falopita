@@ -1,41 +1,41 @@
 package ar.edu.unlam.tallerweb1.infrastructure.recordatorio;
 
-import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
+import ar.edu.unlam.tallerweb1.domain.recordatorio.FechaRecordatorio;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository("repositorioRecordatorio")
-public class RepositorioRecordatorioImpl implements RepositorioRecordatorio{
+@Repository("repositorioFechaRecordatorio")
+public class RepositorioFechaRecordatorioImpl implements RepositorioFechaRecordatorio{
 
     @Autowired
     private SessionFactory sessionFactory;
     private Session session;
 
     @Override
-    public Recordatorio obtener(Long id) {
+    public FechaRecordatorio obtener(Long id) {
         session = sessionFactory.getCurrentSession();
-        return session.get(Recordatorio.class, id);
+        return session.get(FechaRecordatorio.class, id);
     }
 
     @Override
-    public Recordatorio guardar(Recordatorio recordatorio) {
+    public FechaRecordatorio guardar(FechaRecordatorio fecha) {
         session = sessionFactory.getCurrentSession();
-        session.save(recordatorio);
-        return recordatorio;
+        session.save(fecha);
+        return fecha;
     }
 
     @Override
-    public void eliminar(Recordatorio recordatorio) {
+    public void eliminar(FechaRecordatorio fecha) {
         session = sessionFactory.getCurrentSession();
-        session.delete(recordatorio);
+        session.delete(fecha);
     }
 
     @Override
-    public Recordatorio modificar(Recordatorio recordatorio) {
+    public FechaRecordatorio modificar(FechaRecordatorio fecha) {
         session = sessionFactory.getCurrentSession();
-        session.update(recordatorio);
-        return recordatorio;
+        session.update(fecha);
+        return fecha;
     }
 }

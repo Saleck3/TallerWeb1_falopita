@@ -3,15 +3,16 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
 import ar.edu.unlam.tallerweb1.domain.recordatorio.ServicioRecordatorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 @Controller
 public class ControladorRecordatorio {
@@ -36,24 +37,31 @@ public class ControladorRecordatorio {
             return new ModelAndView("login", modelo);
         }
 
-        modelo.put("datosRecordatorioFiltro", new DatosRecordatorio());
-        modelo.put("datosRecordatorio", new DatosRecordatorio());
-        modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona));
+        //modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona));
 
         return new ModelAndView("recordatorios", modelo);
     }
 
     @RequestMapping(path = "/recordatorios/buscar", method = RequestMethod.GET)
-    public ModelAndView buscarRecordatorios(@ModelAttribute DatosRecordatorio datos, HttpServletRequest request){
+    public ModelAndView buscarRecordatorios(){
+        return null;
+    }
+
+    @RequestMapping(path = "/recordatorios/formCrear", method = RequestMethod.GET)
+    public ModelAndView formRecordatorio(@RequestParam Recordatorio.TipoRecordatorio tipo){
         ModelMap modelo = new ModelMap();
-        HttpSession sesion = request.getSession();
-        Long idPersona = (Long) sesion.getAttribute("ID");
 
-        modelo.put("datosRecordatorioFiltro", new DatosRecordatorio());
-        modelo.put("datosRecordatorio", new DatosRecordatorio());
-        modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona, datos));
+        DatosRecordatorio datos = new DatosRecordatorio();
+        datos.setTipo(tipo);
 
-        return new ModelAndView("recordatorios", modelo);
+        modelo.put("datosRecordatorio", datos);
+
+        if(tipo == Recordatorio.TipoRecordatorio.UNICO){
+            return new ModelAndView("formRecordatorioUnico", modelo);
+        }
+        else{
+            return new ModelAndView("formRecordatorioRecurrente", modelo);
+        }
     }
 
     @RequestMapping(path = "/recordatorios/crear", method = RequestMethod.POST)
@@ -61,20 +69,16 @@ public class ControladorRecordatorio {
         HttpSession sesion = request.getSession();
         Long idPersona = (Long) sesion.getAttribute("ID");
 
-        Recordatorio recordatorioGuardado = servicioRecordatorio.crearRecordatorio(datos, idPersona);
+        servicioRecordatorio.crearRecordatorio(datos, idPersona);
 
         return new ModelAndView("redirect:/recordatorios");
     }
 
+    /*
     @RequestMapping(path = "/recordatorios/eliminar", method = RequestMethod.GET)
     public ModelAndView eliminarRecordatorio(@RequestParam("id") Long id){
         servicioRecordatorio.eliminarRecordatorio(id);
         return new ModelAndView("redirect:/recordatorios");
     }
-
-    @RequestMapping(path = "/recordatorios/ocultar", method = RequestMethod.GET)
-    public ModelAndView ocultarRecordatorio(@RequestParam("id") Long id){
-        servicioRecordatorio.ocultarRecordatorio(id);
-        return new ModelAndView("redirect:/recordatorios");
-    }
+    */
 }

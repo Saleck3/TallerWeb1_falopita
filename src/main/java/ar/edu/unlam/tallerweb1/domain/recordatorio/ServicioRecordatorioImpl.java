@@ -3,25 +3,33 @@ package ar.edu.unlam.tallerweb1.domain.recordatorio;
 import ar.edu.unlam.tallerweb1.delivery.DatosRecordatorio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
+import ar.edu.unlam.tallerweb1.infrastructure.recordatorio.RepositorioFechaRecordatorio;
 import ar.edu.unlam.tallerweb1.infrastructure.recordatorio.RepositorioRecordatorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service("servicioRecordatorio")
 @Transactional
 public class ServicioRecordatorioImpl implements ServicioRecordatorio{
 
-    @Autowired
     private RepositorioRecordatorio repositorioRecordatorio;
-
-    //https://stackoverflow.com/questions/51988182/spring-boot-service-class-calling-another-service-class
-    //no es mala practica, y creo que es mejor utilizarlo aca
-    @Autowired
+    private RepositorioFechaRecordatorio repositorioFechaRecordatorio;
     private ServicioPersona servicioPersona;
+
+    public ServicioRecordatorioImpl(){}
+
+    @Autowired
+    public ServicioRecordatorioImpl(ServicioPersona servicioPersona,
+                                    RepositorioRecordatorio repositorioRecordatorio,
+                                    RepositorioFechaRecordatorio repositorioFechaRecordatorio){
+        this.servicioPersona = servicioPersona;
+        this.repositorioRecordatorio = repositorioRecordatorio;
+        this.repositorioFechaRecordatorio = repositorioFechaRecordatorio;
+    }
 
     @Override
     public Recordatorio obtenerRecordatorio(Long idRecordatorio) {
@@ -29,41 +37,82 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
     }
 
     @Override
-    public Recordatorio crearRecordatorio(DatosRecordatorio datos, Long idPersonaAsociada) {
+    public Recordatorio crearRecordatorio(DatosRecordatorio datos, Long idPersona) {
+        Persona persona = obtenerPersona(idPersona);
 
-        Persona personaAsociada =  servicioPersona.obtenerPersona(idPersonaAsociada);
-        Recordatorio recordatorioAGuardar = new Recordatorio(personaAsociada, datos.getContenido(),
-                                                    datos.getFechaHora());
+        Recordatorio recordatorio = guardarRecordatorio(datos, persona);
 
-        Recordatorio recordatorioGuardado = repositorioRecordatorio.guardar(recordatorioAGuardar);
+        if(!seRepite(datos)){
+            guardarFecha(datos.getFecha(), datos.getHora(), recordatorio);
+        }
+        else{
+            guardarFechasRecordatorio(datos.getFecha(), datos.getHora(), datos.getFrecuencia(), datos.getCantidadOcurrencias(), recordatorio);
+        }
 
-        return recordatorioGuardado;
-    }
-
-    @Override
-    public List<Recordatorio> listarRecordatorios(Long idPersonaAsociada)
-    {
-        Persona personaAsociada = servicioPersona.obtenerPersona(idPersonaAsociada);
-        return repositorioRecordatorio.listar(personaAsociada);
-    }
-
-    @Override
-    public List<Recordatorio> listarRecordatorios(Long idPersonaAsociada, DatosRecordatorio datosFiltro)
-    {
-        Persona personaAsociada = servicioPersona.obtenerPersona(idPersonaAsociada);
-        return repositorioRecordatorio.listar(personaAsociada, datosFiltro);
-    }
-
-    @Override
-    public Recordatorio ocultarRecordatorio(Long idRecordatorio) {
-        Recordatorio recordatorioAModificar = repositorioRecordatorio.obtener(idRecordatorio);
-        recordatorioAModificar.setOculto(true);
-        return repositorioRecordatorio.modificar(recordatorioAModificar);
+        return recordatorio;
     }
 
     @Override
     public void eliminarRecordatorio(Long idRecordatorio) {
-        Recordatorio recordatorioAEliminar = repositorioRecordatorio.obtener(idRecordatorio);
-        repositorioRecordatorio.eliminar(recordatorioAEliminar);
+        Recordatorio recordatorio = repositorioRecordatorio.obtener(idRecordatorio);
+        repositorioRecordatorio.eliminar(recordatorio);
+    }
+
+    private Persona obtenerPersona(Long idPersona) {
+        Persona persona = servicioPersona.obtenerPersona(idPersona);
+        return persona;
+    }
+
+    private Recordatorio guardarRecordatorio(DatosRecordatorio datos, Persona persona) {
+        Recordatorio recordatorio = new Recordatorio(persona, datos.getContenido(), datos.getTipo());
+        repositorioRecordatorio.guardar(recordatorio);
+        return recordatorio;
+    }
+
+    private void guardarFechasRecordatorio(LocalDate fecha, LocalTime hora,
+                                           Recordatorio.TipoFrecuencia frecuencia, Integer ocurrencias,
+                                           Recordatorio recordatorio) {
+        LocalDate siguienteFecha = fecha;
+
+        for(int i = 0; i < ocurrencias; i++){
+            guardarFecha(siguienteFecha, hora, recordatorio);
+            siguienteFecha = calcularSiguienteFecha(siguienteFecha, frecuencia);
+        }
+    }
+
+    private void guardarFecha(LocalDate fecha, LocalTime hora, Recordatorio recordatorio){
+        FechaRecordatorio fechaRecordatorio = new FechaRecordatorio(fecha, hora);
+        recordatorio.agregarFecha(fechaRecordatorio);
+        repositorioFechaRecordatorio.guardar(fechaRecordatorio);
+    }
+
+    private LocalDate calcularSiguienteFecha(LocalDate siguienteFecha, Recordatorio.TipoFrecuencia frecuencia) {
+        if(esDiario(frecuencia)) return siguienteFecha.plusDays(1);
+
+        if(esSemanal(frecuencia)) return siguienteFecha.plusWeeks(1);
+
+        if(esMensual(frecuencia)) return siguienteFecha.plusMonths(1);
+
+        return siguienteFecha.plusYears(1);
+    }
+
+    private boolean seRepite(DatosRecordatorio datos) {
+        return datos.getTipo() == Recordatorio.TipoRecordatorio.RECURRENTE;
+    }
+
+    private boolean esDiario(Recordatorio.TipoFrecuencia frecuencia) {
+        return frecuencia == Recordatorio.TipoFrecuencia.DIARIA;
+    }
+
+    private boolean esSemanal(Recordatorio.TipoFrecuencia frecuencia) {
+        return frecuencia == Recordatorio.TipoFrecuencia.SEMANAL;
+    }
+
+    private boolean esMensual(Recordatorio.TipoFrecuencia frecuencia) {
+        return frecuencia == Recordatorio.TipoFrecuencia.MENSUAL;
+    }
+
+    private boolean esAnual(Recordatorio.TipoFrecuencia frecuencia) {
+        return frecuencia == Recordatorio.TipoFrecuencia.ANUAL;
     }
 }

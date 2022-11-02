@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
+import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -15,9 +15,9 @@ public class DatosRecordatorio {
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime hora;
 
-    private Recordatorio.TipoRecordatorio tipo;
+    private Integer tipo;
 
-    private Recordatorio.TipoFrecuencia frecuencia;
+    private Integer frecuencia;
 
     private Integer cantidadOcurrencias;
 
@@ -45,21 +45,6 @@ public class DatosRecordatorio {
         this.hora = hora;
     }
 
-    public Recordatorio.TipoRecordatorio getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Recordatorio.TipoRecordatorio tipo) {
-        this.tipo = tipo;
-    }
-
-    public Recordatorio.TipoFrecuencia getFrecuencia() {
-        return frecuencia;
-    }
-
-    public void setFrecuencia(Recordatorio.TipoFrecuencia frecuencia) {
-        this.frecuencia = frecuencia;
-    }
 
     public Integer getCantidadOcurrencias() {
         return cantidadOcurrencias;
@@ -67,5 +52,29 @@ public class DatosRecordatorio {
 
     public void setCantidadOcurrencias(Integer cantidadOcurrencias) {
         this.cantidadOcurrencias = cantidadOcurrencias;
+    }
+
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+
+    public Integer getFrecuencia() {
+        return frecuencia;
+    }
+
+    public void setFrecuencia(Integer frecuencia) {
+        this.frecuencia = frecuencia;
+    }
+
+    public TipoRecordatorio getTipoEnum(){
+        return TipoRecordatorio.values()[this.tipo];
+    }
+
+    public TipoFrecuencia getFrecuenciaEnum(){
+        return TipoFrecuencia.values()[this.frecuencia];
     }
 }

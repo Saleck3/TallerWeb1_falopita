@@ -13,7 +13,7 @@ public class Recordatorio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Persona persona;
 
     /*
@@ -21,11 +21,12 @@ public class Recordatorio {
     private List<Etiqueta> etiquetas;
     */
 
-    @OneToMany(mappedBy = "recordatorio", orphanRemoval = true)
+    @OneToMany(mappedBy = "recordatorio", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<FechaRecordatorio> fechas = new ArrayList<>();
 
     private String contenido;
 
+    @Enumerated(value = EnumType.ORDINAL)
     private TipoRecordatorio tipo;
 
     public Recordatorio(){}
@@ -70,6 +71,10 @@ public class Recordatorio {
 
     public void setTipo(TipoRecordatorio tipo) {
         this.tipo = tipo;
+    }
+
+    public void setTipo(Integer ordEnum){
+        this.tipo = Recordatorio.TipoRecordatorio.values()[ordEnum];
     }
 
     public List<FechaRecordatorio> getFechas() {

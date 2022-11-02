@@ -19,6 +19,23 @@ public class FechaRecordatorio {
 
     private LocalTime hora;
 
+    public EstadosFecha getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadosFecha estado) {
+        this.estado = estado;
+    }
+
+    public enum EstadosFecha {
+        AGENDADO,
+        NOTIFICADO,
+        VISTO
+    }
+
+    @Enumerated(EnumType.ORDINAL)
+    private EstadosFecha estado = EstadosFecha.AGENDADO;
+
     public FechaRecordatorio(){}
 
     public FechaRecordatorio(LocalDate fecha, LocalTime hora){

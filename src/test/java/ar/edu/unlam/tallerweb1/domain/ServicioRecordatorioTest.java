@@ -7,8 +7,13 @@ import ar.edu.unlam.tallerweb1.infrastructure.recordatorio.RepositorioFechaRecor
 import ar.edu.unlam.tallerweb1.infrastructure.recordatorio.RepositorioRecordatorio;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ServicioRecordatorioTest {
 
@@ -27,6 +32,12 @@ public class ServicioRecordatorioTest {
         servicioRecordatorio = new ServicioRecordatorioImpl(servicioPersonaMock,
                 repositorioRecordatorioMock,
                 repositorioFechaRecordatorioMock);
+    }
+
+    @Test
+    public void test(){
+        LocalDate hoy = LocalDate.now();
+        assertThat(hoy.toString()).isEqualTo("2022-11-02");
     }
 
     @Test

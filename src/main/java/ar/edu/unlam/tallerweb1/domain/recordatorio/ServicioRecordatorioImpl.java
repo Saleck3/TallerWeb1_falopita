@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.domain.recordatorio;
 
 import ar.edu.unlam.tallerweb1.delivery.DatosRecordatorio;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
+import ar.edu.unlam.tallerweb1.domain.recordatorio.FechaRecordatorio.EstadosFecha;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
 import ar.edu.unlam.tallerweb1.infrastructure.recordatorio.RepositorioFechaRecordatorio;
 import ar.edu.unlam.tallerweb1.infrastructure.recordatorio.RepositorioRecordatorio;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service("servicioRecordatorio")
 @Transactional
@@ -46,7 +48,7 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
             guardarFecha(datos.getFecha(), datos.getHora(), recordatorio);
         }
         else{
-            guardarFechasRecordatorio(datos.getFecha(), datos.getHora(), datos.getFrecuencia(), datos.getCantidadOcurrencias(), recordatorio);
+            guardarFechasRecordatorio(datos.getFecha(), datos.getHora(), datos.getFrecuenciaEnum(), datos.getCantidadOcurrencias(), recordatorio);
         }
 
         return recordatorio;
@@ -58,13 +60,45 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
         repositorioRecordatorio.eliminar(recordatorio);
     }
 
+    @Override
+    public List<Recordatorio> listarTodos(Long id) {
+        Persona persona = servicioPersona.obtenerPersona(id);
+        return repositorioRecordatorio.listarPorPersona(persona);
+    }
+
+    @Override
+    public List<FechaRecordatorio> listarFechasANotificar() {
+        List<FechaRecordatorio> listaFechas = repositorioFechaRecordatorio.listarPorEstado(EstadosFecha.NOTIFICADO);
+        return listaFechas;
+    }
+
+    @Override
+    public Integer actualizarEstado() {
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+        List<FechaRecordatorio> listaFechas = repositorioFechaRecordatorio.listarPorFecha(hoy);
+        Integer actualizados = 0;
+
+        if(!listaFechas.isEmpty()){
+            for (FechaRecordatorio fecha : listaFechas){
+                if(fecha.getHora().isBefore(ahora)){ //si la hora ya pasó, se notifica
+                    fecha.setEstado(EstadosFecha.NOTIFICADO);
+                    repositorioFechaRecordatorio.modificar(fecha);
+                    actualizados++;
+                }
+            }
+        }
+
+        return actualizados;
+    }
+
     private Persona obtenerPersona(Long idPersona) {
         Persona persona = servicioPersona.obtenerPersona(idPersona);
         return persona;
     }
 
     private Recordatorio guardarRecordatorio(DatosRecordatorio datos, Persona persona) {
-        Recordatorio recordatorio = new Recordatorio(persona, datos.getContenido(), datos.getTipo());
+        Recordatorio recordatorio = new Recordatorio(persona, datos.getContenido(), datos.getTipoEnum());
         repositorioRecordatorio.guardar(recordatorio);
         return recordatorio;
     }
@@ -97,7 +131,7 @@ public class ServicioRecordatorioImpl implements ServicioRecordatorio{
     }
 
     private boolean seRepite(DatosRecordatorio datos) {
-        return datos.getTipo() == Recordatorio.TipoRecordatorio.RECURRENTE;
+        return datos.getTipoEnum() == Recordatorio.TipoRecordatorio.RECURRENTE;
     }
 
     private boolean esDiario(Recordatorio.TipoFrecuencia frecuencia) {

@@ -1,14 +1,11 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio;
+import ar.edu.unlam.tallerweb1.domain.recordatorio.Recordatorio.*;
 import ar.edu.unlam.tallerweb1.domain.recordatorio.ServicioRecordatorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,18 +34,13 @@ public class ControladorRecordatorio {
             return new ModelAndView("login", modelo);
         }
 
-        //modelo.put("recordatorios", servicioRecordatorio.listarRecordatorios(idPersona));
+        modelo.put("recordatorios", servicioRecordatorio.listarTodos(idPersona));
 
         return new ModelAndView("recordatorios", modelo);
     }
 
-    @RequestMapping(path = "/recordatorios/buscar", method = RequestMethod.GET)
-    public ModelAndView buscarRecordatorios(){
-        return null;
-    }
-
     @RequestMapping(path = "/recordatorios/formCrear", method = RequestMethod.GET)
-    public ModelAndView formRecordatorio(@RequestParam Recordatorio.TipoRecordatorio tipo){
+    public ModelAndView formRecordatorio(@RequestParam("opc") Integer tipo){
         ModelMap modelo = new ModelMap();
 
         DatosRecordatorio datos = new DatosRecordatorio();
@@ -56,7 +48,8 @@ public class ControladorRecordatorio {
 
         modelo.put("datosRecordatorio", datos);
 
-        if(tipo == Recordatorio.TipoRecordatorio.UNICO){
+        //TODO: cambiar esto por una forma de validar con enum; hardcoded
+        if(datos.getTipoEnum() == TipoRecordatorio.UNICO){
             return new ModelAndView("formRecordatorioUnico", modelo);
         }
         else{
@@ -74,11 +67,32 @@ public class ControladorRecordatorio {
         return new ModelAndView("redirect:/recordatorios");
     }
 
+    @RequestMapping(path = "/recordatorios/notificarRecordatorio", method = RequestMethod.GET)
+    public void actualizarEstadoANotificado(HttpServletRequest request){
+        HttpSession sesion = request.getSession(false);
+
+        if(sesion != null){
+            servicioRecordatorio.actualizarEstado();
+        }
+    }
+
     /*
-    @RequestMapping(path = "/recordatorios/eliminar", method = RequestMethod.GET)
-    public ModelAndView eliminarRecordatorio(@RequestParam("id") Long id){
-        servicioRecordatorio.eliminarRecordatorio(id);
-        return new ModelAndView("redirect:/recordatorios");
+    @RequestMapping(path = "/recordatorios/obtenerRecordatorio", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Recordatorio obtenerRecordatorio(){
+        Persona p = new Persona();
+        p.setId(1L);
+        p.setNombre("Ejemplo");
+        Recordatorio r = new Recordatorio();
+        r.setPersona(p);
+        r.setContenido("Contenido ejemplo");
+        List<FechaRecordatorio> l = new ArrayList<>();
+        l.add(new FechaRecordatorio(LocalDate.of(2022, 10, 11), LocalTime.of(12,0,0)));
+        l.add(new FechaRecordatorio(LocalDate.of(2022, 10, 12), LocalTime.of(12,0,0)));
+        l.add(new FechaRecordatorio(LocalDate.of(2022, 10, 13), LocalTime.of(12,0,0)));
+        l.add(new FechaRecordatorio(LocalDate.of(2022, 10, 14), LocalTime.of(12,0,0)));
+        r.setFechas(l);
+
+        return r;
     }
     */
 }

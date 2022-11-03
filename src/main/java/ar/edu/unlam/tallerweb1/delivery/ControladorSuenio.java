@@ -1,11 +1,8 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.suenio.RegistroSuenio;
-import ar.edu.unlam.tallerweb1.domain.suenio.ValorRecomendado;
+import ar.edu.unlam.tallerweb1.domain.suenio.*;
 import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.personas.ServicioPersona;
-import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenio;
-import ar.edu.unlam.tallerweb1.domain.suenio.EdadNegativaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -18,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class ControladorSuenio {
@@ -110,7 +108,20 @@ public class ControladorSuenio {
         return new ModelAndView("redirect:/suenio");
     }
 
-    public String metricaDeHorasEnLaUltimaSemana(){
-        servicioSuenio.cantidadHorasDormidaEnLosUltimosXDias();
+    public String metricaDeHorasEnLaUltimaSemana(Persona persona) {
+
+        List<RegistroSuenio> ultimaSemana;
+        try {
+            ultimaSemana = servicioSuenio.registrosDeLosUltimosxDias(persona, 7);
+        } catch (NoTieneRegistroDeSuenio e) {
+            return "";
+        }
+
+        String resultado = "";
+        for (RegistroSuenio registro : ultimaSemana) {
+            resultado += registro.getCantidadHoras() + ",";
+        }
+
+        return resultado.substring(0, resultado.length() - 1);
     }
 }

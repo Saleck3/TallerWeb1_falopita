@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.domain.personas.Persona;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenio;
 import ar.edu.unlam.tallerweb1.domain.suenio.ServicioSuenioImpl;
 import ar.edu.unlam.tallerweb1.domain.suenio.EdadNegativaException;
+import ar.edu.unlam.tallerweb1.domain.suenio.ValorRecomendado;
 import ar.edu.unlam.tallerweb1.infrastructure.suenio.RepositorioSuenio;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,19 +29,6 @@ public class ServicioSuenioTest extends SpringTest {
         servicioSuenio = new ServicioSuenioImpl(repositorioSuenio);
     }
 
-    @Test
-    public void queDevuelvaUnTiempoCorrectoSegunEdad() {
-        Persona persona = dadoQueTengoUnaPersona();
-
-        when(repositorioSuenio.obtener(persona)).thenReturn(null);
-        try {
-            assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMinimo()).isEqualTo(7d);
-            assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMaximo()).isEqualTo(9d);
-        } catch (EdadNegativaException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Test(expected = EdadNegativaException.class)
     public void siTengoEdadNegativaTiroExcepcion() throws EdadNegativaException {
         Persona persona = dadoQueTengoUnaPersonaConEdadNegativa();
@@ -49,14 +37,11 @@ public class ServicioSuenioTest extends SpringTest {
 
 
     @Test
-    public void queDevuelvaUnTiempoCorrectoSegunPersona() {
+    public void queDevuelvaUnTiempoCorrectoSegunPersona() throws EdadNegativaException {
         Persona persona = new Persona("tuvieja@example.com", "poyas123", "tuvieja", 5, 25d, 170.0, 'm');
-        try {
-            assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMinimo()).isEqualTo(10d);
-            assertThat(servicioSuenio.obtenerCantidadHorasSuenio(persona).getMaximo()).isEqualTo(13d);
-        } catch (EdadNegativaException e) {
-            throw new RuntimeException(e);
-        }
+        ValorRecomendado recomendacion =servicioSuenio.obtenerCantidadHorasSuenio(persona);
+        assertThat(recomendacion.getMinimo()).isEqualTo(10d);
+        assertThat(recomendacion.getMaximo()).isEqualTo(13d);
     }
 
     private Persona dadoQueTengoUnaPersona() {

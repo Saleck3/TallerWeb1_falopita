@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.LocalDateTime.*;
@@ -195,5 +196,26 @@ public class ServicioSuenioImpl implements ServicioSuenio {
             throw new NoTieneRegistroDeSuenio("No hay ningun registro en los ultimos " + cantidadDias + " dias");
         }
         return cantidadHoras;
+    }
+
+    @Override
+    public List<RegistroSuenio> registrosDeLosUltimosxDias(Persona persona, Integer cantidadDias) throws
+            NoTieneRegistroDeSuenio {
+        List<RegistroSuenio> registros = repositorioSuenio.obtener(persona);
+
+        if (registros.isEmpty()) {
+            throw new NoTieneRegistroDeSuenio();
+        }
+        List<RegistroSuenio> resultado = new ArrayList<>();
+
+        for (RegistroSuenio registro : registros) {
+            if (registro.getHoraFin().until(now(), ChronoUnit.DAYS) < cantidadDias) {
+                resultado.add(registro);
+            }
+        }
+        if (resultado.size() == 0) {
+            throw new NoTieneRegistroDeSuenio("No hay ningun registro en los ultimos " + cantidadDias + " dias");
+        }
+        return resultado;
     }
 }

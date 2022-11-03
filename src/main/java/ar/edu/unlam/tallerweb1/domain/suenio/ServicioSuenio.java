@@ -17,4 +17,6 @@ public interface ServicioSuenio {
 
     void eliminarRegistroSuenio(RegistroSuenio registroSuenio);
 
+    List<RegistroSuenio> registrosDeLosUltimosxDias(Persona persona, Integer cantidadDias) throws
+            NoTieneRegistroDeSuenio;
 }
